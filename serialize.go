@@ -20,47 +20,42 @@ func write8(w io.Writer, x uint8) {
 	_, err := w.Write([]byte{x})
 	chk(err)
 }
-
 func write16(w io.Writer, x uint16) {
 	buf := make([]byte, 2)
 	be.PutUint16(buf, x)
 	_, err := w.Write(buf)
 	chk(err)
 }
-
 func write32(w io.Writer, x uint32) {
 	buf := make([]byte, 4)
 	be.PutUint32(buf, x)
 	_, err := w.Write(buf)
 	chk(err)
 }
-
 func write64(w io.Writer, x uint64) {
 	buf := make([]byte, 8)
 	be.PutUint64(buf, x)
 	_, err := w.Write(buf)
 	chk(err)
 }
-
 func readBuf(r io.Reader, n int) []byte {
 	buf := make([]byte, n)
 	_, err := io.ReadFull(r, buf)
 	chk(err)
 	return buf
 }
-
 func read8(r io.Reader) uint8   { return readBuf(r, 1)[0] }
 func read16(r io.Reader) uint16 { return be.Uint16(readBuf(r, 2)) }
 func read32(r io.Reader) uint32 { return be.Uint32(readBuf(r, 4)) }
 func read64(r io.Reader) uint64 { return be.Uint64(readBuf(r, 8)) }
 
-func (obj *ToSrvNil) serialize(w io.Writer) {
+func (obj *ToSrvNil) Serialize(w io.Writer) {
 }
 
-func (obj *ToSrvNil) deserialize(r io.Reader) {
+func (obj *ToSrvNil) Deserialize(r io.Reader) {
 }
 
-func (obj *ToSrvInit) serialize(w io.Writer) {
+func (obj *ToSrvInit) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			SerializeVer             uint8
@@ -82,12 +77,12 @@ func (obj *ToSrvInit) serialize(w io.Writer) {
 
 			//mt:opt
 			SendFullItemMeta bool
-		}))(obj)).SupportedCompression).serialize(w)
+		}))(obj)).SupportedCompression).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.CompressionModes", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.CompressionModes", err))
 	}
 	{
 		x := (*(*(struct {
@@ -164,14 +159,13 @@ func (obj *ToSrvInit) serialize(w io.Writer) {
 			} else {
 				write8(w, 0)
 			}
-
 		}
 	}); err != nil && err != io.EOF {
 		chk(err)
 	}
 }
 
-func (obj *ToSrvInit) deserialize(r io.Reader) {
+func (obj *ToSrvInit) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			SerializeVer             uint8
@@ -193,12 +187,12 @@ func (obj *ToSrvInit) deserialize(r io.Reader) {
 
 			//mt:opt
 			SendFullItemMeta bool
-		}))(obj)).SupportedCompression).deserialize(r)
+		}))(obj)).SupportedCompression).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.CompressionModes", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.CompressionModes", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -263,14 +257,13 @@ func (obj *ToSrvInit) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 	}); err != nil && err != io.EOF {
 		chk(err)
 	}
 }
 
-func (obj *ToSrvInit2) serialize(w io.Writer) {
+func (obj *ToSrvInit2) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Lang string
 	}))(obj)).Lang))) > math.MaxUint16 {
@@ -290,7 +283,7 @@ func (obj *ToSrvInit2) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvInit2) deserialize(r io.Reader) {
+func (obj *ToSrvInit2) Deserialize(r io.Reader) {
 	var local3 []uint8
 	var local4 uint16
 	{
@@ -307,7 +300,7 @@ func (obj *ToSrvInit2) deserialize(r io.Reader) {
 	}))(obj)).Lang) = string(local3)
 }
 
-func (obj *ToSrvJoinModChan) serialize(w io.Writer) {
+func (obj *ToSrvJoinModChan) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Channel string
 	}))(obj)).Channel))) > math.MaxUint16 {
@@ -327,7 +320,7 @@ func (obj *ToSrvJoinModChan) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvJoinModChan) deserialize(r io.Reader) {
+func (obj *ToSrvJoinModChan) Deserialize(r io.Reader) {
 	var local5 []uint8
 	var local6 uint16
 	{
@@ -344,7 +337,7 @@ func (obj *ToSrvJoinModChan) deserialize(r io.Reader) {
 	}))(obj)).Channel) = string(local5)
 }
 
-func (obj *ToSrvLeaveModChan) serialize(w io.Writer) {
+func (obj *ToSrvLeaveModChan) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Channel string
 	}))(obj)).Channel))) > math.MaxUint16 {
@@ -364,7 +357,7 @@ func (obj *ToSrvLeaveModChan) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvLeaveModChan) deserialize(r io.Reader) {
+func (obj *ToSrvLeaveModChan) Deserialize(r io.Reader) {
 	var local7 []uint8
 	var local8 uint16
 	{
@@ -381,7 +374,7 @@ func (obj *ToSrvLeaveModChan) deserialize(r io.Reader) {
 	}))(obj)).Channel) = string(local7)
 }
 
-func (obj *ToSrvMsgModChan) serialize(w io.Writer) {
+func (obj *ToSrvMsgModChan) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Channel string
 		Msg     string
@@ -424,7 +417,7 @@ func (obj *ToSrvMsgModChan) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvMsgModChan) deserialize(r io.Reader) {
+func (obj *ToSrvMsgModChan) Deserialize(r io.Reader) {
 	var local9 []uint8
 	var local10 uint16
 	{
@@ -457,33 +450,33 @@ func (obj *ToSrvMsgModChan) deserialize(r io.Reader) {
 	}))(obj)).Msg) = string(local11)
 }
 
-func (obj *ToSrvPlayerPos) serialize(w io.Writer) {
+func (obj *ToSrvPlayerPos) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos PlayerPos
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.PlayerPos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.PlayerPos", err))
 	}
 }
 
-func (obj *ToSrvPlayerPos) deserialize(r io.Reader) {
+func (obj *ToSrvPlayerPos) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos PlayerPos
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.PlayerPos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.PlayerPos", err))
 	}
 }
 
-func (obj *ToSrvGotBlks) serialize(w io.Writer) {
+func (obj *ToSrvGotBlks) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		//mt:len8
 		Blks [][3]int16
@@ -516,7 +509,7 @@ func (obj *ToSrvGotBlks) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvGotBlks) deserialize(r io.Reader) {
+func (obj *ToSrvGotBlks) Deserialize(r io.Reader) {
 	var local15 uint8
 	{
 		p := &local15
@@ -545,7 +538,7 @@ func (obj *ToSrvGotBlks) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToSrvDeletedBlks) serialize(w io.Writer) {
+func (obj *ToSrvDeletedBlks) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		//mt:len8
 		Blks [][3]int16
@@ -578,7 +571,7 @@ func (obj *ToSrvDeletedBlks) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvDeletedBlks) deserialize(r io.Reader) {
+func (obj *ToSrvDeletedBlks) Deserialize(r io.Reader) {
 	var local20 uint8
 	{
 		p := &local20
@@ -607,7 +600,7 @@ func (obj *ToSrvDeletedBlks) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToSrvInvAction) serialize(w io.Writer) {
+func (obj *ToSrvInvAction) Serialize(w io.Writer) {
 	{
 		_, err := w.Write(([]byte((*(*(struct {
 			//mt:raw
@@ -617,7 +610,7 @@ func (obj *ToSrvInvAction) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvInvAction) deserialize(r io.Reader) {
+func (obj *ToSrvInvAction) Deserialize(r io.Reader) {
 	var local23 []uint8
 	{
 		var err error
@@ -630,7 +623,7 @@ func (obj *ToSrvInvAction) deserialize(r io.Reader) {
 	}))(obj)).Action) = string(local23)
 }
 
-func (obj *ToSrvChatMsg) serialize(w io.Writer) {
+func (obj *ToSrvChatMsg) Serialize(w io.Writer) {
 	local24 := utf16.Encode([]rune((*(*(struct {
 		//mt:utf16
 		Msg string
@@ -650,7 +643,7 @@ func (obj *ToSrvChatMsg) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvChatMsg) deserialize(r io.Reader) {
+func (obj *ToSrvChatMsg) Deserialize(r io.Reader) {
 	var local26 []uint16
 	var local27 uint16
 	{
@@ -670,7 +663,7 @@ func (obj *ToSrvChatMsg) deserialize(r io.Reader) {
 	}))(obj)).Msg = string(utf16.Decode(local26))
 }
 
-func (obj *ToSrvFallDmg) serialize(w io.Writer) {
+func (obj *ToSrvFallDmg) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Amount uint16
@@ -679,7 +672,7 @@ func (obj *ToSrvFallDmg) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvFallDmg) deserialize(r io.Reader) {
+func (obj *ToSrvFallDmg) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Amount uint16
@@ -688,7 +681,7 @@ func (obj *ToSrvFallDmg) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToSrvSelectItem) serialize(w io.Writer) {
+func (obj *ToSrvSelectItem) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Slot uint16
@@ -697,7 +690,7 @@ func (obj *ToSrvSelectItem) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvSelectItem) deserialize(r io.Reader) {
+func (obj *ToSrvSelectItem) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Slot uint16
@@ -706,13 +699,13 @@ func (obj *ToSrvSelectItem) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToSrvRespawn) serialize(w io.Writer) {
+func (obj *ToSrvRespawn) Serialize(w io.Writer) {
 }
 
-func (obj *ToSrvRespawn) deserialize(r io.Reader) {
+func (obj *ToSrvRespawn) Deserialize(r io.Reader) {
 }
 
-func (obj *ToSrvInteract) serialize(w io.Writer) {
+func (obj *ToSrvInteract) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Action   Interaction
@@ -721,12 +714,12 @@ func (obj *ToSrvInteract) serialize(w io.Writer) {
 			Pointed PointedThing
 			//mt:end
 			Pos PlayerPos
-		}))(obj)).Action).serialize(w)
+		}))(obj)).Action).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Interaction", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Interaction", err))
 	}
 	{
 		x := (*(*(struct {
@@ -752,7 +745,6 @@ func (obj *ToSrvInteract) serialize(w io.Writer) {
 				Pos PlayerPos
 			}))(obj)).Pointed
 			chk(writePointedThing(w, x))
-
 		}
 		{
 			buf := w
@@ -778,16 +770,16 @@ func (obj *ToSrvInteract) serialize(w io.Writer) {
 			Pointed PointedThing
 			//mt:end
 			Pos PlayerPos
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.PlayerPos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.PlayerPos", err))
 	}
 }
 
-func (obj *ToSrvInteract) deserialize(r io.Reader) {
+func (obj *ToSrvInteract) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Action   Interaction
@@ -796,12 +788,12 @@ func (obj *ToSrvInteract) deserialize(r io.Reader) {
 			Pointed PointedThing
 			//mt:end
 			Pos PlayerPos
-		}))(obj)).Action).deserialize(r)
+		}))(obj)).Action).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Interaction", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Interaction", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -835,7 +827,6 @@ func (obj *ToSrvInteract) deserialize(r io.Reader) {
 				*p, err = readPointedThing(r)
 				chk(err)
 			}
-
 		}
 		if r.N > 0 {
 			chk(fmt.Errorf("%d bytes of trailing data", r.N))
@@ -849,16 +840,16 @@ func (obj *ToSrvInteract) deserialize(r io.Reader) {
 			Pointed PointedThing
 			//mt:end
 			Pos PlayerPos
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.PlayerPos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.PlayerPos", err))
 	}
 }
 
-func (obj *ToSrvRemovedSounds) serialize(w io.Writer) {
+func (obj *ToSrvRemovedSounds) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		IDs []SoundID
 	}))(obj)).IDs)) > math.MaxUint16 {
@@ -876,17 +867,17 @@ func (obj *ToSrvRemovedSounds) serialize(w io.Writer) {
 		if err := pcall(func() {
 			(((*(*(struct {
 				IDs []SoundID
-			}))(obj)).IDs)[local29]).serialize(w)
+			}))(obj)).IDs)[local29]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 		}
 	}
 }
 
-func (obj *ToSrvRemovedSounds) deserialize(r io.Reader) {
+func (obj *ToSrvRemovedSounds) Deserialize(r io.Reader) {
 	var local30 uint16
 	{
 		p := &local30
@@ -901,17 +892,17 @@ func (obj *ToSrvRemovedSounds) deserialize(r io.Reader) {
 		if err := pcall(func() {
 			(((*(*(struct {
 				IDs []SoundID
-			}))(obj)).IDs)[local31]).deserialize(r)
+			}))(obj)).IDs)[local31]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 		}
 	}
 }
 
-func (obj *ToSrvNodeMetaFields) serialize(w io.Writer) {
+func (obj *ToSrvNodeMetaFields) Serialize(w io.Writer) {
 	for local32 := range (*(*(struct {
 		Pos      [3]int16
 		Formname string
@@ -974,17 +965,17 @@ func (obj *ToSrvNodeMetaFields) serialize(w io.Writer) {
 				Pos      [3]int16
 				Formname string
 				Fields   []Field
-			}))(obj)).Fields)[local33]).serialize(w)
+			}))(obj)).Fields)[local33]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Field", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Field", err))
 		}
 	}
 }
 
-func (obj *ToSrvNodeMetaFields) deserialize(r io.Reader) {
+func (obj *ToSrvNodeMetaFields) Deserialize(r io.Reader) {
 	for local34 := range (*(*(struct {
 		Pos      [3]int16
 		Formname string
@@ -1035,17 +1026,17 @@ func (obj *ToSrvNodeMetaFields) deserialize(r io.Reader) {
 				Pos      [3]int16
 				Formname string
 				Fields   []Field
-			}))(obj)).Fields)[local38]).deserialize(r)
+			}))(obj)).Fields)[local38]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Field", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Field", err))
 		}
 	}
 }
 
-func (obj *ToSrvInvFields) serialize(w io.Writer) {
+func (obj *ToSrvInvFields) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Formname string
 		Fields   []Field
@@ -1087,17 +1078,17 @@ func (obj *ToSrvInvFields) serialize(w io.Writer) {
 			(((*(*(struct {
 				Formname string
 				Fields   []Field
-			}))(obj)).Fields)[local39]).serialize(w)
+			}))(obj)).Fields)[local39]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Field", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Field", err))
 		}
 	}
 }
 
-func (obj *ToSrvInvFields) deserialize(r io.Reader) {
+func (obj *ToSrvInvFields) Deserialize(r io.Reader) {
 	var local40 []uint8
 	var local41 uint16
 	{
@@ -1130,17 +1121,17 @@ func (obj *ToSrvInvFields) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Formname string
 				Fields   []Field
-			}))(obj)).Fields)[local43]).deserialize(r)
+			}))(obj)).Fields)[local43]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Field", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Field", err))
 		}
 	}
 }
 
-func (obj *ToSrvReqMedia) serialize(w io.Writer) {
+func (obj *ToSrvReqMedia) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Filenames []string
 	}))(obj)).Filenames)) > math.MaxUint16 {
@@ -1175,7 +1166,7 @@ func (obj *ToSrvReqMedia) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvReqMedia) deserialize(r io.Reader) {
+func (obj *ToSrvReqMedia) Deserialize(r io.Reader) {
 	var local45 uint16
 	{
 		p := &local45
@@ -1204,7 +1195,7 @@ func (obj *ToSrvReqMedia) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToSrvCltReady) serialize(w io.Writer) {
+func (obj *ToSrvCltReady) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			// Version information.
@@ -1286,7 +1277,7 @@ func (obj *ToSrvCltReady) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvCltReady) deserialize(r io.Reader) {
+func (obj *ToSrvCltReady) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			// Version information.
@@ -1357,7 +1348,7 @@ func (obj *ToSrvCltReady) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToSrvFirstSRP) serialize(w io.Writer) {
+func (obj *ToSrvFirstSRP) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Salt        []byte
 		Verifier    []byte
@@ -1415,11 +1406,10 @@ func (obj *ToSrvFirstSRP) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *ToSrvFirstSRP) deserialize(r io.Reader) {
+func (obj *ToSrvFirstSRP) Deserialize(r io.Reader) {
 	var local51 uint16
 	{
 		p := &local51
@@ -1470,11 +1460,10 @@ func (obj *ToSrvFirstSRP) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *ToSrvSRPBytesA) serialize(w io.Writer) {
+func (obj *ToSrvSRPBytesA) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		A      []byte
 		NoSHA1 bool
@@ -1505,11 +1494,10 @@ func (obj *ToSrvSRPBytesA) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *ToSrvSRPBytesA) deserialize(r io.Reader) {
+func (obj *ToSrvSRPBytesA) Deserialize(r io.Reader) {
 	var local53 uint16
 	{
 		p := &local53
@@ -1539,11 +1527,10 @@ func (obj *ToSrvSRPBytesA) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *ToSrvSRPBytesM) serialize(w io.Writer) {
+func (obj *ToSrvSRPBytesM) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		M []byte
 	}))(obj)).M)) > math.MaxUint16 {
@@ -1563,7 +1550,7 @@ func (obj *ToSrvSRPBytesM) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToSrvSRPBytesM) deserialize(r io.Reader) {
+func (obj *ToSrvSRPBytesM) Deserialize(r io.Reader) {
 	var local54 uint16
 	{
 		p := &local54
@@ -1580,7 +1567,7 @@ func (obj *ToSrvSRPBytesM) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltHello) serialize(w io.Writer) {
+func (obj *ToCltHello) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			SerializeVer uint8
@@ -1598,12 +1585,12 @@ func (obj *ToCltHello) serialize(w io.Writer) {
 			ProtoVer     uint16
 			AuthMethods
 			Username string
-		}))(obj)).Compression).serialize(w)
+		}))(obj)).Compression).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.CompressionModes", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.CompressionModes", err))
 	}
 	{
 		x := (*(*(struct {
@@ -1622,12 +1609,12 @@ func (obj *ToCltHello) serialize(w io.Writer) {
 			ProtoVer     uint16
 			AuthMethods
 			Username string
-		}))(obj)).AuthMethods).serialize(w)
+		}))(obj)).AuthMethods).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AuthMethods", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AuthMethods", err))
 	}
 	if len(([]byte((*(*(struct {
 		SerializeVer uint8
@@ -1660,7 +1647,7 @@ func (obj *ToCltHello) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltHello) deserialize(r io.Reader) {
+func (obj *ToCltHello) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			SerializeVer uint8
@@ -1678,12 +1665,12 @@ func (obj *ToCltHello) deserialize(r io.Reader) {
 			ProtoVer     uint16
 			AuthMethods
 			Username string
-		}))(obj)).Compression).deserialize(r)
+		}))(obj)).Compression).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.CompressionModes", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.CompressionModes", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -1702,12 +1689,12 @@ func (obj *ToCltHello) deserialize(r io.Reader) {
 			ProtoVer     uint16
 			AuthMethods
 			Username string
-		}))(obj)).AuthMethods).deserialize(r)
+		}))(obj)).AuthMethods).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AuthMethods", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AuthMethods", err))
 	}
 	var local55 []uint8
 	var local56 uint16
@@ -1729,7 +1716,7 @@ func (obj *ToCltHello) deserialize(r io.Reader) {
 	}))(obj)).Username) = string(local55)
 }
 
-func (obj *ToCltAcceptAuth) serialize(w io.Writer) {
+func (obj *ToCltAcceptAuth) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			// The client does the equivalent of
@@ -1740,12 +1727,12 @@ func (obj *ToCltAcceptAuth) serialize(w io.Writer) {
 			MapSeed         uint64
 			SendInterval    float32
 			SudoAuthMethods AuthMethods
-		}))(obj)).PlayerPos).serialize(w)
+		}))(obj)).PlayerPos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	{
 		x := (*(*(struct {
@@ -1759,7 +1746,6 @@ func (obj *ToCltAcceptAuth) serialize(w io.Writer) {
 			SudoAuthMethods AuthMethods
 		}))(obj)).MapSeed
 		write64(w, uint64(x))
-
 	}
 	{
 		x := (*(*(struct {
@@ -1784,16 +1770,16 @@ func (obj *ToCltAcceptAuth) serialize(w io.Writer) {
 			MapSeed         uint64
 			SendInterval    float32
 			SudoAuthMethods AuthMethods
-		}))(obj)).SudoAuthMethods).serialize(w)
+		}))(obj)).SudoAuthMethods).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AuthMethods", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AuthMethods", err))
 	}
 }
 
-func (obj *ToCltAcceptAuth) deserialize(r io.Reader) {
+func (obj *ToCltAcceptAuth) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			// The client does the equivalent of
@@ -1804,12 +1790,12 @@ func (obj *ToCltAcceptAuth) deserialize(r io.Reader) {
 			MapSeed         uint64
 			SendInterval    float32
 			SudoAuthMethods AuthMethods
-		}))(obj)).PlayerPos).deserialize(r)
+		}))(obj)).PlayerPos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -1823,7 +1809,6 @@ func (obj *ToCltAcceptAuth) deserialize(r io.Reader) {
 			SudoAuthMethods AuthMethods
 		}))(obj)).MapSeed
 		*p = read64(r)
-
 	}
 	{
 		p := &(*(*(struct {
@@ -1848,25 +1833,25 @@ func (obj *ToCltAcceptAuth) deserialize(r io.Reader) {
 			MapSeed         uint64
 			SendInterval    float32
 			SudoAuthMethods AuthMethods
-		}))(obj)).SudoAuthMethods).deserialize(r)
+		}))(obj)).SudoAuthMethods).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AuthMethods", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AuthMethods", err))
 	}
 }
 
-func (obj *ToCltAcceptSudoMode) serialize(w io.Writer) {
+func (obj *ToCltAcceptSudoMode) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			SudoAuthMethods AuthMethods
-		}))(obj)).SudoAuthMethods).serialize(w)
+		}))(obj)).SudoAuthMethods).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AuthMethods", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AuthMethods", err))
 	}
 	{
 		local57 := [15]byte{}
@@ -1877,16 +1862,16 @@ func (obj *ToCltAcceptSudoMode) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltAcceptSudoMode) deserialize(r io.Reader) {
+func (obj *ToCltAcceptSudoMode) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			SudoAuthMethods AuthMethods
-		}))(obj)).SudoAuthMethods).deserialize(r)
+		}))(obj)).SudoAuthMethods).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AuthMethods", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AuthMethods", err))
 	}
 	{
 		var local58 [15]byte
@@ -1901,13 +1886,13 @@ func (obj *ToCltAcceptSudoMode) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltDenySudoMode) serialize(w io.Writer) {
+func (obj *ToCltDenySudoMode) Serialize(w io.Writer) {
 }
 
-func (obj *ToCltDenySudoMode) deserialize(r io.Reader) {
+func (obj *ToCltDenySudoMode) Deserialize(r io.Reader) {
 }
 
-func (obj *ToCltKick) serialize(w io.Writer) {
+func (obj *ToCltKick) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Reason KickReason
@@ -1917,12 +1902,12 @@ func (obj *ToCltKick) serialize(w io.Writer) {
 
 			//mt:if dr := %s.Reason; dr == Shutdown || dr == Crash
 			Reconnect bool
-		}))(obj)).Reason).serialize(w)
+		}))(obj)).Reason).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.KickReason", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.KickReason", err))
 	}
 	if !((*(*(struct {
 		Reason KickReason
@@ -2004,12 +1989,11 @@ func (obj *ToCltKick) serialize(w io.Writer) {
 			} else {
 				write8(w, 0)
 			}
-
 		}
 	}
 }
 
-func (obj *ToCltKick) deserialize(r io.Reader) {
+func (obj *ToCltKick) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Reason KickReason
@@ -2019,12 +2003,12 @@ func (obj *ToCltKick) deserialize(r io.Reader) {
 
 			//mt:if dr := %s.Reason; dr == Shutdown || dr == Crash
 			Reconnect bool
-		}))(obj)).Reason).deserialize(r)
+		}))(obj)).Reason).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.KickReason", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.KickReason", err))
 	}
 	if !((*(*(struct {
 		Reason KickReason
@@ -2094,64 +2078,79 @@ func (obj *ToCltKick) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 	}
 }
 
-func (obj *ToCltBlkData) serialize(w io.Writer) {
+func (obj *ToCltBlkData) Serialize(w io.Writer) {
 	for local62 := range (*(*(struct {
 		Blkpos [3]int16
-		Blk    MapBlk
+		//mt:zstd
+		Blk MapBlk
 	}))(obj)).Blkpos {
 		{
 			x := ((*(*(struct {
 				Blkpos [3]int16
-				Blk    MapBlk
+				//mt:zstd
+				Blk MapBlk
 			}))(obj)).Blkpos)[local62]
 			write16(w, uint16(x))
 		}
 	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Blkpos [3]int16
-			Blk    MapBlk
-		}))(obj)).Blk).serialize(w)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
+	{
+		w, err := zstd.NewWriter(w)
+		chk(err)
+		if err := pcall(func() {
+			((*(*(struct {
+				Blkpos [3]int16
+				//mt:zstd
+				Blk MapBlk
+			}))(obj)).Blk).Serialize(w)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.MapBlk", err))
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.MapBlk", err))
+		chk(w.Close())
 	}
 }
 
-func (obj *ToCltBlkData) deserialize(r io.Reader) {
+func (obj *ToCltBlkData) Deserialize(r io.Reader) {
 	for local63 := range (*(*(struct {
 		Blkpos [3]int16
-		Blk    MapBlk
+		//mt:zstd
+		Blk MapBlk
 	}))(obj)).Blkpos {
 		{
 			p := &((*(*(struct {
 				Blkpos [3]int16
-				Blk    MapBlk
+				//mt:zstd
+				Blk MapBlk
 			}))(obj)).Blkpos)[local63]
 			*p = int16(read16(r))
 		}
 	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Blkpos [3]int16
-			Blk    MapBlk
-		}))(obj)).Blk).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
+	{
+		r, err := zstd.NewReader(byteReader{r})
+		chk(err)
+		if err := pcall(func() {
+			((*(*(struct {
+				Blkpos [3]int16
+				//mt:zstd
+				Blk MapBlk
+			}))(obj)).Blk).Deserialize(r)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.MapBlk", err))
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.MapBlk", err))
+		r.Close()
 	}
 }
 
-func (obj *ToCltAddNode) serialize(w io.Writer) {
+func (obj *ToCltAddNode) Serialize(w io.Writer) {
 	for local64 := range (*(*(struct {
 		Pos [3]int16
 		Node
@@ -2171,12 +2170,12 @@ func (obj *ToCltAddNode) serialize(w io.Writer) {
 			Pos [3]int16
 			Node
 			KeepMeta bool
-		}))(obj)).Node).serialize(w)
+		}))(obj)).Node).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Node", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Node", err))
 	}
 	{
 		x := (*(*(struct {
@@ -2189,11 +2188,10 @@ func (obj *ToCltAddNode) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *ToCltAddNode) deserialize(r io.Reader) {
+func (obj *ToCltAddNode) Deserialize(r io.Reader) {
 	for local65 := range (*(*(struct {
 		Pos [3]int16
 		Node
@@ -2213,12 +2211,12 @@ func (obj *ToCltAddNode) deserialize(r io.Reader) {
 			Pos [3]int16
 			Node
 			KeepMeta bool
-		}))(obj)).Node).deserialize(r)
+		}))(obj)).Node).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Node", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Node", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -2234,11 +2232,10 @@ func (obj *ToCltAddNode) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *ToCltRemoveNode) serialize(w io.Writer) {
+func (obj *ToCltRemoveNode) Serialize(w io.Writer) {
 	for local66 := range (*(*(struct {
 		Pos [3]int16
 	}))(obj)).Pos {
@@ -2251,7 +2248,7 @@ func (obj *ToCltRemoveNode) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltRemoveNode) deserialize(r io.Reader) {
+func (obj *ToCltRemoveNode) Deserialize(r io.Reader) {
 	for local67 := range (*(*(struct {
 		Pos [3]int16
 	}))(obj)).Pos {
@@ -2264,7 +2261,7 @@ func (obj *ToCltRemoveNode) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltInv) serialize(w io.Writer) {
+func (obj *ToCltInv) Serialize(w io.Writer) {
 	{
 		_, err := w.Write(([]byte((*(*(struct {
 			//mt:raw
@@ -2274,7 +2271,7 @@ func (obj *ToCltInv) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltInv) deserialize(r io.Reader) {
+func (obj *ToCltInv) Deserialize(r io.Reader) {
 	var local68 []uint8
 	{
 		var err error
@@ -2287,7 +2284,7 @@ func (obj *ToCltInv) deserialize(r io.Reader) {
 	}))(obj)).Inv) = string(local68)
 }
 
-func (obj *ToCltTimeOfDay) serialize(w io.Writer) {
+func (obj *ToCltTimeOfDay) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Time  uint16  // %24000
@@ -2304,7 +2301,7 @@ func (obj *ToCltTimeOfDay) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltTimeOfDay) deserialize(r io.Reader) {
+func (obj *ToCltTimeOfDay) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Time  uint16  // %24000
@@ -2321,7 +2318,7 @@ func (obj *ToCltTimeOfDay) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltCSMRestrictionFlags) serialize(w io.Writer) {
+func (obj *ToCltCSMRestrictionFlags) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Flags CSMRestrictionFlags
@@ -2329,12 +2326,12 @@ func (obj *ToCltCSMRestrictionFlags) serialize(w io.Writer) {
 			// MapRange is the maximum distance from the player CSMs can read the map
 			// if Flags&LimitMapRange != 0.
 			MapRange uint32
-		}))(obj)).Flags).serialize(w)
+		}))(obj)).Flags).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.CSMRestrictionFlags", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.CSMRestrictionFlags", err))
 	}
 	{
 		x := (*(*(struct {
@@ -2348,7 +2345,7 @@ func (obj *ToCltCSMRestrictionFlags) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltCSMRestrictionFlags) deserialize(r io.Reader) {
+func (obj *ToCltCSMRestrictionFlags) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Flags CSMRestrictionFlags
@@ -2356,12 +2353,12 @@ func (obj *ToCltCSMRestrictionFlags) deserialize(r io.Reader) {
 			// MapRange is the maximum distance from the player CSMs can read the map
 			// if Flags&LimitMapRange != 0.
 			MapRange uint32
-		}))(obj)).Flags).deserialize(r)
+		}))(obj)).Flags).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.CSMRestrictionFlags", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.CSMRestrictionFlags", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -2375,33 +2372,33 @@ func (obj *ToCltCSMRestrictionFlags) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltAddPlayerVel) serialize(w io.Writer) {
+func (obj *ToCltAddPlayerVel) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Vel Vec
-		}))(obj)).Vel).serialize(w)
+		}))(obj)).Vel).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 }
 
-func (obj *ToCltAddPlayerVel) deserialize(r io.Reader) {
+func (obj *ToCltAddPlayerVel) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Vel Vec
-		}))(obj)).Vel).deserialize(r)
+		}))(obj)).Vel).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 }
 
-func (obj *ToCltMediaPush) serialize(w io.Writer) {
+func (obj *ToCltMediaPush) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		RawHash       string
 		Filename      string
@@ -2475,11 +2472,10 @@ func (obj *ToCltMediaPush) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *ToCltMediaPush) deserialize(r io.Reader) {
+func (obj *ToCltMediaPush) Deserialize(r io.Reader) {
 	var local69 []uint8
 	var local70 uint16
 	{
@@ -2538,11 +2534,10 @@ func (obj *ToCltMediaPush) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *ToCltChatMsg) serialize(w io.Writer) {
+func (obj *ToCltChatMsg) Serialize(w io.Writer) {
 	{
 		local73 := uint8(1)
 		{
@@ -2558,12 +2553,12 @@ func (obj *ToCltChatMsg) serialize(w io.Writer) {
 			Sender, Text string
 
 			Timestamp int64 // Unix time.
-		}))(obj)).Type).serialize(w)
+		}))(obj)).Type).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ChatMsgType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ChatMsgType", err))
 	}
 	local74 := utf16.Encode([]rune((*(*(struct {
 		Type ChatMsgType
@@ -2617,11 +2612,10 @@ func (obj *ToCltChatMsg) serialize(w io.Writer) {
 			Timestamp int64 // Unix time.
 		}))(obj)).Timestamp
 		write64(w, uint64(x))
-
 	}
 }
 
-func (obj *ToCltChatMsg) deserialize(r io.Reader) {
+func (obj *ToCltChatMsg) Deserialize(r io.Reader) {
 	{
 		var local78 uint8
 		local79 := uint8(1)
@@ -2641,12 +2635,12 @@ func (obj *ToCltChatMsg) deserialize(r io.Reader) {
 			Sender, Text string
 
 			Timestamp int64 // Unix time.
-		}))(obj)).Type).deserialize(r)
+		}))(obj)).Type).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ChatMsgType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ChatMsgType", err))
 	}
 	var local80 []uint16
 	var local81 uint16
@@ -2700,11 +2694,10 @@ func (obj *ToCltChatMsg) deserialize(r io.Reader) {
 			Timestamp int64 // Unix time.
 		}))(obj)).Timestamp
 		*p = int64(read64(r))
-
 	}
 }
 
-func (obj *ToCltAORmAdd) serialize(w io.Writer) {
+func (obj *ToCltAORmAdd) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Remove []AOID
 		Add    []AOAdd
@@ -2726,12 +2719,12 @@ func (obj *ToCltAORmAdd) serialize(w io.Writer) {
 			(((*(*(struct {
 				Remove []AOID
 				Add    []AOAdd
-			}))(obj)).Remove)[local86]).serialize(w)
+			}))(obj)).Remove)[local86]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 		}
 	}
 	if len(((*(*(struct {
@@ -2755,17 +2748,17 @@ func (obj *ToCltAORmAdd) serialize(w io.Writer) {
 			(((*(*(struct {
 				Remove []AOID
 				Add    []AOAdd
-			}))(obj)).Add)[local87]).serialize(w)
+			}))(obj)).Add)[local87]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOAdd", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOAdd", err))
 		}
 	}
 }
 
-func (obj *ToCltAORmAdd) deserialize(r io.Reader) {
+func (obj *ToCltAORmAdd) Deserialize(r io.Reader) {
 	var local88 uint16
 	{
 		p := &local88
@@ -2783,12 +2776,12 @@ func (obj *ToCltAORmAdd) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Remove []AOID
 				Add    []AOAdd
-			}))(obj)).Remove)[local89]).deserialize(r)
+			}))(obj)).Remove)[local89]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 		}
 	}
 	var local90 uint16
@@ -2808,17 +2801,17 @@ func (obj *ToCltAORmAdd) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Remove []AOID
 				Add    []AOAdd
-			}))(obj)).Add)[local91]).deserialize(r)
+			}))(obj)).Add)[local91]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOAdd", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOAdd", err))
 		}
 	}
 }
 
-func (obj *ToCltAOMsgs) serialize(w io.Writer) {
+func (obj *ToCltAOMsgs) Serialize(w io.Writer) {
 	for local92 := range (*(*(struct {
 		//mt:raw
 		Msgs []IDAOMsg
@@ -2827,27 +2820,27 @@ func (obj *ToCltAOMsgs) serialize(w io.Writer) {
 			(((*(*(struct {
 				//mt:raw
 				Msgs []IDAOMsg
-			}))(obj)).Msgs)[local92]).serialize(w)
+			}))(obj)).Msgs)[local92]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.IDAOMsg", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.IDAOMsg", err))
 		}
 	}
 }
 
-func (obj *ToCltAOMsgs) deserialize(r io.Reader) {
+func (obj *ToCltAOMsgs) Deserialize(r io.Reader) {
 	for {
 		var local93 IDAOMsg
 		err := pcall(func() {
 			if err := pcall(func() {
-				(local93).deserialize(r)
+				(local93).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.IDAOMsg", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.IDAOMsg", err))
 			}
 		})
 		if err == io.EOF {
@@ -2864,7 +2857,7 @@ func (obj *ToCltAOMsgs) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltHP) serialize(w io.Writer) {
+func (obj *ToCltHP) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			HP uint16
@@ -2873,7 +2866,7 @@ func (obj *ToCltHP) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltHP) deserialize(r io.Reader) {
+func (obj *ToCltHP) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			HP uint16
@@ -2882,17 +2875,17 @@ func (obj *ToCltHP) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltMovePlayer) serialize(w io.Writer) {
+func (obj *ToCltMovePlayer) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos
 			Pitch, Yaw float32
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	{
 		x := (*(*(struct {
@@ -2910,17 +2903,17 @@ func (obj *ToCltMovePlayer) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltMovePlayer) deserialize(r io.Reader) {
+func (obj *ToCltMovePlayer) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos
 			Pitch, Yaw float32
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -2938,7 +2931,7 @@ func (obj *ToCltMovePlayer) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltLegacyKick) serialize(w io.Writer) {
+func (obj *ToCltLegacyKick) Serialize(w io.Writer) {
 	local94 := utf16.Encode([]rune((*(*(struct {
 		//mt:utf16
 		Reason string
@@ -2958,7 +2951,7 @@ func (obj *ToCltLegacyKick) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltLegacyKick) deserialize(r io.Reader) {
+func (obj *ToCltLegacyKick) Deserialize(r io.Reader) {
 	var local96 []uint16
 	var local97 uint16
 	{
@@ -2978,7 +2971,7 @@ func (obj *ToCltLegacyKick) deserialize(r io.Reader) {
 	}))(obj)).Reason = string(utf16.Decode(local96))
 }
 
-func (obj *ToCltFOV) serialize(w io.Writer) {
+func (obj *ToCltFOV) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			FOV            float32
@@ -2998,7 +2991,6 @@ func (obj *ToCltFOV) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -3010,7 +3002,7 @@ func (obj *ToCltFOV) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltFOV) deserialize(r io.Reader) {
+func (obj *ToCltFOV) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			FOV            float32
@@ -3033,7 +3025,6 @@ func (obj *ToCltFOV) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -3045,7 +3036,7 @@ func (obj *ToCltFOV) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltDeathScreen) serialize(w io.Writer) {
+func (obj *ToCltDeathScreen) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			PointCam bool
@@ -3056,22 +3047,21 @@ func (obj *ToCltDeathScreen) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			PointCam bool
 			PointAt  Pos
-		}))(obj)).PointAt).serialize(w)
+		}))(obj)).PointAt).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 }
 
-func (obj *ToCltDeathScreen) deserialize(r io.Reader) {
+func (obj *ToCltDeathScreen) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			PointCam bool
@@ -3085,22 +3075,21 @@ func (obj *ToCltDeathScreen) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			PointCam bool
 			PointAt  Pos
-		}))(obj)).PointAt).deserialize(r)
+		}))(obj)).PointAt).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 }
 
-func (obj *ToCltMedia) serialize(w io.Writer) {
+func (obj *ToCltMedia) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			// N is the total number of ToCltMedia packets.
@@ -3274,7 +3263,7 @@ func (obj *ToCltMedia) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltMedia) deserialize(r io.Reader) {
+func (obj *ToCltMedia) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			// N is the total number of ToCltMedia packets.
@@ -3402,7 +3391,7 @@ func (obj *ToCltMedia) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltNodeDefs) serialize(w io.Writer) {
+func (obj *ToCltNodeDefs) Serialize(w io.Writer) {
 	{
 		ow := w
 		w := new(bytes.Buffer)
@@ -3428,7 +3417,7 @@ func (obj *ToCltNodeDefs) serialize(w io.Writer) {
 					write16(w, uint16(len(x)))
 					var b bytes.Buffer
 					for i := range x {
-						x[i].serialize(&b)
+						x[i].Serialize(&b)
 					}
 					if b.Len() > math.MaxUint32 {
 						chk(ErrTooLong)
@@ -3458,7 +3447,7 @@ func (obj *ToCltNodeDefs) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltNodeDefs) deserialize(r io.Reader) {
+func (obj *ToCltNodeDefs) Deserialize(r io.Reader) {
 	{
 		var n uint32
 		{
@@ -3490,7 +3479,7 @@ func (obj *ToCltNodeDefs) deserialize(r io.Reader) {
 					*p = make([]NodeDef, read16(r))
 					r := &io.LimitedReader{R: r, N: int64(read32(r))}
 					for i := range *p {
-						(*p)[i].deserialize(r)
+						(*p)[i].Deserialize(r)
 					}
 					if r.N > 0 {
 						chk(fmt.Errorf("%d bytes of trailing data", r.N))
@@ -3505,7 +3494,7 @@ func (obj *ToCltNodeDefs) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltAnnounceMedia) serialize(w io.Writer) {
+func (obj *ToCltAnnounceMedia) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Files []struct {
 			Name       string
@@ -3622,7 +3611,7 @@ func (obj *ToCltAnnounceMedia) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltAnnounceMedia) deserialize(r io.Reader) {
+func (obj *ToCltAnnounceMedia) Deserialize(r io.Reader) {
 	var local109 uint16
 	{
 		p := &local109
@@ -3702,7 +3691,7 @@ func (obj *ToCltAnnounceMedia) deserialize(r io.Reader) {
 	}))(obj)).URL) = string(local115)
 }
 
-func (obj *ToCltItemDefs) serialize(w io.Writer) {
+func (obj *ToCltItemDefs) Serialize(w io.Writer) {
 	{
 		ow := w
 		w := new(bytes.Buffer)
@@ -3736,12 +3725,12 @@ func (obj *ToCltItemDefs) serialize(w io.Writer) {
 					(((*(*(struct {
 						Defs    []ItemDef
 						Aliases []struct{ Alias, Orig string }
-					}))(obj)).Defs)[local118]).serialize(w)
+					}))(obj)).Defs)[local118]).Serialize(w)
 				}); err != nil {
 					if err == io.EOF {
 						chk(io.EOF)
 					}
-					chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ItemDef", err))
+					chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ItemDef", err))
 				}
 			}
 			if len(((*(*(struct {
@@ -3822,7 +3811,7 @@ func (obj *ToCltItemDefs) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltItemDefs) deserialize(r io.Reader) {
+func (obj *ToCltItemDefs) Deserialize(r io.Reader) {
 	{
 		var n uint32
 		{
@@ -3861,12 +3850,12 @@ func (obj *ToCltItemDefs) deserialize(r io.Reader) {
 					(((*(*(struct {
 						Defs    []ItemDef
 						Aliases []struct{ Alias, Orig string }
-					}))(obj)).Defs)[local123]).deserialize(r)
+					}))(obj)).Defs)[local123]).Deserialize(r)
 				}); err != nil {
 					if err == io.EOF {
 						chk(io.EOF)
 					}
-					chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ItemDef", err))
+					chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ItemDef", err))
 				}
 			}
 			var local124 uint16
@@ -3924,7 +3913,7 @@ func (obj *ToCltItemDefs) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltPlaySound) serialize(w io.Writer) {
+func (obj *ToCltPlaySound) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID      SoundID
@@ -3937,12 +3926,12 @@ func (obj *ToCltPlaySound) serialize(w io.Writer) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 	}
 	if len(([]byte((*(*(struct {
 		ID      SoundID
@@ -4015,12 +4004,12 @@ func (obj *ToCltPlaySound) serialize(w io.Writer) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).SrcType).serialize(w)
+		}))(obj)).SrcType).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundSrcType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundSrcType", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -4034,12 +4023,12 @@ func (obj *ToCltPlaySound) serialize(w io.Writer) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -4053,12 +4042,12 @@ func (obj *ToCltPlaySound) serialize(w io.Writer) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).SrcAOID).serialize(w)
+		}))(obj)).SrcAOID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
 		x := (*(*(struct {
@@ -4078,7 +4067,6 @@ func (obj *ToCltPlaySound) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -4128,11 +4116,10 @@ func (obj *ToCltPlaySound) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *ToCltPlaySound) deserialize(r io.Reader) {
+func (obj *ToCltPlaySound) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID      SoundID
@@ -4145,12 +4132,12 @@ func (obj *ToCltPlaySound) deserialize(r io.Reader) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 	}
 	var local130 []uint8
 	var local131 uint16
@@ -4202,12 +4189,12 @@ func (obj *ToCltPlaySound) deserialize(r io.Reader) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).SrcType).deserialize(r)
+		}))(obj)).SrcType).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundSrcType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundSrcType", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -4221,12 +4208,12 @@ func (obj *ToCltPlaySound) deserialize(r io.Reader) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -4240,12 +4227,12 @@ func (obj *ToCltPlaySound) deserialize(r io.Reader) {
 			Fade      float32
 			Pitch     float32
 			Ephemeral bool
-		}))(obj)).SrcAOID).deserialize(r)
+		}))(obj)).SrcAOID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -4268,7 +4255,6 @@ func (obj *ToCltPlaySound) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -4321,37 +4307,36 @@ func (obj *ToCltPlaySound) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *ToCltStopSound) serialize(w io.Writer) {
+func (obj *ToCltStopSound) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID SoundID
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 	}
 }
 
-func (obj *ToCltStopSound) deserialize(r io.Reader) {
+func (obj *ToCltStopSound) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID SoundID
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 	}
 }
 
-func (obj *ToCltPrivs) serialize(w io.Writer) {
+func (obj *ToCltPrivs) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Privs []string
 	}))(obj)).Privs)) > math.MaxUint16 {
@@ -4386,7 +4371,7 @@ func (obj *ToCltPrivs) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltPrivs) deserialize(r io.Reader) {
+func (obj *ToCltPrivs) Deserialize(r io.Reader) {
 	var local133 uint16
 	{
 		p := &local133
@@ -4415,7 +4400,7 @@ func (obj *ToCltPrivs) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltInvFormspec) serialize(w io.Writer) {
+func (obj *ToCltInvFormspec) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		//mt:len32
 		Formspec string
@@ -4438,7 +4423,7 @@ func (obj *ToCltInvFormspec) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltInvFormspec) deserialize(r io.Reader) {
+func (obj *ToCltInvFormspec) Deserialize(r io.Reader) {
 	var local137 []uint8
 	var local138 uint32
 	{
@@ -4456,7 +4441,7 @@ func (obj *ToCltInvFormspec) deserialize(r io.Reader) {
 	}))(obj)).Formspec) = string(local137)
 }
 
-func (obj *ToCltDetachedInv) serialize(w io.Writer) {
+func (obj *ToCltDetachedInv) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Name string
 		Keep bool
@@ -4503,7 +4488,6 @@ func (obj *ToCltDetachedInv) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -4529,7 +4513,7 @@ func (obj *ToCltDetachedInv) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltDetachedInv) deserialize(r io.Reader) {
+func (obj *ToCltDetachedInv) Deserialize(r io.Reader) {
 	var local139 []uint8
 	var local140 uint16
 	{
@@ -4566,7 +4550,6 @@ func (obj *ToCltDetachedInv) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -4595,7 +4578,7 @@ func (obj *ToCltDetachedInv) deserialize(r io.Reader) {
 	}))(obj)).Inv) = string(local141)
 }
 
-func (obj *ToCltShowFormspec) serialize(w io.Writer) {
+func (obj *ToCltShowFormspec) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		//mt:len32
 		Formspec string
@@ -4650,7 +4633,7 @@ func (obj *ToCltShowFormspec) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltShowFormspec) deserialize(r io.Reader) {
+func (obj *ToCltShowFormspec) Deserialize(r io.Reader) {
 	var local142 []uint8
 	var local143 uint32
 	{
@@ -4687,7 +4670,7 @@ func (obj *ToCltShowFormspec) deserialize(r io.Reader) {
 	}))(obj)).Formname) = string(local144)
 }
 
-func (obj *ToCltMovement) serialize(w io.Writer) {
+func (obj *ToCltMovement) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			DefaultAccel, AirAccel, FastAccel,
@@ -4798,7 +4781,7 @@ func (obj *ToCltMovement) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltMovement) deserialize(r io.Reader) {
+func (obj *ToCltMovement) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			DefaultAccel, AirAccel, FastAccel,
@@ -4909,7 +4892,7 @@ func (obj *ToCltMovement) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
+func (obj *ToCltSpawnParticle) Serialize(w io.Writer) {
 	for local146 := range (*(*(struct {
 		Pos, Vel, Acc  [3]float32
 		ExpirationTime float32 // in seconds.
@@ -5096,7 +5079,6 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if len(([]byte(*(*string)(&((*(*(struct {
 		Pos, Vel, Acc  [3]float32
@@ -5184,7 +5166,6 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -5210,7 +5191,6 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -5230,12 +5210,12 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 			NodeParam0  Content
 			NodeParam2  uint8
 			NodeTile    uint8
-		}))(obj)).AnimParams).serialize(w)
+		}))(obj)).AnimParams).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileAnim", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileAnim", err))
 	}
 	{
 		x := (*(*(struct {
@@ -5282,7 +5262,6 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -5302,12 +5281,12 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 			NodeParam0  Content
 			NodeParam2  uint8
 			NodeTile    uint8
-		}))(obj)).NodeParam0).serialize(w)
+		}))(obj)).NodeParam0).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		x := (*(*(struct {
@@ -5353,7 +5332,7 @@ func (obj *ToCltSpawnParticle) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
+func (obj *ToCltSpawnParticle) Deserialize(r io.Reader) {
 	for local149 := range (*(*(struct {
 		Pos, Vel, Acc  [3]float32
 		ExpirationTime float32 // in seconds.
@@ -5543,7 +5522,6 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	var local152 []uint8
 	var local153 uint32
@@ -5601,7 +5579,6 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -5630,7 +5607,6 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -5650,12 +5626,12 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 			NodeParam0  Content
 			NodeParam2  uint8
 			NodeTile    uint8
-		}))(obj)).AnimParams).deserialize(r)
+		}))(obj)).AnimParams).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileAnim", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileAnim", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -5705,7 +5681,6 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -5725,12 +5700,12 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 			NodeParam0  Content
 			NodeParam2  uint8
 			NodeTile    uint8
-		}))(obj)).NodeParam0).deserialize(r)
+		}))(obj)).NodeParam0).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -5776,7 +5751,7 @@ func (obj *ToCltSpawnParticle) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
+func (obj *ToCltAddParticleSpawner) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Amount         uint16
@@ -6164,7 +6139,6 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if len(([]byte(*(*string)(&((*(*(struct {
 		Amount         uint16
@@ -6262,12 +6236,12 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ParticleSpawnerID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ParticleSpawnerID", err))
 	}
 	{
 		x := (*(*(struct {
@@ -6297,7 +6271,6 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -6327,7 +6300,6 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -6351,12 +6323,12 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).AttachedAOID).serialize(w)
+		}))(obj)).AttachedAOID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -6380,12 +6352,12 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).AnimParams).serialize(w)
+		}))(obj)).AnimParams).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileAnim", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileAnim", err))
 	}
 	{
 		x := (*(*(struct {
@@ -6440,7 +6412,6 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -6464,12 +6435,12 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).NodeParam0).serialize(w)
+		}))(obj)).NodeParam0).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		x := (*(*(struct {
@@ -6523,7 +6494,7 @@ func (obj *ToCltAddParticleSpawner) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
+func (obj *ToCltAddParticleSpawner) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Amount         uint16
@@ -6914,7 +6885,6 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	var local170 []uint8
 	var local171 uint32
@@ -6971,12 +6941,12 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ParticleSpawnerID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ParticleSpawnerID", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -7009,7 +6979,6 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -7042,7 +7011,6 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -7066,12 +7034,12 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).AttachedAOID).deserialize(r)
+		}))(obj)).AttachedAOID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -7095,12 +7063,12 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).AnimParams).deserialize(r)
+		}))(obj)).AnimParams).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileAnim", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileAnim", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -7158,7 +7126,6 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -7182,12 +7149,12 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 			NodeParam0   Content
 			NodeParam2   uint8
 			NodeTile     uint8
-		}))(obj)).NodeParam0).deserialize(r)
+		}))(obj)).NodeParam0).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -7241,83 +7208,83 @@ func (obj *ToCltAddParticleSpawner) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltAddHUD) serialize(w io.Writer) {
+func (obj *ToCltAddHUD) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID HUDID
 			HUD
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDID", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			ID HUDID
-			HUD
-		}))(obj)).HUD).serialize(w)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUD", err))
-	}
-}
-
-func (obj *ToCltAddHUD) deserialize(r io.Reader) {
-	if err := pcall(func() {
-		((*(*(struct {
-			ID HUDID
-			HUD
-		}))(obj)).ID).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			ID HUDID
 			HUD
-		}))(obj)).HUD).deserialize(r)
+		}))(obj)).HUD).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUD", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUD", err))
 	}
 }
 
-func (obj *ToCltRmHUD) serialize(w io.Writer) {
+func (obj *ToCltAddHUD) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID HUDID
-		}))(obj)).ID).serialize(w)
+			HUD
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDID", err))
 	}
-}
-
-func (obj *ToCltRmHUD) deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID HUDID
-		}))(obj)).ID).deserialize(r)
+			HUD
+		}))(obj)).HUD).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUD", err))
 	}
 }
 
-func (obj *ToCltChangeHUD) serialize(w io.Writer) {
+func (obj *ToCltRmHUD) Serialize(w io.Writer) {
+	if err := pcall(func() {
+		((*(*(struct {
+			ID HUDID
+		}))(obj)).ID).Serialize(w)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDID", err))
+	}
+}
+
+func (obj *ToCltRmHUD) Deserialize(r io.Reader) {
+	if err := pcall(func() {
+		((*(*(struct {
+			ID HUDID
+		}))(obj)).ID).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDID", err))
+	}
+}
+
+func (obj *ToCltChangeHUD) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID HUDID
@@ -7362,12 +7329,15 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
-		}))(obj)).ID).serialize(w)
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -7413,12 +7383,15 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
-		}))(obj)).Field).serialize(w)
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
+		}))(obj)).Field).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDField", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDField", err))
 	}
 	if !((*(*(struct {
 		ID HUDID
@@ -7463,6 +7436,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field < hudMax) {
 		chk(errors.New("assertion failed: %s.Field < hudMax"))
 	}
@@ -7509,6 +7485,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDPos {
 		for local172 := range (*(*(struct {
 			ID HUDID
@@ -7553,6 +7532,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Pos {
 			{
 				x := ((*(*(struct {
@@ -7598,6 +7580,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Pos)[local172]
 				write32(w, math.Float32bits(x))
 			}
@@ -7646,6 +7631,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDName {
 		if len(([]byte((*(*(struct {
 			ID HUDID
@@ -7690,6 +7678,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Name))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -7737,6 +7728,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Name))))
 			write16(w, uint16(x))
 		}
@@ -7784,6 +7778,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Name))[:])
 			chk(err)
 		}
@@ -7831,6 +7828,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDScale {
 		for local173 := range (*(*(struct {
 			ID HUDID
@@ -7875,6 +7875,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Scale {
 			{
 				x := ((*(*(struct {
@@ -7920,6 +7923,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Scale)[local173]
 				write32(w, math.Float32bits(x))
 			}
@@ -7968,6 +7974,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDText {
 		if len(([]byte((*(*(struct {
 			ID HUDID
@@ -8012,6 +8021,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Text))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -8059,6 +8071,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Text))))
 			write16(w, uint16(x))
 		}
@@ -8106,6 +8121,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Text))[:])
 			chk(err)
 		}
@@ -8153,6 +8171,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDNumber {
 		{
 			x := (*(*(struct {
@@ -8198,6 +8219,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Number
 			write32(w, uint32(x))
 		}
@@ -8245,6 +8269,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDItem {
 		{
 			x := (*(*(struct {
@@ -8290,6 +8317,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Item
 			write32(w, uint32(x))
 		}
@@ -8337,6 +8367,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDDir {
 		{
 			x := (*(*(struct {
@@ -8382,6 +8415,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Dir
 			write32(w, uint32(x))
 		}
@@ -8429,6 +8465,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDAlign {
 		for local174 := range (*(*(struct {
 			ID HUDID
@@ -8473,6 +8512,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Align {
 			{
 				x := ((*(*(struct {
@@ -8518,6 +8560,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Align)[local174]
 				write32(w, math.Float32bits(x))
 			}
@@ -8566,6 +8611,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDOffset {
 		for local175 := range (*(*(struct {
 			ID HUDID
@@ -8610,6 +8658,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Offset {
 			{
 				x := ((*(*(struct {
@@ -8655,6 +8706,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Offset)[local175]
 				write32(w, math.Float32bits(x))
 			}
@@ -8703,6 +8757,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDWorldPos {
 		if err := pcall(func() {
 			((*(*(struct {
@@ -8748,12 +8805,15 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
-			}))(obj)).WorldPos).serialize(w)
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
+			}))(obj)).WorldPos).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 		}
 	}
 	if (*(*(struct {
@@ -8799,6 +8859,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDSize {
 		for local176 := range (*(*(struct {
 			ID HUDID
@@ -8843,6 +8906,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Size {
 			{
 				x := ((*(*(struct {
@@ -8888,6 +8954,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Size)[local176]
 				write32(w, uint32(x))
 			}
@@ -8936,6 +9005,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDZIndex {
 		{
 			x := (*(*(struct {
@@ -8981,6 +9053,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).ZIndex
 			write32(w, uint32(x))
 		}
@@ -9028,6 +9103,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDText2 {
 		if len(([]byte((*(*(struct {
 			ID HUDID
@@ -9072,6 +9150,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Text2))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -9119,6 +9200,9 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Text2))))
 			write16(w, uint16(x))
 		}
@@ -9166,13 +9250,118 @@ func (obj *ToCltChangeHUD) serialize(w io.Writer) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Text2))[:])
 			chk(err)
 		}
 	}
+	if (*(*(struct {
+		ID HUDID
+
+		Field HUDField
+
+		//mt:if %s.Field == HUDPos
+		Pos [2]float32
+
+		//mt:if %s.Field == HUDName
+		Name string
+
+		//mt:if %s.Field == HUDScale
+		Scale [2]float32
+
+		//mt:if %s.Field == HUDText
+		Text string
+
+		//mt:if %s.Field == HUDNumber
+		Number uint32
+
+		//mt:if %s.Field == HUDItem
+		Item uint32
+
+		//mt:if %s.Field == HUDDir
+		Dir uint32
+
+		//mt:if %s.Field == HUDAlign
+		Align [2]float32
+
+		//mt:if %s.Field == HUDOffset
+		Offset [2]float32
+
+		//mt:if %s.Field == HUDWorldPos
+		WorldPos Pos
+
+		//mt:if %s.Field == HUDSize
+		Size [2]int32
+
+		//mt:if %s.Field == HUDZIndex
+		ZIndex int32
+
+		//mt:if %s.Field == HUDText2
+		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
+	}))(obj)).Field == HUDStyle {
+		if err := pcall(func() {
+			((*(*(struct {
+				ID HUDID
+
+				Field HUDField
+
+				//mt:if %s.Field == HUDPos
+				Pos [2]float32
+
+				//mt:if %s.Field == HUDName
+				Name string
+
+				//mt:if %s.Field == HUDScale
+				Scale [2]float32
+
+				//mt:if %s.Field == HUDText
+				Text string
+
+				//mt:if %s.Field == HUDNumber
+				Number uint32
+
+				//mt:if %s.Field == HUDItem
+				Item uint32
+
+				//mt:if %s.Field == HUDDir
+				Dir uint32
+
+				//mt:if %s.Field == HUDAlign
+				Align [2]float32
+
+				//mt:if %s.Field == HUDOffset
+				Offset [2]float32
+
+				//mt:if %s.Field == HUDWorldPos
+				WorldPos Pos
+
+				//mt:if %s.Field == HUDSize
+				Size [2]int32
+
+				//mt:if %s.Field == HUDZIndex
+				ZIndex int32
+
+				//mt:if %s.Field == HUDText2
+				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
+			}))(obj)).Style).Serialize(w)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDStyleFlags", err))
+		}
+	}
 }
 
-func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
+func (obj *ToCltChangeHUD) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID HUDID
@@ -9217,12 +9406,15 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
-		}))(obj)).ID).deserialize(r)
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -9268,12 +9460,15 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
-		}))(obj)).Field).deserialize(r)
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
+		}))(obj)).Field).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDField", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDField", err))
 	}
 	if !((*(*(struct {
 		ID HUDID
@@ -9318,6 +9513,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field < hudMax) {
 		chk(errors.New("assertion failed: %s.Field < hudMax"))
 	}
@@ -9364,6 +9562,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDPos {
 		for local177 := range (*(*(struct {
 			ID HUDID
@@ -9408,6 +9609,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Pos {
 			{
 				p := &((*(*(struct {
@@ -9453,6 +9657,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Pos)[local177]
 				*p = math.Float32frombits(read32(r))
 			}
@@ -9501,6 +9708,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDName {
 		var local178 []uint8
 		var local179 uint16
@@ -9556,6 +9766,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Name) = string(local178)
 	}
 	if (*(*(struct {
@@ -9601,6 +9814,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDScale {
 		for local180 := range (*(*(struct {
 			ID HUDID
@@ -9645,6 +9861,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Scale {
 			{
 				p := &((*(*(struct {
@@ -9690,6 +9909,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Scale)[local180]
 				*p = math.Float32frombits(read32(r))
 			}
@@ -9738,6 +9960,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDText {
 		var local181 []uint8
 		var local182 uint16
@@ -9793,6 +10018,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Text) = string(local181)
 	}
 	if (*(*(struct {
@@ -9838,6 +10066,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDNumber {
 		{
 			p := &(*(*(struct {
@@ -9883,6 +10114,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Number
 			*p = read32(r)
 		}
@@ -9930,6 +10164,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDItem {
 		{
 			p := &(*(*(struct {
@@ -9975,6 +10212,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Item
 			*p = read32(r)
 		}
@@ -10022,6 +10262,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDDir {
 		{
 			p := &(*(*(struct {
@@ -10067,6 +10310,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).Dir
 			*p = read32(r)
 		}
@@ -10114,6 +10360,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDAlign {
 		for local183 := range (*(*(struct {
 			ID HUDID
@@ -10158,6 +10407,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Align {
 			{
 				p := &((*(*(struct {
@@ -10203,6 +10455,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Align)[local183]
 				*p = math.Float32frombits(read32(r))
 			}
@@ -10251,6 +10506,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDOffset {
 		for local184 := range (*(*(struct {
 			ID HUDID
@@ -10295,6 +10553,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Offset {
 			{
 				p := &((*(*(struct {
@@ -10340,6 +10601,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Offset)[local184]
 				*p = math.Float32frombits(read32(r))
 			}
@@ -10388,6 +10652,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDWorldPos {
 		if err := pcall(func() {
 			((*(*(struct {
@@ -10433,12 +10700,15 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
-			}))(obj)).WorldPos).deserialize(r)
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
+			}))(obj)).WorldPos).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 		}
 	}
 	if (*(*(struct {
@@ -10484,6 +10754,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDSize {
 		for local185 := range (*(*(struct {
 			ID HUDID
@@ -10528,6 +10801,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Size {
 			{
 				p := &((*(*(struct {
@@ -10573,6 +10849,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 					//mt:if %s.Field == HUDText2
 					Text2 string
+
+					//mt:if %s.Field == HUDStyle
+					Style HUDStyleFlags
 				}))(obj)).Size)[local185]
 				*p = int32(read32(r))
 			}
@@ -10621,6 +10900,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDZIndex {
 		{
 			p := &(*(*(struct {
@@ -10666,6 +10948,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 				//mt:if %s.Field == HUDText2
 				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
 			}))(obj)).ZIndex
 			*p = int32(read32(r))
 		}
@@ -10713,6 +10998,9 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 		//mt:if %s.Field == HUDText2
 		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
 	}))(obj)).Field == HUDText2 {
 		var local186 []uint8
 		var local187 uint16
@@ -10768,65 +11056,170 @@ func (obj *ToCltChangeHUD) deserialize(r io.Reader) {
 
 			//mt:if %s.Field == HUDText2
 			Text2 string
+
+			//mt:if %s.Field == HUDStyle
+			Style HUDStyleFlags
 		}))(obj)).Text2) = string(local186)
 	}
+	if (*(*(struct {
+		ID HUDID
+
+		Field HUDField
+
+		//mt:if %s.Field == HUDPos
+		Pos [2]float32
+
+		//mt:if %s.Field == HUDName
+		Name string
+
+		//mt:if %s.Field == HUDScale
+		Scale [2]float32
+
+		//mt:if %s.Field == HUDText
+		Text string
+
+		//mt:if %s.Field == HUDNumber
+		Number uint32
+
+		//mt:if %s.Field == HUDItem
+		Item uint32
+
+		//mt:if %s.Field == HUDDir
+		Dir uint32
+
+		//mt:if %s.Field == HUDAlign
+		Align [2]float32
+
+		//mt:if %s.Field == HUDOffset
+		Offset [2]float32
+
+		//mt:if %s.Field == HUDWorldPos
+		WorldPos Pos
+
+		//mt:if %s.Field == HUDSize
+		Size [2]int32
+
+		//mt:if %s.Field == HUDZIndex
+		ZIndex int32
+
+		//mt:if %s.Field == HUDText2
+		Text2 string
+
+		//mt:if %s.Field == HUDStyle
+		Style HUDStyleFlags
+	}))(obj)).Field == HUDStyle {
+		if err := pcall(func() {
+			((*(*(struct {
+				ID HUDID
+
+				Field HUDField
+
+				//mt:if %s.Field == HUDPos
+				Pos [2]float32
+
+				//mt:if %s.Field == HUDName
+				Name string
+
+				//mt:if %s.Field == HUDScale
+				Scale [2]float32
+
+				//mt:if %s.Field == HUDText
+				Text string
+
+				//mt:if %s.Field == HUDNumber
+				Number uint32
+
+				//mt:if %s.Field == HUDItem
+				Item uint32
+
+				//mt:if %s.Field == HUDDir
+				Dir uint32
+
+				//mt:if %s.Field == HUDAlign
+				Align [2]float32
+
+				//mt:if %s.Field == HUDOffset
+				Offset [2]float32
+
+				//mt:if %s.Field == HUDWorldPos
+				WorldPos Pos
+
+				//mt:if %s.Field == HUDSize
+				Size [2]int32
+
+				//mt:if %s.Field == HUDZIndex
+				ZIndex int32
+
+				//mt:if %s.Field == HUDText2
+				Text2 string
+
+				//mt:if %s.Field == HUDStyle
+				Style HUDStyleFlags
+			}))(obj)).Style).Deserialize(r)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDStyleFlags", err))
+		}
+	}
 }
 
-func (obj *ToCltHUDFlags) serialize(w io.Writer) {
+func (obj *ToCltHUDFlags) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			// &^= Mask
 			// |= Flags
 			Flags, Mask HUDFlags
-		}))(obj)).Flags).serialize(w)
+		}))(obj)).Flags).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDFlags", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDFlags", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			// &^= Mask
 			// |= Flags
 			Flags, Mask HUDFlags
-		}))(obj)).Mask).serialize(w)
+		}))(obj)).Mask).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDFlags", err))
-	}
-}
-
-func (obj *ToCltHUDFlags) deserialize(r io.Reader) {
-	if err := pcall(func() {
-		((*(*(struct {
-			// &^= Mask
-			// |= Flags
-			Flags, Mask HUDFlags
-		}))(obj)).Flags).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDFlags", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			// &^= Mask
-			// |= Flags
-			Flags, Mask HUDFlags
-		}))(obj)).Mask).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDFlags", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDFlags", err))
 	}
 }
 
-func (obj *ToCltSetHotbarParam) serialize(w io.Writer) {
+func (obj *ToCltHUDFlags) Deserialize(r io.Reader) {
+	if err := pcall(func() {
+		((*(*(struct {
+			// &^= Mask
+			// |= Flags
+			Flags, Mask HUDFlags
+		}))(obj)).Flags).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDFlags", err))
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			// &^= Mask
+			// |= Flags
+			Flags, Mask HUDFlags
+		}))(obj)).Mask).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDFlags", err))
+	}
+}
+
+func (obj *ToCltSetHotbarParam) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Param HotbarParam
@@ -10837,12 +11230,12 @@ func (obj *ToCltSetHotbarParam) serialize(w io.Writer) {
 
 			//mt:if %s.Param != HotbarSize
 			Img Texture
-		}))(obj)).Param).serialize(w)
+		}))(obj)).Param).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HotbarParam", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HotbarParam", err))
 	}
 	if (*(*(struct {
 		Param HotbarParam
@@ -10895,17 +11288,17 @@ func (obj *ToCltSetHotbarParam) serialize(w io.Writer) {
 
 				//mt:if %s.Param != HotbarSize
 				Img Texture
-			}))(obj)).Img).serialize(w)
+			}))(obj)).Img).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 	}
 }
 
-func (obj *ToCltSetHotbarParam) deserialize(r io.Reader) {
+func (obj *ToCltSetHotbarParam) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Param HotbarParam
@@ -10916,12 +11309,12 @@ func (obj *ToCltSetHotbarParam) deserialize(r io.Reader) {
 
 			//mt:if %s.Param != HotbarSize
 			Img Texture
-		}))(obj)).Param).deserialize(r)
+		}))(obj)).Param).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HotbarParam", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HotbarParam", err))
 	}
 	if (*(*(struct {
 		Param HotbarParam
@@ -10978,17 +11371,17 @@ func (obj *ToCltSetHotbarParam) deserialize(r io.Reader) {
 
 				//mt:if %s.Param != HotbarSize
 				Img Texture
-			}))(obj)).Img).deserialize(r)
+			}))(obj)).Img).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 	}
 }
 
-func (obj *ToCltBreath) serialize(w io.Writer) {
+func (obj *ToCltBreath) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Breath uint16
@@ -10997,7 +11390,7 @@ func (obj *ToCltBreath) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltBreath) deserialize(r io.Reader) {
+func (obj *ToCltBreath) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Breath uint16
@@ -11006,7 +11399,7 @@ func (obj *ToCltBreath) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltSkyParams) serialize(w io.Writer) {
+func (obj *ToCltSkyParams) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			BgColor     color.NRGBA
@@ -11026,7 +11419,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 			Indoor color.NRGBA
 		}))(obj)).BgColor
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	if len(([]byte((*(*(struct {
 		BgColor     color.NRGBA
@@ -11110,7 +11502,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -11131,7 +11522,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 			Indoor color.NRGBA
 		}))(obj)).SunFogTint
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	{
 		x := (*(*(struct {
@@ -11152,7 +11542,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 			Indoor color.NRGBA
 		}))(obj)).MoonFogTint
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	if len(([]byte((*(*(struct {
 		BgColor     color.NRGBA
@@ -11303,12 +11692,12 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 					DawnSky, DawnHorizon,
 					NightSky, NightHorizon,
 					Indoor color.NRGBA
-				}))(obj)).Textures)[local191]).serialize(w)
+				}))(obj)).Textures)[local191]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 			}
 		}
 	}
@@ -11348,7 +11737,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).DaySky
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -11369,7 +11757,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).DayHorizon
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -11390,7 +11777,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).DawnSky
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -11411,7 +11797,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).DawnHorizon
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -11432,7 +11817,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).NightSky
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -11453,7 +11837,6 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).NightHorizon
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -11474,12 +11857,11 @@ func (obj *ToCltSkyParams) serialize(w io.Writer) {
 				Indoor color.NRGBA
 			}))(obj)).Indoor
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 	}
 }
 
-func (obj *ToCltSkyParams) deserialize(r io.Reader) {
+func (obj *ToCltSkyParams) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			BgColor     color.NRGBA
@@ -11499,7 +11881,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 			Indoor color.NRGBA
 		}))(obj)).BgColor
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	var local192 []uint8
 	var local193 uint16
@@ -11555,7 +11936,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -11576,7 +11956,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 			Indoor color.NRGBA
 		}))(obj)).SunFogTint
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -11597,7 +11976,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 			Indoor color.NRGBA
 		}))(obj)).MoonFogTint
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	var local194 []uint8
 	var local195 uint16
@@ -11700,12 +12078,12 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 					DawnSky, DawnHorizon,
 					NightSky, NightHorizon,
 					Indoor color.NRGBA
-				}))(obj)).Textures)[local197]).deserialize(r)
+				}))(obj)).Textures)[local197]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 			}
 		}
 	}
@@ -11745,7 +12123,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).DaySky
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -11766,7 +12143,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).DayHorizon
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -11787,7 +12163,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).DawnSky
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -11808,7 +12183,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).DawnHorizon
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -11829,7 +12203,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).NightSky
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -11850,7 +12223,6 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).NightHorizon
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -11871,12 +12243,11 @@ func (obj *ToCltSkyParams) deserialize(r io.Reader) {
 				Indoor color.NRGBA
 			}))(obj)).Indoor
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 	}
 }
 
-func (obj *ToCltOverrideDayNightRatio) serialize(w io.Writer) {
+func (obj *ToCltOverrideDayNightRatio) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Override bool
@@ -11887,7 +12258,6 @@ func (obj *ToCltOverrideDayNightRatio) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -11898,7 +12268,7 @@ func (obj *ToCltOverrideDayNightRatio) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltOverrideDayNightRatio) deserialize(r io.Reader) {
+func (obj *ToCltOverrideDayNightRatio) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Override bool
@@ -11912,7 +12282,6 @@ func (obj *ToCltOverrideDayNightRatio) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -11923,7 +12292,7 @@ func (obj *ToCltOverrideDayNightRatio) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltLocalPlayerAnim) serialize(w io.Writer) {
+func (obj *ToCltLocalPlayerAnim) Serialize(w io.Writer) {
 	for local198 := range (*(*(struct {
 		Idle, Walk, Dig, WalkDig [2]int32
 		Speed                    float32
@@ -11981,7 +12350,7 @@ func (obj *ToCltLocalPlayerAnim) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltLocalPlayerAnim) deserialize(r io.Reader) {
+func (obj *ToCltLocalPlayerAnim) Deserialize(r io.Reader) {
 	for local202 := range (*(*(struct {
 		Idle, Walk, Dig, WalkDig [2]int32
 		Speed                    float32
@@ -12039,79 +12408,79 @@ func (obj *ToCltLocalPlayerAnim) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltEyeOffset) serialize(w io.Writer) {
+func (obj *ToCltEyeOffset) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			First, Third Vec
-		}))(obj)).First).serialize(w)
+		}))(obj)).First).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			First, Third Vec
-		}))(obj)).Third).serialize(w)
+		}))(obj)).Third).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
-	}
-}
-
-func (obj *ToCltEyeOffset) deserialize(r io.Reader) {
-	if err := pcall(func() {
-		((*(*(struct {
-			First, Third Vec
-		}))(obj)).First).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			First, Third Vec
-		}))(obj)).Third).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 }
 
-func (obj *ToCltDelParticleSpawner) serialize(w io.Writer) {
+func (obj *ToCltEyeOffset) Deserialize(r io.Reader) {
+	if err := pcall(func() {
+		((*(*(struct {
+			First, Third Vec
+		}))(obj)).First).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			First, Third Vec
+		}))(obj)).Third).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
+	}
+}
+
+func (obj *ToCltDelParticleSpawner) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID ParticleSpawnerID
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ParticleSpawnerID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ParticleSpawnerID", err))
 	}
 }
 
-func (obj *ToCltDelParticleSpawner) deserialize(r io.Reader) {
+func (obj *ToCltDelParticleSpawner) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID ParticleSpawnerID
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ParticleSpawnerID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ParticleSpawnerID", err))
 	}
 }
 
-func (obj *ToCltCloudParams) serialize(w io.Writer) {
+func (obj *ToCltCloudParams) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Density      float32
@@ -12133,7 +12502,6 @@ func (obj *ToCltCloudParams) serialize(w io.Writer) {
 			Speed        [2]float32
 		}))(obj)).DiffuseColor
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	{
 		x := (*(*(struct {
@@ -12145,7 +12513,6 @@ func (obj *ToCltCloudParams) serialize(w io.Writer) {
 			Speed        [2]float32
 		}))(obj)).AmbientColor
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	{
 		x := (*(*(struct {
@@ -12191,7 +12558,7 @@ func (obj *ToCltCloudParams) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltCloudParams) deserialize(r io.Reader) {
+func (obj *ToCltCloudParams) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Density      float32
@@ -12213,7 +12580,6 @@ func (obj *ToCltCloudParams) deserialize(r io.Reader) {
 			Speed        [2]float32
 		}))(obj)).DiffuseColor
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -12225,7 +12591,6 @@ func (obj *ToCltCloudParams) deserialize(r io.Reader) {
 			Speed        [2]float32
 		}))(obj)).AmbientColor
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -12271,18 +12636,18 @@ func (obj *ToCltCloudParams) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltFadeSound) serialize(w io.Writer) {
+func (obj *ToCltFadeSound) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID   SoundID
 			Step float32
 			Gain float32
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 	}
 	{
 		x := (*(*(struct {
@@ -12302,18 +12667,18 @@ func (obj *ToCltFadeSound) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltFadeSound) deserialize(r io.Reader) {
+func (obj *ToCltFadeSound) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID   SoundID
 			Step float32
 			Gain float32
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundID", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -12333,17 +12698,17 @@ func (obj *ToCltFadeSound) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltUpdatePlayerList) serialize(w io.Writer) {
+func (obj *ToCltUpdatePlayerList) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type    PlayerListUpdateType
 			Players []string
-		}))(obj)).Type).serialize(w)
+		}))(obj)).Type).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.PlayerListUpdateType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.PlayerListUpdateType", err))
 	}
 	if len(((*(*(struct {
 		Type    PlayerListUpdateType
@@ -12385,17 +12750,17 @@ func (obj *ToCltUpdatePlayerList) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltUpdatePlayerList) deserialize(r io.Reader) {
+func (obj *ToCltUpdatePlayerList) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type    PlayerListUpdateType
 			Players []string
-		}))(obj)).Type).deserialize(r)
+		}))(obj)).Type).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.PlayerListUpdateType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.PlayerListUpdateType", err))
 	}
 	var local209 uint16
 	{
@@ -12428,7 +12793,7 @@ func (obj *ToCltUpdatePlayerList) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltModChanMsg) serialize(w io.Writer) {
+func (obj *ToCltModChanMsg) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Channel string
 		Sender  string
@@ -12500,7 +12865,7 @@ func (obj *ToCltModChanMsg) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltModChanMsg) deserialize(r io.Reader) {
+func (obj *ToCltModChanMsg) Deserialize(r io.Reader) {
 	var local213 []uint8
 	var local214 uint16
 	{
@@ -12551,17 +12916,17 @@ func (obj *ToCltModChanMsg) deserialize(r io.Reader) {
 	}))(obj)).Msg) = string(local217)
 }
 
-func (obj *ToCltModChanSig) serialize(w io.Writer) {
+func (obj *ToCltModChanSig) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Signal  ModChanSig
 			Channel string
-		}))(obj)).Signal).serialize(w)
+		}))(obj)).Signal).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ModChanSig", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ModChanSig", err))
 	}
 	if len(([]byte((*(*(struct {
 		Signal  ModChanSig
@@ -12585,17 +12950,17 @@ func (obj *ToCltModChanSig) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltModChanSig) deserialize(r io.Reader) {
+func (obj *ToCltModChanSig) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Signal  ModChanSig
 			Channel string
-		}))(obj)).Signal).deserialize(r)
+		}))(obj)).Signal).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ModChanSig", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ModChanSig", err))
 	}
 	var local219 []uint8
 	var local220 uint16
@@ -12614,7 +12979,7 @@ func (obj *ToCltModChanSig) deserialize(r io.Reader) {
 	}))(obj)).Channel) = string(local219)
 }
 
-func (obj *ToCltNodeMetasChanged) serialize(w io.Writer) {
+func (obj *ToCltNodeMetasChanged) Serialize(w io.Writer) {
 	{
 		ow := w
 		w := new(bytes.Buffer)
@@ -12625,7 +12990,6 @@ func (obj *ToCltNodeMetasChanged) serialize(w io.Writer) {
 			}))(obj)).Changed
 			{
 				w := zlib.NewWriter(w)
-
 				if x == nil {
 					write8(w, 0)
 				} else {
@@ -12640,7 +13004,6 @@ func (obj *ToCltNodeMetasChanged) serialize(w io.Writer) {
 					}
 					sort.Slice(keys, func(i, j int) bool {
 						p, q := keys[i], keys[j]
-
 						for i := range p {
 							switch {
 							case p[i] < q[i]:
@@ -12649,7 +13012,6 @@ func (obj *ToCltNodeMetasChanged) serialize(w io.Writer) {
 								return false
 							}
 						}
-
 						return false
 					})
 					for _, key := range keys {
@@ -12659,10 +13021,8 @@ func (obj *ToCltNodeMetasChanged) serialize(w io.Writer) {
 						chk(serialize(w, x[key]))
 					}
 				}
-
 				chk(w.Close())
 			}
-
 		}
 		{
 			buf := w
@@ -12682,7 +13042,7 @@ func (obj *ToCltNodeMetasChanged) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltNodeMetasChanged) deserialize(r io.Reader) {
+func (obj *ToCltNodeMetasChanged) Deserialize(r io.Reader) {
 	{
 		var n uint32
 		{
@@ -12698,7 +13058,6 @@ func (obj *ToCltNodeMetasChanged) deserialize(r io.Reader) {
 			{
 				r, err := zlib.NewReader(byteReader{r})
 				chk(err)
-
 				switch ver := read8(r); ver {
 				case 0:
 					*p = nil
@@ -12717,10 +13076,8 @@ func (obj *ToCltNodeMetasChanged) deserialize(r io.Reader) {
 				default:
 					chk(fmt.Errorf("unsupported nodemetas version: %d", ver))
 				}
-
 				chk(r.Close())
 			}
-
 		}
 		if r.N > 0 {
 			chk(fmt.Errorf("%d bytes of trailing data", r.N))
@@ -12728,7 +13085,7 @@ func (obj *ToCltNodeMetasChanged) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltSunParams) serialize(w io.Writer) {
+func (obj *ToCltSunParams) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Visible bool
@@ -12743,7 +13100,6 @@ func (obj *ToCltSunParams) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12753,12 +13109,12 @@ func (obj *ToCltSunParams) serialize(w io.Writer) {
 			Rise    Texture
 			Rising  bool
 			Size    float32
-		}))(obj)).Texture).serialize(w)
+		}))(obj)).Texture).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12768,12 +13124,12 @@ func (obj *ToCltSunParams) serialize(w io.Writer) {
 			Rise    Texture
 			Rising  bool
 			Size    float32
-		}))(obj)).ToneMap).serialize(w)
+		}))(obj)).ToneMap).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12783,12 +13139,12 @@ func (obj *ToCltSunParams) serialize(w io.Writer) {
 			Rise    Texture
 			Rising  bool
 			Size    float32
-		}))(obj)).Rise).serialize(w)
+		}))(obj)).Rise).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		x := (*(*(struct {
@@ -12804,7 +13160,6 @@ func (obj *ToCltSunParams) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -12819,7 +13174,7 @@ func (obj *ToCltSunParams) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltSunParams) deserialize(r io.Reader) {
+func (obj *ToCltSunParams) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Visible bool
@@ -12837,7 +13192,6 @@ func (obj *ToCltSunParams) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12847,12 +13201,12 @@ func (obj *ToCltSunParams) deserialize(r io.Reader) {
 			Rise    Texture
 			Rising  bool
 			Size    float32
-		}))(obj)).Texture).deserialize(r)
+		}))(obj)).Texture).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12862,12 +13216,12 @@ func (obj *ToCltSunParams) deserialize(r io.Reader) {
 			Rise    Texture
 			Rising  bool
 			Size    float32
-		}))(obj)).ToneMap).deserialize(r)
+		}))(obj)).ToneMap).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12877,12 +13231,12 @@ func (obj *ToCltSunParams) deserialize(r io.Reader) {
 			Rise    Texture
 			Rising  bool
 			Size    float32
-		}))(obj)).Rise).deserialize(r)
+		}))(obj)).Rise).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -12901,7 +13255,6 @@ func (obj *ToCltSunParams) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -12916,7 +13269,7 @@ func (obj *ToCltSunParams) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltMoonParams) serialize(w io.Writer) {
+func (obj *ToCltMoonParams) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Visible bool
@@ -12929,7 +13282,6 @@ func (obj *ToCltMoonParams) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12937,12 +13289,12 @@ func (obj *ToCltMoonParams) serialize(w io.Writer) {
 			Texture
 			ToneMap Texture
 			Size    float32
-		}))(obj)).Texture).serialize(w)
+		}))(obj)).Texture).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12950,12 +13302,12 @@ func (obj *ToCltMoonParams) serialize(w io.Writer) {
 			Texture
 			ToneMap Texture
 			Size    float32
-		}))(obj)).ToneMap).serialize(w)
+		}))(obj)).ToneMap).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		x := (*(*(struct {
@@ -12968,7 +13320,7 @@ func (obj *ToCltMoonParams) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltMoonParams) deserialize(r io.Reader) {
+func (obj *ToCltMoonParams) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Visible bool
@@ -12984,7 +13336,6 @@ func (obj *ToCltMoonParams) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -12992,12 +13343,12 @@ func (obj *ToCltMoonParams) deserialize(r io.Reader) {
 			Texture
 			ToneMap Texture
 			Size    float32
-		}))(obj)).Texture).deserialize(r)
+		}))(obj)).Texture).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -13005,12 +13356,12 @@ func (obj *ToCltMoonParams) deserialize(r io.Reader) {
 			Texture
 			ToneMap Texture
 			Size    float32
-		}))(obj)).ToneMap).deserialize(r)
+		}))(obj)).ToneMap).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -13023,7 +13374,7 @@ func (obj *ToCltMoonParams) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltStarParams) serialize(w io.Writer) {
+func (obj *ToCltStarParams) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Visible bool
@@ -13036,7 +13387,6 @@ func (obj *ToCltStarParams) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -13055,7 +13405,6 @@ func (obj *ToCltStarParams) serialize(w io.Writer) {
 			Size    float32
 		}))(obj)).Color
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	{
 		x := (*(*(struct {
@@ -13068,7 +13417,7 @@ func (obj *ToCltStarParams) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltStarParams) deserialize(r io.Reader) {
+func (obj *ToCltStarParams) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Visible bool
@@ -13084,7 +13433,6 @@ func (obj *ToCltStarParams) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -13103,7 +13451,6 @@ func (obj *ToCltStarParams) deserialize(r io.Reader) {
 			Size    float32
 		}))(obj)).Color
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -13116,7 +13463,7 @@ func (obj *ToCltStarParams) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltSRPBytesSaltB) serialize(w io.Writer) {
+func (obj *ToCltSRPBytesSaltB) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Salt, B []byte
 	}))(obj)).Salt)) > math.MaxUint16 {
@@ -13153,7 +13500,7 @@ func (obj *ToCltSRPBytesSaltB) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltSRPBytesSaltB) deserialize(r io.Reader) {
+func (obj *ToCltSRPBytesSaltB) Deserialize(r io.Reader) {
 	var local221 uint16
 	{
 		p := &local221
@@ -13184,7 +13531,7 @@ func (obj *ToCltSRPBytesSaltB) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ToCltFormspecPrepend) serialize(w io.Writer) {
+func (obj *ToCltFormspecPrepend) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Prepend string
 	}))(obj)).Prepend))) > math.MaxUint16 {
@@ -13204,7 +13551,7 @@ func (obj *ToCltFormspecPrepend) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToCltFormspecPrepend) deserialize(r io.Reader) {
+func (obj *ToCltFormspecPrepend) Deserialize(r io.Reader) {
 	var local223 []uint8
 	var local224 uint16
 	{
@@ -13221,111 +13568,111 @@ func (obj *ToCltFormspecPrepend) deserialize(r io.Reader) {
 	}))(obj)).Prepend) = string(local223)
 }
 
-func (obj *AOCmdProps) serialize(w io.Writer) {
+func (obj *AOCmdProps) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Props AOProps
-		}))(obj)).Props).serialize(w)
+		}))(obj)).Props).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOProps", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOProps", err))
 	}
 }
 
-func (obj *AOCmdProps) deserialize(r io.Reader) {
+func (obj *AOCmdProps) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Props AOProps
-		}))(obj)).Props).deserialize(r)
+		}))(obj)).Props).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOProps", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOProps", err))
 	}
 }
 
-func (obj *AOCmdPos) serialize(w io.Writer) {
+func (obj *AOCmdPos) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos AOPos
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOPos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOPos", err))
 	}
 }
 
-func (obj *AOCmdPos) deserialize(r io.Reader) {
+func (obj *AOCmdPos) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos AOPos
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOPos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOPos", err))
 	}
 }
 
-func (obj *AOCmdTextureMod) serialize(w io.Writer) {
+func (obj *AOCmdTextureMod) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Mod Texture // suffix
-		}))(obj)).Mod).serialize(w)
+		}))(obj)).Mod).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 }
 
-func (obj *AOCmdTextureMod) deserialize(r io.Reader) {
+func (obj *AOCmdTextureMod) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Mod Texture // suffix
-		}))(obj)).Mod).deserialize(r)
+		}))(obj)).Mod).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 }
 
-func (obj *AOCmdSprite) serialize(w io.Writer) {
+func (obj *AOCmdSprite) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Sprite AOSprite
-		}))(obj)).Sprite).serialize(w)
+		}))(obj)).Sprite).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOSprite", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOSprite", err))
 	}
 }
 
-func (obj *AOCmdSprite) deserialize(r io.Reader) {
+func (obj *AOCmdSprite) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Sprite AOSprite
-		}))(obj)).Sprite).deserialize(r)
+		}))(obj)).Sprite).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOSprite", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOSprite", err))
 	}
 }
 
-func (obj *AOCmdHP) serialize(w io.Writer) {
+func (obj *AOCmdHP) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			HP uint16
@@ -13334,7 +13681,7 @@ func (obj *AOCmdHP) serialize(w io.Writer) {
 	}
 }
 
-func (obj *AOCmdHP) deserialize(r io.Reader) {
+func (obj *AOCmdHP) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			HP uint16
@@ -13343,7 +13690,7 @@ func (obj *AOCmdHP) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *AOCmdArmorGroups) serialize(w io.Writer) {
+func (obj *AOCmdArmorGroups) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Armor []Group
 	}))(obj)).Armor)) > math.MaxUint16 {
@@ -13361,17 +13708,17 @@ func (obj *AOCmdArmorGroups) serialize(w io.Writer) {
 		if err := pcall(func() {
 			(((*(*(struct {
 				Armor []Group
-			}))(obj)).Armor)[local225]).serialize(w)
+			}))(obj)).Armor)[local225]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 		}
 	}
 }
 
-func (obj *AOCmdArmorGroups) deserialize(r io.Reader) {
+func (obj *AOCmdArmorGroups) Deserialize(r io.Reader) {
 	var local226 uint16
 	{
 		p := &local226
@@ -13386,43 +13733,43 @@ func (obj *AOCmdArmorGroups) deserialize(r io.Reader) {
 		if err := pcall(func() {
 			(((*(*(struct {
 				Armor []Group
-			}))(obj)).Armor)[local227]).deserialize(r)
+			}))(obj)).Armor)[local227]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 		}
 	}
 }
 
-func (obj *AOCmdAnim) serialize(w io.Writer) {
+func (obj *AOCmdAnim) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Anim AOAnim
-		}))(obj)).Anim).serialize(w)
+		}))(obj)).Anim).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOAnim", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOAnim", err))
 	}
 }
 
-func (obj *AOCmdAnim) deserialize(r io.Reader) {
+func (obj *AOCmdAnim) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Anim AOAnim
-		}))(obj)).Anim).deserialize(r)
+		}))(obj)).Anim).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOAnim", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOAnim", err))
 	}
 }
 
-func (obj *AOCmdBonePos) serialize(w io.Writer) {
+func (obj *AOCmdBonePos) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Bone string
 		Pos  AOBonePos
@@ -13447,16 +13794,16 @@ func (obj *AOCmdBonePos) serialize(w io.Writer) {
 		((*(*(struct {
 			Bone string
 			Pos  AOBonePos
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOBonePos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOBonePos", err))
 	}
 }
 
-func (obj *AOCmdBonePos) deserialize(r io.Reader) {
+func (obj *AOCmdBonePos) Deserialize(r io.Reader) {
 	var local228 []uint8
 	var local229 uint16
 	{
@@ -13476,112 +13823,112 @@ func (obj *AOCmdBonePos) deserialize(r io.Reader) {
 		((*(*(struct {
 			Bone string
 			Pos  AOBonePos
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOBonePos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOBonePos", err))
 	}
 }
 
-func (obj *AOCmdAttach) serialize(w io.Writer) {
+func (obj *AOCmdAttach) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Attach AOAttach
-		}))(obj)).Attach).serialize(w)
+		}))(obj)).Attach).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOAttach", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOAttach", err))
 	}
 }
 
-func (obj *AOCmdAttach) deserialize(r io.Reader) {
+func (obj *AOCmdAttach) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Attach AOAttach
-		}))(obj)).Attach).deserialize(r)
+		}))(obj)).Attach).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOAttach", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOAttach", err))
 	}
 }
 
-func (obj *AOCmdPhysOverride) serialize(w io.Writer) {
+func (obj *AOCmdPhysOverride) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Phys AOPhysOverride
-		}))(obj)).Phys).serialize(w)
+		}))(obj)).Phys).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOPhysOverride", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOPhysOverride", err))
 	}
 }
 
-func (obj *AOCmdPhysOverride) deserialize(r io.Reader) {
+func (obj *AOCmdPhysOverride) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Phys AOPhysOverride
-		}))(obj)).Phys).deserialize(r)
+		}))(obj)).Phys).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOPhysOverride", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOPhysOverride", err))
 	}
 }
 
-func (obj *AOCmdSpawnInfant) serialize(w io.Writer) {
+func (obj *AOCmdSpawnInfant) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
 		local230 := genericCAO
 		if err := pcall(func() {
-			(local230).serialize(w)
+			(local230).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.aoType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.aoType", err))
 		}
 	}
 }
 
-func (obj *AOCmdSpawnInfant) deserialize(r io.Reader) {
+func (obj *AOCmdSpawnInfant) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
 		var local231 aoType
 		local232 := genericCAO
 		if err := pcall(func() {
-			(local231).deserialize(r)
+			(local231).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.aoType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.aoType", err))
 		}
 		if local231 != local232 {
 			chk(fmt.Errorf("const %v: %v", "genericCAO", local231))
@@ -13589,7 +13936,7 @@ func (obj *AOCmdSpawnInfant) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *AOCmdAnimSpeed) serialize(w io.Writer) {
+func (obj *AOCmdAnimSpeed) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Speed float32
@@ -13598,7 +13945,7 @@ func (obj *AOCmdAnimSpeed) serialize(w io.Writer) {
 	}
 }
 
-func (obj *AOCmdAnimSpeed) deserialize(r io.Reader) {
+func (obj *AOCmdAnimSpeed) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Speed float32
@@ -13607,7 +13954,7 @@ func (obj *AOCmdAnimSpeed) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *NodeMeta) serialize(w io.Writer) {
+func (obj *NodeMeta) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		//mt:len32
 		Fields []NodeMetaField
@@ -13637,12 +13984,12 @@ func (obj *NodeMeta) serialize(w io.Writer) {
 				Fields []NodeMetaField
 
 				Inv Inv
-			}))(obj)).Fields)[local233]).serialize(w)
+			}))(obj)).Fields)[local233]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeMetaField", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeMetaField", err))
 		}
 	}
 	chk(((*(*(struct {
@@ -13653,7 +14000,7 @@ func (obj *NodeMeta) serialize(w io.Writer) {
 	}))(obj)).Inv).Serialize(w))
 }
 
-func (obj *NodeMeta) deserialize(r io.Reader) {
+func (obj *NodeMeta) Deserialize(r io.Reader) {
 	var local234 uint32
 	{
 		p := &local234
@@ -13677,12 +14024,12 @@ func (obj *NodeMeta) deserialize(r io.Reader) {
 				Fields []NodeMetaField
 
 				Inv Inv
-			}))(obj)).Fields)[local235]).deserialize(r)
+			}))(obj)).Fields)[local235]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeMetaField", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeMetaField", err))
 		}
 	}
 	chk(((*(*(struct {
@@ -13693,7 +14040,7 @@ func (obj *NodeMeta) deserialize(r io.Reader) {
 	}))(obj)).Inv).Deserialize(r))
 }
 
-func (obj *MinimapMode) serialize(w io.Writer) {
+func (obj *MinimapMode) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type  MinimapType
@@ -13701,12 +14048,12 @@ func (obj *MinimapMode) serialize(w io.Writer) {
 			Size  uint16
 			Texture
 			Scale uint16
-		}))(obj)).Type).serialize(w)
+		}))(obj)).Type).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.MinimapType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.MinimapType", err))
 	}
 	if len(([]byte((*(*(struct {
 		Type  MinimapType
@@ -13754,12 +14101,12 @@ func (obj *MinimapMode) serialize(w io.Writer) {
 			Size  uint16
 			Texture
 			Scale uint16
-		}))(obj)).Texture).serialize(w)
+		}))(obj)).Texture).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		x := (*(*(struct {
@@ -13773,7 +14120,7 @@ func (obj *MinimapMode) serialize(w io.Writer) {
 	}
 }
 
-func (obj *MinimapMode) deserialize(r io.Reader) {
+func (obj *MinimapMode) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type  MinimapType
@@ -13781,12 +14128,12 @@ func (obj *MinimapMode) deserialize(r io.Reader) {
 			Size  uint16
 			Texture
 			Scale uint16
-		}))(obj)).Type).deserialize(r)
+		}))(obj)).Type).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.MinimapType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.MinimapType", err))
 	}
 	var local236 []uint8
 	var local237 uint16
@@ -13823,12 +14170,12 @@ func (obj *MinimapMode) deserialize(r io.Reader) {
 			Size  uint16
 			Texture
 			Scale uint16
-		}))(obj)).Texture).deserialize(r)
+		}))(obj)).Texture).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -13842,7 +14189,7 @@ func (obj *MinimapMode) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *NodeDef) serialize(w io.Writer) {
+func (obj *NodeDef) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Param0 Content
@@ -13906,12 +14253,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
-		}))(obj)).Param0).serialize(w)
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
+		}))(obj)).Param0).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		ow := w
@@ -13985,6 +14336,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Name))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -14051,6 +14406,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Name))))
 			write16(w, uint16(x))
 		}
@@ -14117,6 +14476,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Name))[:])
 			chk(err)
 		}
@@ -14182,6 +14545,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Groups)) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -14248,6 +14615,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Groups)))
 			write16(w, uint16(x))
 		}
@@ -14313,6 +14684,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Groups {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -14377,12 +14752,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).Groups)[local239]).serialize(w)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).Groups)[local239]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 			}
 		}
 		if err := pcall(func() {
@@ -14448,12 +14827,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).P1Type).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).P1Type).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Param1Type", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Param1Type", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -14518,12 +14901,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).P2Type).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).P2Type).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Param2Type", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Param2Type", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -14588,12 +14975,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DrawType).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DrawType).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DrawType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DrawType", err))
 		}
 		if len(([]byte((*(*(struct {
 			Param0 Content
@@ -14657,6 +15048,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Mesh))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -14723,6 +15118,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Mesh))))
 			write16(w, uint16(x))
 		}
@@ -14789,6 +15188,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Mesh))[:])
 			chk(err)
 		}
@@ -14855,6 +15258,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Scale
 			write32(w, math.Float32bits(x))
 		}
@@ -14927,6 +15334,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Tiles {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -14991,12 +15402,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).Tiles)[local241]).serialize(w)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).Tiles)[local241]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileDef", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileDef", err))
 			}
 		}
 		for local242 := range (*(*(struct {
@@ -15061,6 +15476,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).OverlayTiles {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -15125,12 +15544,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).OverlayTiles)[local242]).serialize(w)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).OverlayTiles)[local242]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileDef", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileDef", err))
 			}
 		}
 		{
@@ -15202,6 +15625,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).SpecialTiles {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -15266,12 +15693,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).SpecialTiles)[local244]).serialize(w)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).SpecialTiles)[local244]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileDef", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileDef", err))
 			}
 		}
 		{
@@ -15337,9 +15768,12 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Color
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -15404,12 +15838,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).Palette).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).Palette).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -15474,12 +15912,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).Waving).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).Waving).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.WaveType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.WaveType", err))
 		}
 		{
 			x := (*(*(struct {
@@ -15544,6 +15986,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).ConnectSides
 			write8(w, uint8(x))
 		}
@@ -15609,6 +16055,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).ConnectTo)) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -15675,6 +16125,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).ConnectTo)))
 			write16(w, uint16(x))
 		}
@@ -15740,6 +16194,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).ConnectTo {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -15804,12 +16262,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).ConnectTo)[local245]).serialize(w)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).ConnectTo)[local245]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 			}
 		}
 		{
@@ -15875,9 +16337,12 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).InsideTint
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		{
 			x := (*(*(struct {
@@ -15942,6 +16407,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Level
 			write8(w, uint8(x))
 		}
@@ -16008,13 +16477,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Translucent
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16079,13 +16551,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Transparent
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16150,6 +16625,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LightSrc
 			write8(w, uint8(x))
 		}
@@ -16216,13 +16695,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).GndContent
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16287,13 +16769,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Collides
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16358,13 +16843,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Pointable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16429,13 +16917,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Diggable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16500,13 +16991,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Climbable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16571,13 +17065,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Replaceable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16642,13 +17139,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).OnRightClick
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -16713,6 +17213,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).DmgPerSec
 			write32(w, uint32(x))
 		}
@@ -16779,12 +17283,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).LiquidType).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).LiquidType).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.LiquidType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.LiquidType", err))
 		}
 		if len(([]byte((*(*(struct {
 			Param0 Content
@@ -16848,6 +17356,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).FlowingAlt))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -16914,6 +17426,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).FlowingAlt))))
 			write16(w, uint16(x))
 		}
@@ -16980,6 +17496,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).FlowingAlt))[:])
 			chk(err)
 		}
@@ -17045,6 +17565,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).SrcAlt))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -17111,6 +17635,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).SrcAlt))))
 			write16(w, uint16(x))
 		}
@@ -17177,6 +17705,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).SrcAlt))[:])
 			chk(err)
 		}
@@ -17243,6 +17775,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Viscosity
 			write8(w, uint8(x))
 		}
@@ -17309,13 +17845,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LiqRenewable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -17380,6 +17919,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).FlowRange
 			write8(w, uint8(x))
 		}
@@ -17446,6 +17989,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).DrownDmg
 			write8(w, uint8(x))
 		}
@@ -17512,13 +18059,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Floodable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -17583,12 +18133,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DrawBox).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DrawBox).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBox", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBox", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -17653,12 +18207,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).ColBox).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).ColBox).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBox", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBox", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -17723,12 +18281,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).SelBox).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).SelBox).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBox", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBox", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -17793,12 +18355,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).FootstepSnd).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).FootstepSnd).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -17863,12 +18429,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DiggingSnd).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DiggingSnd).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -17933,12 +18503,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DugSnd).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DugSnd).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		{
 			x := (*(*(struct {
@@ -18003,13 +18577,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LegacyFaceDir
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -18074,13 +18651,16 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LegacyMounted
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		if len(([]byte((*(*(struct {
 			Param0 Content
@@ -18144,6 +18724,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).DigPredict))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -18210,6 +18794,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).DigPredict))))
 			write16(w, uint16(x))
 		}
@@ -18276,6 +18864,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).DigPredict))[:])
 			chk(err)
 		}
@@ -18342,6 +18934,10 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).MaxLvl
 			write8(w, uint8(x))
 		}
@@ -18408,12 +19004,160 @@ func (obj *NodeDef) serialize(w io.Writer) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).AlphaUse).serialize(w)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).AlphaUse).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AlphaUse", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AlphaUse", err))
+		}
+		{
+			x := (*(*(struct {
+				Param0 Content
+
+				Name   string
+				Groups []Group
+
+				P1Type   Param1Type
+				P2Type   Param2Type
+				DrawType DrawType
+
+				Mesh  string
+				Scale float32
+				//mt:const uint8(6)
+				Tiles        [6]TileDef
+				OverlayTiles [6]TileDef
+				//mt:const uint8(6)
+				SpecialTiles [6]TileDef
+
+				Color   color.NRGBA
+				Palette Texture
+
+				Waving       WaveType
+				ConnectSides uint8
+				ConnectTo    []Content
+				InsideTint   color.NRGBA
+				Level        uint8 // Must be < 128.
+
+				Translucent bool // Sunlight is scattered and becomes normal light.
+				Transparent bool // Sunlight isn't scattered.
+				LightSrc    uint8
+
+				GndContent   bool
+				Collides     bool
+				Pointable    bool
+				Diggable     bool
+				Climbable    bool
+				Replaceable  bool
+				OnRightClick bool
+
+				DmgPerSec int32
+
+				LiquidType   LiquidType
+				FlowingAlt   string
+				SrcAlt       string
+				Viscosity    uint8 // 0-7
+				LiqRenewable bool
+				FlowRange    uint8
+				DrownDmg     uint8
+				Floodable    bool
+
+				DrawBox, ColBox, SelBox NodeBox
+
+				FootstepSnd, DiggingSnd, DugSnd SoundDef
+
+				LegacyFaceDir bool
+				LegacyMounted bool
+
+				DigPredict string
+
+				MaxLvl uint8
+
+				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).MoveResistance
+			write8(w, uint8(x))
+		}
+		{
+			x := (*(*(struct {
+				Param0 Content
+
+				Name   string
+				Groups []Group
+
+				P1Type   Param1Type
+				P2Type   Param2Type
+				DrawType DrawType
+
+				Mesh  string
+				Scale float32
+				//mt:const uint8(6)
+				Tiles        [6]TileDef
+				OverlayTiles [6]TileDef
+				//mt:const uint8(6)
+				SpecialTiles [6]TileDef
+
+				Color   color.NRGBA
+				Palette Texture
+
+				Waving       WaveType
+				ConnectSides uint8
+				ConnectTo    []Content
+				InsideTint   color.NRGBA
+				Level        uint8 // Must be < 128.
+
+				Translucent bool // Sunlight is scattered and becomes normal light.
+				Transparent bool // Sunlight isn't scattered.
+				LightSrc    uint8
+
+				GndContent   bool
+				Collides     bool
+				Pointable    bool
+				Diggable     bool
+				Climbable    bool
+				Replaceable  bool
+				OnRightClick bool
+
+				DmgPerSec int32
+
+				LiquidType   LiquidType
+				FlowingAlt   string
+				SrcAlt       string
+				Viscosity    uint8 // 0-7
+				LiqRenewable bool
+				FlowRange    uint8
+				DrownDmg     uint8
+				Floodable    bool
+
+				DrawBox, ColBox, SelBox NodeBox
+
+				FootstepSnd, DiggingSnd, DugSnd SoundDef
+
+				LegacyFaceDir bool
+				LegacyMounted bool
+
+				DigPredict string
+
+				MaxLvl uint8
+
+				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).LiquidMovePhysics
+			if x {
+				write8(w, 1)
+			} else {
+				write8(w, 0)
+			}
 		}
 		{
 			buf := w
@@ -18433,7 +19177,7 @@ func (obj *NodeDef) serialize(w io.Writer) {
 	}
 }
 
-func (obj *NodeDef) deserialize(r io.Reader) {
+func (obj *NodeDef) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Param0 Content
@@ -18497,12 +19241,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
-		}))(obj)).Param0).deserialize(r)
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
+		}))(obj)).Param0).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		var n uint16
@@ -18595,6 +19343,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Name) = string(local248)
 		var local250 uint16
 		{
@@ -18663,6 +19415,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Groups) = make([]Group, local250)
 		for local251 := range (*(*(struct {
 			Param0 Content
@@ -18726,6 +19482,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Groups {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -18790,12 +19550,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).Groups)[local251]).deserialize(r)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).Groups)[local251]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 			}
 		}
 		if err := pcall(func() {
@@ -18861,12 +19625,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).P1Type).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).P1Type).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Param1Type", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Param1Type", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -18931,12 +19699,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).P2Type).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).P2Type).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Param2Type", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Param2Type", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -19001,12 +19773,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DrawType).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DrawType).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DrawType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DrawType", err))
 		}
 		var local252 []uint8
 		var local253 uint16
@@ -19081,6 +19857,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Mesh) = string(local252)
 		{
 			p := &(*(*(struct {
@@ -19145,6 +19925,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Scale
 			*p = math.Float32frombits(read32(r))
 		}
@@ -19221,6 +20005,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).Tiles {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -19285,12 +20073,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).Tiles)[local256]).deserialize(r)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).Tiles)[local256]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileDef", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileDef", err))
 			}
 		}
 		for local257 := range (*(*(struct {
@@ -19355,6 +20147,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).OverlayTiles {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -19419,12 +20215,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).OverlayTiles)[local257]).deserialize(r)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).OverlayTiles)[local257]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileDef", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileDef", err))
 			}
 		}
 		{
@@ -19500,6 +20300,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).SpecialTiles {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -19564,12 +20368,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).SpecialTiles)[local260]).deserialize(r)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).SpecialTiles)[local260]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileDef", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileDef", err))
 			}
 		}
 		{
@@ -19635,9 +20443,12 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Color
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -19702,12 +20513,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).Palette).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).Palette).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -19772,12 +20587,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).Waving).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).Waving).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.WaveType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.WaveType", err))
 		}
 		{
 			p := &(*(*(struct {
@@ -19842,6 +20661,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).ConnectSides
 			*p = read8(r)
 		}
@@ -19912,6 +20735,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).ConnectTo) = make([]Content, local261)
 		for local262 := range (*(*(struct {
 			Param0 Content
@@ -19975,6 +20802,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).ConnectTo {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -20039,12 +20870,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 					MaxLvl uint8
 
 					AlphaUse
-				}))(obj)).ConnectTo)[local262]).deserialize(r)
+
+					MoveResistance uint8
+
+					LiquidMovePhysics bool
+				}))(obj)).ConnectTo)[local262]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 			}
 		}
 		{
@@ -20110,9 +20945,12 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).InsideTint
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20177,6 +21015,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Level
 			*p = read8(r)
 		}
@@ -20243,6 +21085,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Translucent
 			switch n := read8(r); n {
 			case 0:
@@ -20252,7 +21098,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20317,6 +21162,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Transparent
 			switch n := read8(r); n {
 			case 0:
@@ -20326,7 +21175,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20391,6 +21239,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LightSrc
 			*p = read8(r)
 		}
@@ -20457,6 +21309,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).GndContent
 			switch n := read8(r); n {
 			case 0:
@@ -20466,7 +21322,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20531,6 +21386,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Collides
 			switch n := read8(r); n {
 			case 0:
@@ -20540,7 +21399,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20605,6 +21463,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Pointable
 			switch n := read8(r); n {
 			case 0:
@@ -20614,7 +21476,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20679,6 +21540,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Diggable
 			switch n := read8(r); n {
 			case 0:
@@ -20688,7 +21553,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20753,6 +21617,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Climbable
 			switch n := read8(r); n {
 			case 0:
@@ -20762,7 +21630,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20827,6 +21694,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Replaceable
 			switch n := read8(r); n {
 			case 0:
@@ -20836,7 +21707,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20901,6 +21771,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).OnRightClick
 			switch n := read8(r); n {
 			case 0:
@@ -20910,7 +21784,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -20975,6 +21848,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).DmgPerSec
 			*p = int32(read32(r))
 		}
@@ -21041,12 +21918,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).LiquidType).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).LiquidType).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.LiquidType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.LiquidType", err))
 		}
 		var local263 []uint8
 		var local264 uint16
@@ -21121,6 +22002,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).FlowingAlt) = string(local263)
 		var local265 []uint8
 		var local266 uint16
@@ -21195,6 +22080,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).SrcAlt) = string(local265)
 		{
 			p := &(*(*(struct {
@@ -21259,6 +22148,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Viscosity
 			*p = read8(r)
 		}
@@ -21325,6 +22218,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LiqRenewable
 			switch n := read8(r); n {
 			case 0:
@@ -21334,7 +22231,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -21399,6 +22295,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).FlowRange
 			*p = read8(r)
 		}
@@ -21465,6 +22365,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).DrownDmg
 			*p = read8(r)
 		}
@@ -21531,6 +22435,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).Floodable
 			switch n := read8(r); n {
 			case 0:
@@ -21540,7 +22448,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -21605,12 +22512,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DrawBox).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DrawBox).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBox", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBox", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -21675,12 +22586,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).ColBox).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).ColBox).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBox", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBox", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -21745,12 +22660,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).SelBox).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).SelBox).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBox", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBox", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -21815,12 +22734,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).FootstepSnd).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).FootstepSnd).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -21885,12 +22808,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DiggingSnd).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DiggingSnd).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -21955,12 +22882,16 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).DugSnd).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).DugSnd).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		{
 			p := &(*(*(struct {
@@ -22025,6 +22956,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LegacyFaceDir
 			switch n := read8(r); n {
 			case 0:
@@ -22034,7 +22969,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -22099,6 +23033,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).LegacyMounted
 			switch n := read8(r); n {
 			case 0:
@@ -22108,7 +23046,6 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		var local267 []uint8
 		var local268 uint16
@@ -22183,6 +23120,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 			MaxLvl uint8
 
 			AlphaUse
+
+			MoveResistance uint8
+
+			LiquidMovePhysics bool
 		}))(obj)).DigPredict) = string(local267)
 		{
 			p := &(*(*(struct {
@@ -22247,6 +23188,10 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
 			}))(obj)).MaxLvl
 			*p = read8(r)
 		}
@@ -22313,12 +23258,163 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 				MaxLvl uint8
 
 				AlphaUse
-			}))(obj)).AlphaUse).deserialize(r)
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).AlphaUse).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AlphaUse", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AlphaUse", err))
+		}
+		{
+			p := &(*(*(struct {
+				Param0 Content
+
+				Name   string
+				Groups []Group
+
+				P1Type   Param1Type
+				P2Type   Param2Type
+				DrawType DrawType
+
+				Mesh  string
+				Scale float32
+				//mt:const uint8(6)
+				Tiles        [6]TileDef
+				OverlayTiles [6]TileDef
+				//mt:const uint8(6)
+				SpecialTiles [6]TileDef
+
+				Color   color.NRGBA
+				Palette Texture
+
+				Waving       WaveType
+				ConnectSides uint8
+				ConnectTo    []Content
+				InsideTint   color.NRGBA
+				Level        uint8 // Must be < 128.
+
+				Translucent bool // Sunlight is scattered and becomes normal light.
+				Transparent bool // Sunlight isn't scattered.
+				LightSrc    uint8
+
+				GndContent   bool
+				Collides     bool
+				Pointable    bool
+				Diggable     bool
+				Climbable    bool
+				Replaceable  bool
+				OnRightClick bool
+
+				DmgPerSec int32
+
+				LiquidType   LiquidType
+				FlowingAlt   string
+				SrcAlt       string
+				Viscosity    uint8 // 0-7
+				LiqRenewable bool
+				FlowRange    uint8
+				DrownDmg     uint8
+				Floodable    bool
+
+				DrawBox, ColBox, SelBox NodeBox
+
+				FootstepSnd, DiggingSnd, DugSnd SoundDef
+
+				LegacyFaceDir bool
+				LegacyMounted bool
+
+				DigPredict string
+
+				MaxLvl uint8
+
+				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).MoveResistance
+			*p = read8(r)
+		}
+		{
+			p := &(*(*(struct {
+				Param0 Content
+
+				Name   string
+				Groups []Group
+
+				P1Type   Param1Type
+				P2Type   Param2Type
+				DrawType DrawType
+
+				Mesh  string
+				Scale float32
+				//mt:const uint8(6)
+				Tiles        [6]TileDef
+				OverlayTiles [6]TileDef
+				//mt:const uint8(6)
+				SpecialTiles [6]TileDef
+
+				Color   color.NRGBA
+				Palette Texture
+
+				Waving       WaveType
+				ConnectSides uint8
+				ConnectTo    []Content
+				InsideTint   color.NRGBA
+				Level        uint8 // Must be < 128.
+
+				Translucent bool // Sunlight is scattered and becomes normal light.
+				Transparent bool // Sunlight isn't scattered.
+				LightSrc    uint8
+
+				GndContent   bool
+				Collides     bool
+				Pointable    bool
+				Diggable     bool
+				Climbable    bool
+				Replaceable  bool
+				OnRightClick bool
+
+				DmgPerSec int32
+
+				LiquidType   LiquidType
+				FlowingAlt   string
+				SrcAlt       string
+				Viscosity    uint8 // 0-7
+				LiqRenewable bool
+				FlowRange    uint8
+				DrownDmg     uint8
+				Floodable    bool
+
+				DrawBox, ColBox, SelBox NodeBox
+
+				FootstepSnd, DiggingSnd, DugSnd SoundDef
+
+				LegacyFaceDir bool
+				LegacyMounted bool
+
+				DigPredict string
+
+				MaxLvl uint8
+
+				AlphaUse
+
+				MoveResistance uint8
+
+				LiquidMovePhysics bool
+			}))(obj)).LiquidMovePhysics
+			switch n := read8(r); n {
+			case 0:
+				*p = false
+			case 1:
+				*p = true
+			default:
+				chk(fmt.Errorf("invalid bool: %d", n))
+			}
 		}
 		if r.N > 0 {
 			chk(fmt.Errorf("%d bytes of trailing data", r.N))
@@ -22326,7 +23422,7 @@ func (obj *NodeDef) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *PointedNode) serialize(w io.Writer) {
+func (obj *PointedNode) Serialize(w io.Writer) {
 	for local269 := range (*(*(struct {
 		Under, Above [3]int16
 	}))(obj)).Under {
@@ -22349,7 +23445,7 @@ func (obj *PointedNode) serialize(w io.Writer) {
 	}
 }
 
-func (obj *PointedNode) deserialize(r io.Reader) {
+func (obj *PointedNode) Deserialize(r io.Reader) {
 	for local271 := range (*(*(struct {
 		Under, Above [3]int16
 	}))(obj)).Under {
@@ -22372,47 +23468,47 @@ func (obj *PointedNode) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *PointedAO) serialize(w io.Writer) {
+func (obj *PointedAO) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 }
 
-func (obj *PointedAO) deserialize(r io.Reader) {
+func (obj *PointedAO) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 }
 
-func (obj *CompressionModes) serialize(w io.Writer) {
+func (obj *CompressionModes) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *CompressionModes) deserialize(r io.Reader) {
+func (obj *CompressionModes) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *PlayerPos) serialize(w io.Writer) {
+func (obj *PlayerPos) Serialize(w io.Writer) {
 	for local273 := range (*(*(struct {
 		Pos100, Vel100   [3]int32
 		Pitch100, Yaw100 int32
@@ -22476,12 +23572,12 @@ func (obj *PlayerPos) serialize(w io.Writer) {
 			Keys             Keys
 			FOV80            uint8
 			WantedRange      uint8 // in MapBlks.
-		}))(obj)).Keys).serialize(w)
+		}))(obj)).Keys).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Keys", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Keys", err))
 	}
 	{
 		x := (*(*(struct {
@@ -22505,7 +23601,7 @@ func (obj *PlayerPos) serialize(w io.Writer) {
 	}
 }
 
-func (obj *PlayerPos) deserialize(r io.Reader) {
+func (obj *PlayerPos) Deserialize(r io.Reader) {
 	for local275 := range (*(*(struct {
 		Pos100, Vel100   [3]int32
 		Pitch100, Yaw100 int32
@@ -22569,12 +23665,12 @@ func (obj *PlayerPos) deserialize(r io.Reader) {
 			Keys             Keys
 			FOV80            uint8
 			WantedRange      uint8 // in MapBlks.
-		}))(obj)).Keys).deserialize(r)
+		}))(obj)).Keys).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Keys", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Keys", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -22598,35 +23694,35 @@ func (obj *PlayerPos) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *Interaction) serialize(w io.Writer) {
+func (obj *Interaction) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *Interaction) deserialize(r io.Reader) {
+func (obj *Interaction) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *SoundID) serialize(w io.Writer) {
+func (obj *SoundID) Serialize(w io.Writer) {
 	{
 		x := *(*(int32))(obj)
 		write32(w, uint32(x))
 	}
 }
 
-func (obj *SoundID) deserialize(r io.Reader) {
+func (obj *SoundID) Deserialize(r io.Reader) {
 	{
 		p := &*(*(int32))(obj)
 		*p = int32(read32(r))
 	}
 }
 
-func (obj *Field) serialize(w io.Writer) {
+func (obj *Field) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Name string
 
@@ -22681,7 +23777,7 @@ func (obj *Field) serialize(w io.Writer) {
 	}
 }
 
-func (obj *Field) deserialize(r io.Reader) {
+func (obj *Field) Deserialize(r io.Reader) {
 	var local277 []uint8
 	var local278 uint16
 	{
@@ -22718,92 +23814,90 @@ func (obj *Field) deserialize(r io.Reader) {
 	}))(obj)).Value) = string(local279)
 }
 
-func (obj *AuthMethods) serialize(w io.Writer) {
+func (obj *AuthMethods) Serialize(w io.Writer) {
 	{
 		x := *(*(uint32))(obj)
 		write32(w, uint32(x))
 	}
 }
 
-func (obj *AuthMethods) deserialize(r io.Reader) {
+func (obj *AuthMethods) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint32))(obj)
 		*p = read32(r)
 	}
 }
 
-func (obj *Pos) serialize(w io.Writer) {
+func (obj *Pos) Serialize(w io.Writer) {
 	if err := pcall(func() {
-		(*(*(Vec))(obj)).serialize(w)
+		(*(*(Vec))(obj)).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 }
 
-func (obj *Pos) deserialize(r io.Reader) {
+func (obj *Pos) Deserialize(r io.Reader) {
 	if err := pcall(func() {
-		(*(*(Vec))(obj)).deserialize(r)
+		(*(*(Vec))(obj)).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 }
 
-func (obj *KickReason) serialize(w io.Writer) {
+func (obj *KickReason) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *KickReason) deserialize(r io.Reader) {
+func (obj *KickReason) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *MapBlk) serialize(w io.Writer) {
+func (obj *MapBlk) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
 
 			NodeMetas map[uint16]*NodeMeta
-		}))(obj)).Flags).serialize(w)
+		}))(obj)).Flags).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.MapBlkFlags", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.MapBlkFlags", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
 
 			NodeMetas map[uint16]*NodeMeta
-		}))(obj)).LitFrom).serialize(w)
+		}))(obj)).LitFrom).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.LitFromBlks", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.LitFromBlks", err))
 	}
 	{
 		local281 := uint8(2) // Size of param0 in bytes.
@@ -22819,75 +23913,65 @@ func (obj *MapBlk) serialize(w io.Writer) {
 			write8(w, uint8(x))
 		}
 	}
+	for local283 := range (*(*(struct {
+		Flags   MapBlkFlags
+		LitFrom LitFromBlks
+
+		Param0 [4096]Content
+		Param1 [4096]uint8
+		Param2 [4096]uint8
+
+		NodeMetas map[uint16]*NodeMeta
+	}))(obj)).Param0 {
+		if err := pcall(func() {
+			(((*(*(struct {
+				Flags   MapBlkFlags
+				LitFrom LitFromBlks
+
+				Param0 [4096]Content
+				Param1 [4096]uint8
+				Param2 [4096]uint8
+
+				NodeMetas map[uint16]*NodeMeta
+			}))(obj)).Param0)[local283]).Serialize(w)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
+		}
+	}
 	{
-		w, err := zstd.NewWriter(w)
-		chk(err)
-		for local283 := range (*(*(struct {
+		_, err := w.Write(((*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
 
 			NodeMetas map[uint16]*NodeMeta
-		}))(obj)).Param0 {
-			if err := pcall(func() {
-				(((*(*(struct {
-					Flags   MapBlkFlags
-					LitFrom LitFromBlks
+		}))(obj)).Param1)[:])
+		chk(err)
+	}
+	{
+		_, err := w.Write(((*(*(struct {
+			Flags   MapBlkFlags
+			LitFrom LitFromBlks
 
-					//mt:zstd
-					Param0 [4096]Content
-					Param1 [4096]uint8
-					Param2 [4096]uint8
+			Param0 [4096]Content
+			Param1 [4096]uint8
+			Param2 [4096]uint8
 
-					NodeMetas map[uint16]*NodeMeta
-				}))(obj)).Param0)[local283]).serialize(w)
-			}); err != nil {
-				if err == io.EOF {
-					chk(io.EOF)
-				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
-			}
-		}
-		{
-			_, err := w.Write(((*(*(struct {
-				Flags   MapBlkFlags
-				LitFrom LitFromBlks
-
-				//mt:zstd
-				Param0 [4096]Content
-				Param1 [4096]uint8
-				Param2 [4096]uint8
-
-				NodeMetas map[uint16]*NodeMeta
-			}))(obj)).Param1)[:])
-			chk(err)
-		}
-		{
-			_, err := w.Write(((*(*(struct {
-				Flags   MapBlkFlags
-				LitFrom LitFromBlks
-
-				//mt:zstd
-				Param0 [4096]Content
-				Param1 [4096]uint8
-				Param2 [4096]uint8
-
-				NodeMetas map[uint16]*NodeMeta
-			}))(obj)).Param2)[:])
-			chk(err)
-		}
-		chk(w.Close())
+			NodeMetas map[uint16]*NodeMeta
+		}))(obj)).Param2)[:])
+		chk(err)
 	}
 	{
 		x := (*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
@@ -22895,8 +23979,6 @@ func (obj *MapBlk) serialize(w io.Writer) {
 			NodeMetas map[uint16]*NodeMeta
 		}))(obj)).NodeMetas
 		{
-			w := zlib.NewWriter(w)
-
 			if x == nil {
 				write8(w, 0)
 			} else {
@@ -22911,9 +23993,7 @@ func (obj *MapBlk) serialize(w io.Writer) {
 					i2pos := func(i int) [3]int16 {
 						return Blkpos2Pos([3]int16{}, keys[i])
 					}
-
 					p, q := i2pos(i), i2pos(j)
-
 					for i := range p {
 						switch {
 						case p[i] < q[i]:
@@ -22922,7 +24002,6 @@ func (obj *MapBlk) serialize(w io.Writer) {
 							return false
 						}
 					}
-
 					return false
 				})
 				for _, key := range keys {
@@ -22930,148 +24009,126 @@ func (obj *MapBlk) serialize(w io.Writer) {
 					chk(serialize(w, x[key]))
 				}
 			}
-
-			chk(w.Close())
-		}
-
-	}
-	{
-		local284 := uint8(2) // version
-		{
-			x := local284
-			write8(w, uint8(x))
 		}
 	}
 }
 
-func (obj *MapBlk) deserialize(r io.Reader) {
+func (obj *MapBlk) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
 
 			NodeMetas map[uint16]*NodeMeta
-		}))(obj)).Flags).deserialize(r)
+		}))(obj)).Flags).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.MapBlkFlags", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.MapBlkFlags", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
 
 			NodeMetas map[uint16]*NodeMeta
-		}))(obj)).LitFrom).deserialize(r)
+		}))(obj)).LitFrom).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.LitFromBlks", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.LitFromBlks", err))
 	}
 	{
-		var local285 uint8
-		local286 := uint8(2) // Size of param0 in bytes.
+		var local284 uint8
+		local285 := uint8(2) // Size of param0 in bytes.
 		{
-			p := &local285
+			p := &local284
 			*p = read8(r)
 		}
-		if local285 != local286 {
-			chk(fmt.Errorf("const %v: %v", "uint8(2)     // Size of param0 in bytes.", local285))
+		if local284 != local285 {
+			chk(fmt.Errorf("const %v: %v", "uint8(2)     // Size of param0 in bytes.", local284))
 		}
 	}
 	{
-		var local287 uint8
-		local288 := uint8(1 + 1) // Size of param1 and param2 combined, in bytes.
+		var local286 uint8
+		local287 := uint8(1 + 1) // Size of param1 and param2 combined, in bytes.
 		{
-			p := &local287
+			p := &local286
 			*p = read8(r)
 		}
-		if local287 != local288 {
-			chk(fmt.Errorf("const %v: %v", "uint8(1 + 1) // Size of param1 and param2 combined, in bytes.", local287))
+		if local286 != local287 {
+			chk(fmt.Errorf("const %v: %v", "uint8(1 + 1) // Size of param1 and param2 combined, in bytes.", local286))
 		}
 	}
-	{
-		r, err := zstd.NewReader(byteReader{r})
-		chk(err)
-		for local289 := range (*(*(struct {
-			Flags   MapBlkFlags
-			LitFrom LitFromBlks
+	for local288 := range (*(*(struct {
+		Flags   MapBlkFlags
+		LitFrom LitFromBlks
 
-			//mt:zstd
-			Param0 [4096]Content
-			Param1 [4096]uint8
-			Param2 [4096]uint8
+		Param0 [4096]Content
+		Param1 [4096]uint8
+		Param2 [4096]uint8
 
-			NodeMetas map[uint16]*NodeMeta
-		}))(obj)).Param0 {
-			if err := pcall(func() {
-				(((*(*(struct {
-					Flags   MapBlkFlags
-					LitFrom LitFromBlks
+		NodeMetas map[uint16]*NodeMeta
+	}))(obj)).Param0 {
+		if err := pcall(func() {
+			(((*(*(struct {
+				Flags   MapBlkFlags
+				LitFrom LitFromBlks
 
-					//mt:zstd
-					Param0 [4096]Content
-					Param1 [4096]uint8
-					Param2 [4096]uint8
+				Param0 [4096]Content
+				Param1 [4096]uint8
+				Param2 [4096]uint8
 
-					NodeMetas map[uint16]*NodeMeta
-				}))(obj)).Param0)[local289]).deserialize(r)
-			}); err != nil {
-				if err == io.EOF {
-					chk(io.EOF)
-				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+				NodeMetas map[uint16]*NodeMeta
+			}))(obj)).Param0)[local288]).Deserialize(r)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
 			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 		}
-		{
-			_, err := io.ReadFull(r, ((*(*(struct {
-				Flags   MapBlkFlags
-				LitFrom LitFromBlks
+	}
+	{
+		_, err := io.ReadFull(r, ((*(*(struct {
+			Flags   MapBlkFlags
+			LitFrom LitFromBlks
 
-				//mt:zstd
-				Param0 [4096]Content
-				Param1 [4096]uint8
-				Param2 [4096]uint8
+			Param0 [4096]Content
+			Param1 [4096]uint8
+			Param2 [4096]uint8
 
-				NodeMetas map[uint16]*NodeMeta
-			}))(obj)).Param1)[:])
-			chk(err)
-		}
-		{
-			_, err := io.ReadFull(r, ((*(*(struct {
-				Flags   MapBlkFlags
-				LitFrom LitFromBlks
+			NodeMetas map[uint16]*NodeMeta
+		}))(obj)).Param1)[:])
+		chk(err)
+	}
+	{
+		_, err := io.ReadFull(r, ((*(*(struct {
+			Flags   MapBlkFlags
+			LitFrom LitFromBlks
 
-				//mt:zstd
-				Param0 [4096]Content
-				Param1 [4096]uint8
-				Param2 [4096]uint8
+			Param0 [4096]Content
+			Param1 [4096]uint8
+			Param2 [4096]uint8
 
-				NodeMetas map[uint16]*NodeMeta
-			}))(obj)).Param2)[:])
-			chk(err)
-		}
-		r.Close()
+			NodeMetas map[uint16]*NodeMeta
+		}))(obj)).Param2)[:])
+		chk(err)
 	}
 	{
 		p := &(*(*(struct {
 			Flags   MapBlkFlags
 			LitFrom LitFromBlks
 
-			//mt:zstd
 			Param0 [4096]Content
 			Param1 [4096]uint8
 			Param2 [4096]uint8
@@ -23079,9 +24136,6 @@ func (obj *MapBlk) deserialize(r io.Reader) {
 			NodeMetas map[uint16]*NodeMeta
 		}))(obj)).NodeMetas
 		{
-			r, err := zlib.NewReader(byteReader{r})
-			chk(err)
-
 			switch ver := read8(r); ver {
 			case 0:
 				*p = nil
@@ -23097,35 +24151,21 @@ func (obj *MapBlk) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("unsupported nodemetas version: %d", ver))
 			}
-
-			chk(r.Close())
-		}
-
-	}
-	{
-		var local290 uint8
-		local291 := uint8(2) // version
-		{
-			p := &local290
-			*p = read8(r)
-		}
-		if local290 != local291 {
-			chk(fmt.Errorf("const %v: %v", "uint8(2) // version", local290))
 		}
 	}
 }
 
-func (obj *Node) serialize(w io.Writer) {
+func (obj *Node) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Param0         Content
 			Param1, Param2 uint8
-		}))(obj)).Param0).serialize(w)
+		}))(obj)).Param0).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		x := (*(*(struct {
@@ -23143,17 +24183,17 @@ func (obj *Node) serialize(w io.Writer) {
 	}
 }
 
-func (obj *Node) deserialize(r io.Reader) {
+func (obj *Node) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Param0         Content
 			Param1, Param2 uint8
-		}))(obj)).Param0).deserialize(r)
+		}))(obj)).Param0).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Content", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Content", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -23171,91 +24211,89 @@ func (obj *Node) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *CSMRestrictionFlags) serialize(w io.Writer) {
+func (obj *CSMRestrictionFlags) Serialize(w io.Writer) {
 	{
 		x := *(*(uint64))(obj)
 		write64(w, uint64(x))
-
 	}
 }
 
-func (obj *CSMRestrictionFlags) deserialize(r io.Reader) {
+func (obj *CSMRestrictionFlags) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint64))(obj)
 		*p = read64(r)
-
 	}
 }
 
-func (obj *Vec) serialize(w io.Writer) {
-	for local292 := range *(*([3]float32))(obj) {
+func (obj *Vec) Serialize(w io.Writer) {
+	for local289 := range *(*([3]float32))(obj) {
 		{
-			x := (*(*([3]float32))(obj))[local292]
+			x := (*(*([3]float32))(obj))[local289]
 			write32(w, math.Float32bits(x))
 		}
 	}
 }
 
-func (obj *Vec) deserialize(r io.Reader) {
-	for local293 := range *(*([3]float32))(obj) {
+func (obj *Vec) Deserialize(r io.Reader) {
+	for local290 := range *(*([3]float32))(obj) {
 		{
-			p := &(*(*([3]float32))(obj))[local293]
+			p := &(*(*([3]float32))(obj))[local290]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
 }
 
-func (obj *ChatMsgType) serialize(w io.Writer) {
+func (obj *ChatMsgType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *ChatMsgType) deserialize(r io.Reader) {
+func (obj *ChatMsgType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *AOID) serialize(w io.Writer) {
+func (obj *AOID) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *AOID) deserialize(r io.Reader) {
+func (obj *AOID) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *AOAdd) serialize(w io.Writer) {
+func (obj *AOAdd) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
 			//mt:const genericCAO
 			//mt:lenhdr 32
 			InitData AOInitData
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
-		local294 := genericCAO
+		local291 := genericCAO
 		if err := pcall(func() {
-			(local294).serialize(w)
+			(local291).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.aoType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.aoType", err))
 		}
 	}
 	{
@@ -23267,12 +24305,12 @@ func (obj *AOAdd) serialize(w io.Writer) {
 				//mt:const genericCAO
 				//mt:lenhdr 32
 				InitData AOInitData
-			}))(obj)).InitData).serialize(w)
+			}))(obj)).InitData).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOInitData", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOInitData", err))
 		}
 		{
 			buf := w
@@ -23292,33 +24330,33 @@ func (obj *AOAdd) serialize(w io.Writer) {
 	}
 }
 
-func (obj *AOAdd) deserialize(r io.Reader) {
+func (obj *AOAdd) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
 			//mt:const genericCAO
 			//mt:lenhdr 32
 			InitData AOInitData
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
-		var local295 aoType
-		local296 := genericCAO
+		var local292 aoType
+		local293 := genericCAO
 		if err := pcall(func() {
-			(local295).deserialize(r)
+			(local292).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.aoType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.aoType", err))
 		}
-		if local295 != local296 {
-			chk(fmt.Errorf("const %v: %v", "genericCAO", local295))
+		if local292 != local293 {
+			chk(fmt.Errorf("const %v: %v", "genericCAO", local292))
 		}
 	}
 	{
@@ -23334,12 +24372,12 @@ func (obj *AOAdd) deserialize(r io.Reader) {
 				//mt:const genericCAO
 				//mt:lenhdr 32
 				InitData AOInitData
-			}))(obj)).InitData).deserialize(r)
+			}))(obj)).InitData).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOInitData", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOInitData", err))
 		}
 		if r.N > 0 {
 			chk(fmt.Errorf("%d bytes of trailing data", r.N))
@@ -23347,18 +24385,18 @@ func (obj *AOAdd) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *IDAOMsg) serialize(w io.Writer) {
+func (obj *IDAOMsg) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
 			//mt:lenhdr 16
 			Msg AOMsg
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
 		ow := w
@@ -23370,7 +24408,6 @@ func (obj *IDAOMsg) serialize(w io.Writer) {
 				Msg AOMsg
 			}))(obj)).Msg
 			writeAOMsg(w, x)
-
 		}
 		{
 			buf := w
@@ -23390,18 +24427,18 @@ func (obj *IDAOMsg) serialize(w io.Writer) {
 	}
 }
 
-func (obj *IDAOMsg) deserialize(r io.Reader) {
+func (obj *IDAOMsg) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ID AOID
 			//mt:lenhdr 16
 			Msg AOMsg
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	{
 		var n uint16
@@ -23421,7 +24458,6 @@ func (obj *IDAOMsg) deserialize(r io.Reader) {
 				*p, err = readAOMsg(r)
 				chk(err)
 			}
-
 		}
 		if r.N > 0 {
 			chk(fmt.Errorf("%d bytes of trailing data", r.N))
@@ -23429,14 +24465,14 @@ func (obj *IDAOMsg) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *ItemDef) serialize(w io.Writer) {
+func (obj *ItemDef) Serialize(w io.Writer) {
 	{
 		ow := w
 		w := new(bytes.Buffer)
 		{
-			local297 := uint8(6)
+			local294 := uint8(6)
 			{
-				x := local297
+				x := local294
 				write8(w, uint8(x))
 			}
 		}
@@ -23473,12 +24509,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).Type).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).Type).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ItemType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ItemType", err))
 		}
 		if len(([]byte((*(*(struct {
 			Type ItemType
@@ -23512,6 +24550,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).Name))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -23548,6 +24588,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Name))))
 			write16(w, uint16(x))
 		}
@@ -23584,6 +24626,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Name))[:])
 			chk(err)
 		}
@@ -23619,6 +24663,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).Desc))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -23655,6 +24701,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Desc))))
 			write16(w, uint16(x))
 		}
@@ -23691,6 +24739,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Desc))[:])
 			chk(err)
 		}
@@ -23727,12 +24777,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).InvImg).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).InvImg).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -23767,14 +24819,16 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).WieldImg).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).WieldImg).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
-		for local298 := range (*(*(struct {
+		for local295 := range (*(*(struct {
 			Type ItemType
 
 			Name, Desc string
@@ -23806,6 +24860,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).WieldScale {
 			{
 				x := ((*(*(struct {
@@ -23840,7 +24896,9 @@ func (obj *ItemDef) serialize(w io.Writer) {
 					InvOverlay, WieldOverlay Texture
 
 					ShortDesc string
-				}))(obj)).WieldScale)[local298]
+
+					PlaceParam2 uint8
+				}))(obj)).WieldScale)[local295]
 				write32(w, math.Float32bits(x))
 			}
 		}
@@ -23877,6 +24935,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).StackMax
 			write16(w, uint16(x))
 		}
@@ -23913,13 +24973,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Usable
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		{
 			x := (*(*(struct {
@@ -23954,13 +25015,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).CanPointLiquids
 			if x {
 				write8(w, 1)
 			} else {
 				write8(w, 0)
 			}
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -23995,12 +25057,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).ToolCaps).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).ToolCaps).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ToolCaps", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ToolCaps", err))
 		}
 		if len(((*(*(struct {
 			Type ItemType
@@ -24034,6 +25098,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).Groups)) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -24070,10 +25136,12 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Groups)))
 			write16(w, uint16(x))
 		}
-		for local299 := range (*(*(struct {
+		for local296 := range (*(*(struct {
 			Type ItemType
 
 			Name, Desc string
@@ -24105,6 +25173,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).Groups {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -24139,12 +25209,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 					InvOverlay, WieldOverlay Texture
 
 					ShortDesc string
-				}))(obj)).Groups)[local299]).serialize(w)
+
+					PlaceParam2 uint8
+				}))(obj)).Groups)[local296]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 			}
 		}
 		if len(([]byte((*(*(struct {
@@ -24179,6 +25251,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).PlacePredict))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -24215,6 +25289,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).PlacePredict))))
 			write16(w, uint16(x))
 		}
@@ -24251,6 +25327,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).PlacePredict))[:])
 			chk(err)
 		}
@@ -24287,12 +25365,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).PlaceSnd).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).PlaceSnd).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -24327,12 +25407,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).PlaceFailSnd).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).PlaceFailSnd).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		{
 			x := (*(*(struct {
@@ -24367,6 +25449,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).PointRange
 			write32(w, math.Float32bits(x))
 		}
@@ -24403,12 +25487,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).Palette).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).Palette).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		{
 			x := (*(*(struct {
@@ -24443,9 +25529,10 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Color
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -24480,12 +25567,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).InvOverlay).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).InvOverlay).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -24520,12 +25609,14 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).WieldOverlay).serialize(w)
+
+				PlaceParam2 uint8
+			}))(obj)).WieldOverlay).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if len(([]byte((*(*(struct {
 			Type ItemType
@@ -24559,6 +25650,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).ShortDesc))) > math.MaxUint16 {
 			chk(ErrTooLong)
 		}
@@ -24595,6 +25688,8 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).ShortDesc))))
 			write16(w, uint16(x))
 		}
@@ -24631,8 +25726,48 @@ func (obj *ItemDef) serialize(w io.Writer) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).ShortDesc))[:])
 			chk(err)
+		}
+		{
+			x := (*(*(struct {
+				Type ItemType
+
+				Name, Desc string
+
+				InvImg, WieldImg Texture
+				WieldScale       [3]float32
+
+				StackMax uint16
+
+				Usable          bool
+				CanPointLiquids bool
+
+				ToolCaps ToolCaps
+
+				Groups []Group
+
+				PlacePredict string
+
+				PlaceSnd, PlaceFailSnd SoundDef
+
+				PointRange float32
+
+				// Set index in Palette with "palette_index" item meta field,
+				// this overrides Color.
+				Palette Texture
+				Color   color.NRGBA
+
+				// Texture overlays.
+				InvOverlay, WieldOverlay Texture
+
+				ShortDesc string
+
+				PlaceParam2 uint8
+			}))(obj)).PlaceParam2
+			write8(w, uint8(x))
 		}
 		{
 			buf := w
@@ -24652,7 +25787,7 @@ func (obj *ItemDef) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ItemDef) deserialize(r io.Reader) {
+func (obj *ItemDef) Deserialize(r io.Reader) {
 	{
 		var n uint16
 		{
@@ -24661,14 +25796,14 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 		}
 		r := &io.LimitedReader{R: r, N: int64(n)}
 		{
-			var local300 uint8
-			local301 := uint8(6)
+			var local297 uint8
+			local298 := uint8(6)
 			{
-				p := &local300
+				p := &local297
 				*p = read8(r)
 			}
-			if local300 != local301 {
-				chk(fmt.Errorf("const %v: %v", "uint8(6)", local300))
+			if local297 != local298 {
+				chk(fmt.Errorf("const %v: %v", "uint8(6)", local297))
 			}
 		}
 		if err := pcall(func() {
@@ -24704,22 +25839,24 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).Type).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).Type).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ItemType", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ItemType", err))
 		}
-		var local302 []uint8
-		var local303 uint16
+		var local299 []uint8
+		var local300 uint16
 		{
-			p := &local303
+			p := &local300
 			*p = read16(r)
 		}
-		(local302) = make([]uint8, local303)
+		(local299) = make([]uint8, local300)
 		{
-			_, err := io.ReadFull(r, (local302)[:])
+			_, err := io.ReadFull(r, (local299)[:])
 			chk(err)
 		}
 		((*(*(struct {
@@ -24754,16 +25891,18 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
-		}))(obj)).Name) = string(local302)
-		var local304 []uint8
-		var local305 uint16
+
+			PlaceParam2 uint8
+		}))(obj)).Name) = string(local299)
+		var local301 []uint8
+		var local302 uint16
 		{
-			p := &local305
+			p := &local302
 			*p = read16(r)
 		}
-		(local304) = make([]uint8, local305)
+		(local301) = make([]uint8, local302)
 		{
-			_, err := io.ReadFull(r, (local304)[:])
+			_, err := io.ReadFull(r, (local301)[:])
 			chk(err)
 		}
 		((*(*(struct {
@@ -24798,7 +25937,9 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
-		}))(obj)).Desc) = string(local304)
+
+			PlaceParam2 uint8
+		}))(obj)).Desc) = string(local301)
 		if err := pcall(func() {
 			((*(*(struct {
 				Type ItemType
@@ -24832,12 +25973,14 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).InvImg).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).InvImg).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -24872,14 +26015,16 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).WieldImg).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).WieldImg).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
-		for local306 := range (*(*(struct {
+		for local303 := range (*(*(struct {
 			Type ItemType
 
 			Name, Desc string
@@ -24911,6 +26056,8 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).WieldScale {
 			{
 				p := &((*(*(struct {
@@ -24945,7 +26092,9 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 					InvOverlay, WieldOverlay Texture
 
 					ShortDesc string
-				}))(obj)).WieldScale)[local306]
+
+					PlaceParam2 uint8
+				}))(obj)).WieldScale)[local303]
 				*p = math.Float32frombits(read32(r))
 			}
 		}
@@ -24982,6 +26131,8 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).StackMax
 			*p = read16(r)
 		}
@@ -25018,6 +26169,8 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Usable
 			switch n := read8(r); n {
 			case 0:
@@ -25027,7 +26180,6 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		{
 			p := &(*(*(struct {
@@ -25062,6 +26214,8 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).CanPointLiquids
 			switch n := read8(r); n {
 			case 0:
@@ -25071,7 +26225,6 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -25106,16 +26259,18 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).ToolCaps).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).ToolCaps).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ToolCaps", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ToolCaps", err))
 		}
-		var local307 uint16
+		var local304 uint16
 		{
-			p := &local307
+			p := &local304
 			*p = read16(r)
 		}
 		((*(*(struct {
@@ -25150,8 +26305,10 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
-		}))(obj)).Groups) = make([]Group, local307)
-		for local308 := range (*(*(struct {
+
+			PlaceParam2 uint8
+		}))(obj)).Groups) = make([]Group, local304)
+		for local305 := range (*(*(struct {
 			Type ItemType
 
 			Name, Desc string
@@ -25183,6 +26340,8 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
+
+			PlaceParam2 uint8
 		}))(obj)).Groups {
 			if err := pcall(func() {
 				(((*(*(struct {
@@ -25217,23 +26376,25 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 					InvOverlay, WieldOverlay Texture
 
 					ShortDesc string
-				}))(obj)).Groups)[local308]).deserialize(r)
+
+					PlaceParam2 uint8
+				}))(obj)).Groups)[local305]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 			}
 		}
-		var local309 []uint8
-		var local310 uint16
+		var local306 []uint8
+		var local307 uint16
 		{
-			p := &local310
+			p := &local307
 			*p = read16(r)
 		}
-		(local309) = make([]uint8, local310)
+		(local306) = make([]uint8, local307)
 		{
-			_, err := io.ReadFull(r, (local309)[:])
+			_, err := io.ReadFull(r, (local306)[:])
 			chk(err)
 		}
 		((*(*(struct {
@@ -25268,7 +26429,9 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
-		}))(obj)).PlacePredict) = string(local309)
+
+			PlaceParam2 uint8
+		}))(obj)).PlacePredict) = string(local306)
 		if err := pcall(func() {
 			((*(*(struct {
 				Type ItemType
@@ -25302,12 +26465,14 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).PlaceSnd).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).PlaceSnd).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -25342,12 +26507,14 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).PlaceFailSnd).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).PlaceFailSnd).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.SoundDef", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.SoundDef", err))
 		}
 		{
 			p := &(*(*(struct {
@@ -25382,6 +26549,8 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).PointRange
 			*p = math.Float32frombits(read32(r))
 		}
@@ -25418,12 +26587,14 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).Palette).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).Palette).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		{
 			p := &(*(*(struct {
@@ -25458,9 +26629,10 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
+
+				PlaceParam2 uint8
 			}))(obj)).Color
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -25495,12 +26667,14 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).InvOverlay).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).InvOverlay).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -25535,22 +26709,24 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 				InvOverlay, WieldOverlay Texture
 
 				ShortDesc string
-			}))(obj)).WieldOverlay).deserialize(r)
+
+				PlaceParam2 uint8
+			}))(obj)).WieldOverlay).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
-		var local311 []uint8
-		var local312 uint16
+		var local308 []uint8
+		var local309 uint16
 		{
-			p := &local312
+			p := &local309
 			*p = read16(r)
 		}
-		(local311) = make([]uint8, local312)
+		(local308) = make([]uint8, local309)
 		{
-			_, err := io.ReadFull(r, (local311)[:])
+			_, err := io.ReadFull(r, (local308)[:])
 			chk(err)
 		}
 		((*(*(struct {
@@ -25585,28 +26761,68 @@ func (obj *ItemDef) deserialize(r io.Reader) {
 			InvOverlay, WieldOverlay Texture
 
 			ShortDesc string
-		}))(obj)).ShortDesc) = string(local311)
+
+			PlaceParam2 uint8
+		}))(obj)).ShortDesc) = string(local308)
+		{
+			p := &(*(*(struct {
+				Type ItemType
+
+				Name, Desc string
+
+				InvImg, WieldImg Texture
+				WieldScale       [3]float32
+
+				StackMax uint16
+
+				Usable          bool
+				CanPointLiquids bool
+
+				ToolCaps ToolCaps
+
+				Groups []Group
+
+				PlacePredict string
+
+				PlaceSnd, PlaceFailSnd SoundDef
+
+				PointRange float32
+
+				// Set index in Palette with "palette_index" item meta field,
+				// this overrides Color.
+				Palette Texture
+				Color   color.NRGBA
+
+				// Texture overlays.
+				InvOverlay, WieldOverlay Texture
+
+				ShortDesc string
+
+				PlaceParam2 uint8
+			}))(obj)).PlaceParam2
+			*p = read8(r)
+		}
 		if r.N > 0 {
 			chk(fmt.Errorf("%d bytes of trailing data", r.N))
 		}
 	}
 }
 
-func (obj *SoundSrcType) serialize(w io.Writer) {
+func (obj *SoundSrcType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *SoundSrcType) deserialize(r io.Reader) {
+func (obj *SoundSrcType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *TileAnim) serialize(w io.Writer) {
+func (obj *TileAnim) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type AnimType
@@ -25620,12 +26836,12 @@ func (obj *TileAnim) serialize(w io.Writer) {
 			//mt:if %s.Type != NoAnim
 			Duration float32 // in seconds
 
-		}))(obj)).Type).serialize(w)
+		}))(obj)).Type).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AnimType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AnimType", err))
 	}
 	if !((*(*(struct {
 		Type AnimType
@@ -25685,7 +26901,7 @@ func (obj *TileAnim) serialize(w io.Writer) {
 		Duration float32 // in seconds
 
 	}))(obj)).Type == VerticalFrameAnim {
-		for local313 := range (*(*(struct {
+		for local310 := range (*(*(struct {
 			Type AnimType
 
 			//mt:if %s.Type == SpriteSheetAnim
@@ -25711,7 +26927,7 @@ func (obj *TileAnim) serialize(w io.Writer) {
 					//mt:if %s.Type != NoAnim
 					Duration float32 // in seconds
 
-				}))(obj)).NFrames)[local313]
+				}))(obj)).NFrames)[local310]
 				write16(w, uint16(x))
 			}
 		}
@@ -25748,7 +26964,7 @@ func (obj *TileAnim) serialize(w io.Writer) {
 	}
 }
 
-func (obj *TileAnim) deserialize(r io.Reader) {
+func (obj *TileAnim) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type AnimType
@@ -25762,12 +26978,12 @@ func (obj *TileAnim) deserialize(r io.Reader) {
 			//mt:if %s.Type != NoAnim
 			Duration float32 // in seconds
 
-		}))(obj)).Type).deserialize(r)
+		}))(obj)).Type).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AnimType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AnimType", err))
 	}
 	if !((*(*(struct {
 		Type AnimType
@@ -25827,7 +27043,7 @@ func (obj *TileAnim) deserialize(r io.Reader) {
 		Duration float32 // in seconds
 
 	}))(obj)).Type == VerticalFrameAnim {
-		for local314 := range (*(*(struct {
+		for local311 := range (*(*(struct {
 			Type AnimType
 
 			//mt:if %s.Type == SpriteSheetAnim
@@ -25853,7 +27069,7 @@ func (obj *TileAnim) deserialize(r io.Reader) {
 					//mt:if %s.Type != NoAnim
 					Duration float32 // in seconds
 
-				}))(obj)).NFrames)[local314]
+				}))(obj)).NFrames)[local311]
 				*p = read16(r)
 			}
 		}
@@ -25890,49 +27106,49 @@ func (obj *TileAnim) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *Content) serialize(w io.Writer) {
+func (obj *Content) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *Content) deserialize(r io.Reader) {
+func (obj *Content) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *ParticleSpawnerID) serialize(w io.Writer) {
+func (obj *ParticleSpawnerID) Serialize(w io.Writer) {
 	{
 		x := *(*(uint32))(obj)
 		write32(w, uint32(x))
 	}
 }
 
-func (obj *ParticleSpawnerID) deserialize(r io.Reader) {
+func (obj *ParticleSpawnerID) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint32))(obj)
 		*p = read32(r)
 	}
 }
 
-func (obj *HUDID) serialize(w io.Writer) {
+func (obj *HUDID) Serialize(w io.Writer) {
 	{
 		x := *(*(uint32))(obj)
 		write32(w, uint32(x))
 	}
 }
 
-func (obj *HUDID) deserialize(r io.Reader) {
+func (obj *HUDID) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint32))(obj)
 		*p = read32(r)
 	}
 }
 
-func (obj *HUD) serialize(w io.Writer) {
+func (obj *HUD) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type HUDType
@@ -25950,14 +27166,15 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
-		}))(obj)).Type).serialize(w)
+			Style    HUDStyleFlags
+		}))(obj)).Type).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDType", err))
 	}
-	for local315 := range (*(*(struct {
+	for local312 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -25973,6 +27190,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Pos {
 		{
 			x := ((*(*(struct {
@@ -25991,7 +27209,8 @@ func (obj *HUD) serialize(w io.Writer) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Pos)[local315]
+				Style    HUDStyleFlags
+			}))(obj)).Pos)[local312]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -26011,6 +27230,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Name))) > math.MaxUint16 {
 		chk(ErrTooLong)
 	}
@@ -26031,6 +27251,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Name))))
 		write16(w, uint16(x))
 	}
@@ -26051,10 +27272,11 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Name))[:])
 		chk(err)
 	}
-	for local316 := range (*(*(struct {
+	for local313 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26070,6 +27292,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Scale {
 		{
 			x := ((*(*(struct {
@@ -26088,7 +27311,8 @@ func (obj *HUD) serialize(w io.Writer) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Scale)[local316]
+				Style    HUDStyleFlags
+			}))(obj)).Scale)[local313]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -26108,6 +27332,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Text))) > math.MaxUint16 {
 		chk(ErrTooLong)
 	}
@@ -26128,6 +27353,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Text))))
 		write16(w, uint16(x))
 	}
@@ -26148,6 +27374,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Text))[:])
 		chk(err)
 	}
@@ -26168,6 +27395,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Number
 		write32(w, uint32(x))
 	}
@@ -26188,6 +27416,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Item
 		write32(w, uint32(x))
 	}
@@ -26208,10 +27437,11 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Dir
 		write32(w, uint32(x))
 	}
-	for local317 := range (*(*(struct {
+	for local314 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26227,6 +27457,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Align {
 		{
 			x := ((*(*(struct {
@@ -26245,11 +27476,12 @@ func (obj *HUD) serialize(w io.Writer) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Align)[local317]
+				Style    HUDStyleFlags
+			}))(obj)).Align)[local314]
 			write32(w, math.Float32bits(x))
 		}
 	}
-	for local318 := range (*(*(struct {
+	for local315 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26265,6 +27497,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Offset {
 		{
 			x := ((*(*(struct {
@@ -26283,7 +27516,8 @@ func (obj *HUD) serialize(w io.Writer) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Offset)[local318]
+				Style    HUDStyleFlags
+			}))(obj)).Offset)[local315]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -26304,14 +27538,15 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
-		}))(obj)).WorldPos).serialize(w)
+			Style    HUDStyleFlags
+		}))(obj)).WorldPos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
-	for local319 := range (*(*(struct {
+	for local316 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26327,6 +27562,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Size {
 		{
 			x := ((*(*(struct {
@@ -26345,7 +27581,8 @@ func (obj *HUD) serialize(w io.Writer) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Size)[local319]
+				Style    HUDStyleFlags
+			}))(obj)).Size)[local316]
 			write32(w, uint32(x))
 		}
 	}
@@ -26366,6 +27603,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).ZIndex
 		write16(w, uint16(x))
 	}
@@ -26385,6 +27623,7 @@ func (obj *HUD) serialize(w io.Writer) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Text2))) > math.MaxUint16 {
 		chk(ErrTooLong)
 	}
@@ -26405,6 +27644,7 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Text2))))
 		write16(w, uint16(x))
 	}
@@ -26425,12 +27665,10 @@ func (obj *HUD) serialize(w io.Writer) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Text2))[:])
 		chk(err)
 	}
-}
-
-func (obj *HUD) deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Type HUDType
@@ -26448,14 +27686,43 @@ func (obj *HUD) deserialize(r io.Reader) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
-		}))(obj)).Type).deserialize(r)
+			Style    HUDStyleFlags
+		}))(obj)).Style).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.HUDType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDStyleFlags", err))
 	}
-	for local320 := range (*(*(struct {
+}
+
+func (obj *HUD) Deserialize(r io.Reader) {
+	if err := pcall(func() {
+		((*(*(struct {
+			Type HUDType
+
+			Pos      [2]float32
+			Name     string
+			Scale    [2]float32
+			Text     string
+			Number   uint32
+			Item     uint32
+			Dir      uint32
+			Align    [2]float32
+			Offset   [2]float32
+			WorldPos Pos
+			Size     [2]int32
+			ZIndex   int16
+			Text2    string
+			Style    HUDStyleFlags
+		}))(obj)).Type).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDType", err))
+	}
+	for local317 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26471,6 +27738,7 @@ func (obj *HUD) deserialize(r io.Reader) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Pos {
 		{
 			p := &((*(*(struct {
@@ -26489,7 +27757,77 @@ func (obj *HUD) deserialize(r io.Reader) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Pos)[local320]
+				Style    HUDStyleFlags
+			}))(obj)).Pos)[local317]
+			*p = math.Float32frombits(read32(r))
+		}
+	}
+	var local318 []uint8
+	var local319 uint16
+	{
+		p := &local319
+		*p = read16(r)
+	}
+	(local318) = make([]uint8, local319)
+	{
+		_, err := io.ReadFull(r, (local318)[:])
+		chk(err)
+	}
+	((*(*(struct {
+		Type HUDType
+
+		Pos      [2]float32
+		Name     string
+		Scale    [2]float32
+		Text     string
+		Number   uint32
+		Item     uint32
+		Dir      uint32
+		Align    [2]float32
+		Offset   [2]float32
+		WorldPos Pos
+		Size     [2]int32
+		ZIndex   int16
+		Text2    string
+		Style    HUDStyleFlags
+	}))(obj)).Name) = string(local318)
+	for local320 := range (*(*(struct {
+		Type HUDType
+
+		Pos      [2]float32
+		Name     string
+		Scale    [2]float32
+		Text     string
+		Number   uint32
+		Item     uint32
+		Dir      uint32
+		Align    [2]float32
+		Offset   [2]float32
+		WorldPos Pos
+		Size     [2]int32
+		ZIndex   int16
+		Text2    string
+		Style    HUDStyleFlags
+	}))(obj)).Scale {
+		{
+			p := &((*(*(struct {
+				Type HUDType
+
+				Pos      [2]float32
+				Name     string
+				Scale    [2]float32
+				Text     string
+				Number   uint32
+				Item     uint32
+				Dir      uint32
+				Align    [2]float32
+				Offset   [2]float32
+				WorldPos Pos
+				Size     [2]int32
+				ZIndex   int16
+				Text2    string
+				Style    HUDStyleFlags
+			}))(obj)).Scale)[local320]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
@@ -26520,73 +27858,8 @@ func (obj *HUD) deserialize(r io.Reader) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
-	}))(obj)).Name) = string(local321)
-	for local323 := range (*(*(struct {
-		Type HUDType
-
-		Pos      [2]float32
-		Name     string
-		Scale    [2]float32
-		Text     string
-		Number   uint32
-		Item     uint32
-		Dir      uint32
-		Align    [2]float32
-		Offset   [2]float32
-		WorldPos Pos
-		Size     [2]int32
-		ZIndex   int16
-		Text2    string
-	}))(obj)).Scale {
-		{
-			p := &((*(*(struct {
-				Type HUDType
-
-				Pos      [2]float32
-				Name     string
-				Scale    [2]float32
-				Text     string
-				Number   uint32
-				Item     uint32
-				Dir      uint32
-				Align    [2]float32
-				Offset   [2]float32
-				WorldPos Pos
-				Size     [2]int32
-				ZIndex   int16
-				Text2    string
-			}))(obj)).Scale)[local323]
-			*p = math.Float32frombits(read32(r))
-		}
-	}
-	var local324 []uint8
-	var local325 uint16
-	{
-		p := &local325
-		*p = read16(r)
-	}
-	(local324) = make([]uint8, local325)
-	{
-		_, err := io.ReadFull(r, (local324)[:])
-		chk(err)
-	}
-	((*(*(struct {
-		Type HUDType
-
-		Pos      [2]float32
-		Name     string
-		Scale    [2]float32
-		Text     string
-		Number   uint32
-		Item     uint32
-		Dir      uint32
-		Align    [2]float32
-		Offset   [2]float32
-		WorldPos Pos
-		Size     [2]int32
-		ZIndex   int16
-		Text2    string
-	}))(obj)).Text) = string(local324)
+		Style    HUDStyleFlags
+	}))(obj)).Text) = string(local321)
 	{
 		p := &(*(*(struct {
 			Type HUDType
@@ -26604,6 +27877,7 @@ func (obj *HUD) deserialize(r io.Reader) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Number
 		*p = read32(r)
 	}
@@ -26624,6 +27898,7 @@ func (obj *HUD) deserialize(r io.Reader) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Item
 		*p = read32(r)
 	}
@@ -26644,10 +27919,11 @@ func (obj *HUD) deserialize(r io.Reader) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).Dir
 		*p = read32(r)
 	}
-	for local326 := range (*(*(struct {
+	for local323 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26663,6 +27939,7 @@ func (obj *HUD) deserialize(r io.Reader) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Align {
 		{
 			p := &((*(*(struct {
@@ -26681,11 +27958,12 @@ func (obj *HUD) deserialize(r io.Reader) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Align)[local326]
+				Style    HUDStyleFlags
+			}))(obj)).Align)[local323]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
-	for local327 := range (*(*(struct {
+	for local324 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26701,6 +27979,7 @@ func (obj *HUD) deserialize(r io.Reader) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Offset {
 		{
 			p := &((*(*(struct {
@@ -26719,7 +27998,8 @@ func (obj *HUD) deserialize(r io.Reader) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Offset)[local327]
+				Style    HUDStyleFlags
+			}))(obj)).Offset)[local324]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
@@ -26740,14 +28020,15 @@ func (obj *HUD) deserialize(r io.Reader) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
-		}))(obj)).WorldPos).deserialize(r)
+			Style    HUDStyleFlags
+		}))(obj)).WorldPos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
-	for local328 := range (*(*(struct {
+	for local325 := range (*(*(struct {
 		Type HUDType
 
 		Pos      [2]float32
@@ -26763,6 +28044,7 @@ func (obj *HUD) deserialize(r io.Reader) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
+		Style    HUDStyleFlags
 	}))(obj)).Size {
 		{
 			p := &((*(*(struct {
@@ -26781,7 +28063,8 @@ func (obj *HUD) deserialize(r io.Reader) {
 				Size     [2]int32
 				ZIndex   int16
 				Text2    string
-			}))(obj)).Size)[local328]
+				Style    HUDStyleFlags
+			}))(obj)).Size)[local325]
 			*p = int32(read32(r))
 		}
 	}
@@ -26802,18 +28085,19 @@ func (obj *HUD) deserialize(r io.Reader) {
 			Size     [2]int32
 			ZIndex   int16
 			Text2    string
+			Style    HUDStyleFlags
 		}))(obj)).ZIndex
 		*p = int16(read16(r))
 	}
-	var local329 []uint8
-	var local330 uint16
+	var local326 []uint8
+	var local327 uint16
 	{
-		p := &local330
+		p := &local327
 		*p = read16(r)
 	}
-	(local329) = make([]uint8, local330)
+	(local326) = make([]uint8, local327)
 	{
-		_, err := io.ReadFull(r, (local329)[:])
+		_, err := io.ReadFull(r, (local326)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -26832,52 +28116,92 @@ func (obj *HUD) deserialize(r io.Reader) {
 		Size     [2]int32
 		ZIndex   int16
 		Text2    string
-	}))(obj)).Text2) = string(local329)
+		Style    HUDStyleFlags
+	}))(obj)).Text2) = string(local326)
+	if err := pcall(func() {
+		((*(*(struct {
+			Type HUDType
+
+			Pos      [2]float32
+			Name     string
+			Scale    [2]float32
+			Text     string
+			Number   uint32
+			Item     uint32
+			Dir      uint32
+			Align    [2]float32
+			Offset   [2]float32
+			WorldPos Pos
+			Size     [2]int32
+			ZIndex   int16
+			Text2    string
+			Style    HUDStyleFlags
+		}))(obj)).Style).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.HUDStyleFlags", err))
+	}
 }
 
-func (obj *HUDField) serialize(w io.Writer) {
+func (obj *HUDField) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *HUDField) deserialize(r io.Reader) {
+func (obj *HUDField) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *HUDFlags) serialize(w io.Writer) {
+func (obj *HUDStyleFlags) Serialize(w io.Writer) {
 	{
 		x := *(*(uint32))(obj)
 		write32(w, uint32(x))
 	}
 }
 
-func (obj *HUDFlags) deserialize(r io.Reader) {
+func (obj *HUDStyleFlags) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint32))(obj)
 		*p = read32(r)
 	}
 }
 
-func (obj *HotbarParam) serialize(w io.Writer) {
+func (obj *HUDFlags) Serialize(w io.Writer) {
+	{
+		x := *(*(uint32))(obj)
+		write32(w, uint32(x))
+	}
+}
+
+func (obj *HUDFlags) Deserialize(r io.Reader) {
+	{
+		p := &*(*(uint32))(obj)
+		*p = read32(r)
+	}
+}
+
+func (obj *HotbarParam) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *HotbarParam) deserialize(r io.Reader) {
+func (obj *HotbarParam) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *Texture) serialize(w io.Writer) {
+func (obj *Texture) Serialize(w io.Writer) {
 	if len(([]byte(*(*(string))(obj)))) > math.MaxUint16 {
 		chk(ErrTooLong)
 	}
@@ -26891,54 +28215,54 @@ func (obj *Texture) serialize(w io.Writer) {
 	}
 }
 
-func (obj *Texture) deserialize(r io.Reader) {
-	var local331 []uint8
-	var local332 uint16
+func (obj *Texture) Deserialize(r io.Reader) {
+	var local328 []uint8
+	var local329 uint16
 	{
-		p := &local332
+		p := &local329
 		*p = read16(r)
 	}
-	(local331) = make([]uint8, local332)
+	(local328) = make([]uint8, local329)
 	{
-		_, err := io.ReadFull(r, (local331)[:])
+		_, err := io.ReadFull(r, (local328)[:])
 		chk(err)
 	}
-	(*(*(string))(obj)) = string(local331)
+	(*(*(string))(obj)) = string(local328)
 }
 
-func (obj *PlayerListUpdateType) serialize(w io.Writer) {
+func (obj *PlayerListUpdateType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *PlayerListUpdateType) deserialize(r io.Reader) {
+func (obj *PlayerListUpdateType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *ModChanSig) serialize(w io.Writer) {
+func (obj *ModChanSig) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *ModChanSig) deserialize(r io.Reader) {
+func (obj *ModChanSig) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *AOProps) serialize(w io.Writer) {
+func (obj *AOProps) Serialize(w io.Writer) {
 	{
-		local333 := uint8(4)
+		local330 := uint8(4)
 		{
-			x := local333
+			x := local330
 			write8(w, uint8(x))
 		}
 	}
@@ -27023,7 +28347,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -27100,12 +28423,12 @@ func (obj *AOProps) serialize(w io.Writer) {
 			Shaded           bool
 			ShowOnMinimap    bool
 			NametagBG        color.NRGBA
-		}))(obj)).ColBox).serialize(w)
+		}))(obj)).ColBox).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -27143,12 +28466,12 @@ func (obj *AOProps) serialize(w io.Writer) {
 			Shaded           bool
 			ShowOnMinimap    bool
 			NametagBG        color.NRGBA
-		}))(obj)).SelBox).serialize(w)
+		}))(obj)).SelBox).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 	}
 	{
 		x := (*(*(struct {
@@ -27192,7 +28515,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if len(([]byte((*(*(struct {
 		MaxHP            uint16 // Player only.
@@ -27310,7 +28632,7 @@ func (obj *AOProps) serialize(w io.Writer) {
 		}))(obj)).Visual))[:])
 		chk(err)
 	}
-	for local334 := range (*(*(struct {
+	for local331 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -27382,7 +28704,7 @@ func (obj *AOProps) serialize(w io.Writer) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).VisualSize)[local334]
+			}))(obj)).VisualSize)[local331]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -27463,7 +28785,7 @@ func (obj *AOProps) serialize(w io.Writer) {
 		}))(obj)).Textures)))
 		write16(w, uint16(x))
 	}
-	for local335 := range (*(*(struct {
+	for local332 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -27535,15 +28857,15 @@ func (obj *AOProps) serialize(w io.Writer) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).Textures)[local335]).serialize(w)
+			}))(obj)).Textures)[local332]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 	}
-	for local336 := range (*(*(struct {
+	for local333 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -27615,11 +28937,11 @@ func (obj *AOProps) serialize(w io.Writer) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).SpriteSheetSize)[local336]
+			}))(obj)).SpriteSheetSize)[local333]
 			write16(w, uint16(x))
 		}
 	}
-	for local337 := range (*(*(struct {
+	for local334 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -27691,7 +29013,7 @@ func (obj *AOProps) serialize(w io.Writer) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).SpritePos)[local337]
+			}))(obj)).SpritePos)[local334]
 			write16(w, uint16(x))
 		}
 	}
@@ -27737,7 +29059,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -27781,7 +29102,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -28015,7 +29335,7 @@ func (obj *AOProps) serialize(w io.Writer) {
 		}))(obj)).Colors)))
 		write16(w, uint16(x))
 	}
-	for local338 := range (*(*(struct {
+	for local335 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -28087,9 +29407,8 @@ func (obj *AOProps) serialize(w io.Writer) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).Colors)[local338]
+			}))(obj)).Colors)[local335]
 			w.Write([]byte{x.A, x.R, x.G, x.B})
-
 		}
 	}
 	{
@@ -28134,7 +29453,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -28217,7 +29535,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -28300,7 +29617,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if len(([]byte((*(*(struct {
 		MaxHP            uint16 // Player only.
@@ -28456,7 +29772,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 			NametagBG        color.NRGBA
 		}))(obj)).NametagColor
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 	{
 		x := (*(*(struct {
@@ -28927,7 +30242,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -28965,12 +30279,12 @@ func (obj *AOProps) serialize(w io.Writer) {
 			Shaded           bool
 			ShowOnMinimap    bool
 			NametagBG        color.NRGBA
-		}))(obj)).DmgTextureMod).serialize(w)
+		}))(obj)).DmgTextureMod).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		x := (*(*(struct {
@@ -29014,7 +30328,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -29058,7 +30371,6 @@ func (obj *AOProps) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -29098,20 +30410,19 @@ func (obj *AOProps) serialize(w io.Writer) {
 			NametagBG        color.NRGBA
 		}))(obj)).NametagBG
 		w.Write([]byte{x.A, x.R, x.G, x.B})
-
 	}
 }
 
-func (obj *AOProps) deserialize(r io.Reader) {
+func (obj *AOProps) Deserialize(r io.Reader) {
 	{
-		var local339 uint8
-		local340 := uint8(4)
+		var local336 uint8
+		local337 := uint8(4)
 		{
-			p := &local339
+			p := &local336
 			*p = read8(r)
 		}
-		if local339 != local340 {
-			chk(fmt.Errorf("const %v: %v", "uint8(4)", local339))
+		if local336 != local337 {
+			chk(fmt.Errorf("const %v: %v", "uint8(4)", local336))
 		}
 	}
 	{
@@ -29198,7 +30509,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -29275,12 +30585,12 @@ func (obj *AOProps) deserialize(r io.Reader) {
 			Shaded           bool
 			ShowOnMinimap    bool
 			NametagBG        color.NRGBA
-		}))(obj)).ColBox).deserialize(r)
+		}))(obj)).ColBox).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -29318,12 +30628,12 @@ func (obj *AOProps) deserialize(r io.Reader) {
 			Shaded           bool
 			ShowOnMinimap    bool
 			NametagBG        color.NRGBA
-		}))(obj)).SelBox).deserialize(r)
+		}))(obj)).SelBox).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -29370,17 +30680,16 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
-	var local341 []uint8
-	var local342 uint16
+	var local338 []uint8
+	var local339 uint16
 	{
-		p := &local342
+		p := &local339
 		*p = read16(r)
 	}
-	(local341) = make([]uint8, local342)
+	(local338) = make([]uint8, local339)
 	{
-		_, err := io.ReadFull(r, (local341)[:])
+		_, err := io.ReadFull(r, (local338)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -29418,8 +30727,8 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Visual) = string(local341)
-	for local343 := range (*(*(struct {
+	}))(obj)).Visual) = string(local338)
+	for local340 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -29491,13 +30800,13 @@ func (obj *AOProps) deserialize(r io.Reader) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).VisualSize)[local343]
+			}))(obj)).VisualSize)[local340]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
-	var local344 uint16
+	var local341 uint16
 	{
-		p := &local344
+		p := &local341
 		*p = read16(r)
 	}
 	((*(*(struct {
@@ -29535,8 +30844,8 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Textures) = make([]Texture, local344)
-	for local345 := range (*(*(struct {
+	}))(obj)).Textures) = make([]Texture, local341)
+	for local342 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -29608,15 +30917,15 @@ func (obj *AOProps) deserialize(r io.Reader) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).Textures)[local345]).deserialize(r)
+			}))(obj)).Textures)[local342]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 		}
 	}
-	for local346 := range (*(*(struct {
+	for local343 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -29688,11 +30997,11 @@ func (obj *AOProps) deserialize(r io.Reader) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).SpriteSheetSize)[local346]
+			}))(obj)).SpriteSheetSize)[local343]
 			*p = int16(read16(r))
 		}
 	}
-	for local347 := range (*(*(struct {
+	for local344 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -29764,7 +31073,7 @@ func (obj *AOProps) deserialize(r io.Reader) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).SpritePos)[local347]
+			}))(obj)).SpritePos)[local344]
 			*p = int16(read16(r))
 		}
 	}
@@ -29813,7 +31122,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -29860,7 +31168,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -29901,15 +31208,15 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		}))(obj)).RotateSpeed
 		*p = math.Float32frombits(read32(r))
 	}
-	var local348 []uint8
-	var local349 uint16
+	var local345 []uint8
+	var local346 uint16
 	{
-		p := &local349
+		p := &local346
 		*p = read16(r)
 	}
-	(local348) = make([]uint8, local349)
+	(local345) = make([]uint8, local346)
 	{
-		_, err := io.ReadFull(r, (local348)[:])
+		_, err := io.ReadFull(r, (local345)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -29947,10 +31254,10 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Mesh) = string(local348)
-	var local350 uint16
+	}))(obj)).Mesh) = string(local345)
+	var local347 uint16
 	{
-		p := &local350
+		p := &local347
 		*p = read16(r)
 	}
 	((*(*(struct {
@@ -29988,8 +31295,8 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Colors) = make([]color.NRGBA, local350)
-	for local351 := range (*(*(struct {
+	}))(obj)).Colors) = make([]color.NRGBA, local347)
+	for local348 := range (*(*(struct {
 		MaxHP            uint16 // Player only.
 		CollideWithNodes bool
 		Weight           float32 // deprecated
@@ -30061,9 +31368,8 @@ func (obj *AOProps) deserialize(r io.Reader) {
 				Shaded           bool
 				ShowOnMinimap    bool
 				NametagBG        color.NRGBA
-			}))(obj)).Colors)[local351]
+			}))(obj)).Colors)[local348]
 			*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 		}
 	}
 	{
@@ -30111,7 +31417,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -30197,7 +31502,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -30283,17 +31587,16 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
-	var local352 []uint8
-	var local353 uint16
+	var local349 []uint8
+	var local350 uint16
 	{
-		p := &local353
+		p := &local350
 		*p = read16(r)
 	}
-	(local352) = make([]uint8, local353)
+	(local349) = make([]uint8, local350)
 	{
-		_, err := io.ReadFull(r, (local352)[:])
+		_, err := io.ReadFull(r, (local349)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -30331,7 +31634,7 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Nametag) = string(local352)
+	}))(obj)).Nametag) = string(local349)
 	{
 		p := &(*(*(struct {
 			MaxHP            uint16 // Player only.
@@ -30370,7 +31673,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 			NametagBG        color.NRGBA
 		}))(obj)).NametagColor
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -30411,15 +31713,15 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		}))(obj)).FaceRotateSpeed
 		*p = math.Float32frombits(read32(r))
 	}
-	var local354 []uint8
-	var local355 uint16
+	var local351 []uint8
+	var local352 uint16
 	{
-		p := &local355
+		p := &local352
 		*p = read16(r)
 	}
-	(local354) = make([]uint8, local355)
+	(local351) = make([]uint8, local352)
 	{
-		_, err := io.ReadFull(r, (local354)[:])
+		_, err := io.ReadFull(r, (local351)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -30457,16 +31759,16 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Infotext) = string(local354)
-	var local356 []uint8
-	var local357 uint16
+	}))(obj)).Infotext) = string(local351)
+	var local353 []uint8
+	var local354 uint16
 	{
-		p := &local357
+		p := &local354
 		*p = read16(r)
 	}
-	(local356) = make([]uint8, local357)
+	(local353) = make([]uint8, local354)
 	{
-		_, err := io.ReadFull(r, (local356)[:])
+		_, err := io.ReadFull(r, (local353)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -30504,7 +31806,7 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		Shaded           bool
 		ShowOnMinimap    bool
 		NametagBG        color.NRGBA
-	}))(obj)).Itemstring) = string(local356)
+	}))(obj)).Itemstring) = string(local353)
 	{
 		p := &(*(*(struct {
 			MaxHP            uint16 // Player only.
@@ -30706,7 +32008,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -30744,12 +32045,12 @@ func (obj *AOProps) deserialize(r io.Reader) {
 			Shaded           bool
 			ShowOnMinimap    bool
 			NametagBG        color.NRGBA
-		}))(obj)).DmgTextureMod).deserialize(r)
+		}))(obj)).DmgTextureMod).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -30796,7 +32097,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -30843,7 +32143,6 @@ func (obj *AOProps) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -30883,11 +32182,10 @@ func (obj *AOProps) deserialize(r io.Reader) {
 			NametagBG        color.NRGBA
 		}))(obj)).NametagBG
 		*p = color.NRGBA{A: read8(r), R: read8(r), G: read8(r), B: read8(r)}
-
 	}
 }
 
-func (obj *AOPos) serialize(w io.Writer) {
+func (obj *AOPos) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos
@@ -30897,12 +32195,12 @@ func (obj *AOPos) serialize(w io.Writer) {
 			Interpolate    bool
 			End            bool
 			UpdateInterval float32
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -30913,12 +32211,12 @@ func (obj *AOPos) serialize(w io.Writer) {
 			Interpolate    bool
 			End            bool
 			UpdateInterval float32
-		}))(obj)).Vel).serialize(w)
+		}))(obj)).Vel).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -30929,14 +32227,14 @@ func (obj *AOPos) serialize(w io.Writer) {
 			Interpolate    bool
 			End            bool
 			UpdateInterval float32
-		}))(obj)).Acc).serialize(w)
+		}))(obj)).Acc).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
-	for local358 := range (*(*(struct {
+	for local355 := range (*(*(struct {
 		Pos
 		Vel, Acc Vec
 		Rot      [3]float32
@@ -30954,7 +32252,7 @@ func (obj *AOPos) serialize(w io.Writer) {
 				Interpolate    bool
 				End            bool
 				UpdateInterval float32
-			}))(obj)).Rot)[local358]
+			}))(obj)).Rot)[local355]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -30973,7 +32271,6 @@ func (obj *AOPos) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -30990,7 +32287,6 @@ func (obj *AOPos) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -31006,7 +32302,7 @@ func (obj *AOPos) serialize(w io.Writer) {
 	}
 }
 
-func (obj *AOPos) deserialize(r io.Reader) {
+func (obj *AOPos) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos
@@ -31016,12 +32312,12 @@ func (obj *AOPos) deserialize(r io.Reader) {
 			Interpolate    bool
 			End            bool
 			UpdateInterval float32
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -31032,12 +32328,12 @@ func (obj *AOPos) deserialize(r io.Reader) {
 			Interpolate    bool
 			End            bool
 			UpdateInterval float32
-		}))(obj)).Vel).deserialize(r)
+		}))(obj)).Vel).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -31048,14 +32344,14 @@ func (obj *AOPos) deserialize(r io.Reader) {
 			Interpolate    bool
 			End            bool
 			UpdateInterval float32
-		}))(obj)).Acc).deserialize(r)
+		}))(obj)).Acc).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
-	for local359 := range (*(*(struct {
+	for local356 := range (*(*(struct {
 		Pos
 		Vel, Acc Vec
 		Rot      [3]float32
@@ -31073,7 +32369,7 @@ func (obj *AOPos) deserialize(r io.Reader) {
 				Interpolate    bool
 				End            bool
 				UpdateInterval float32
-			}))(obj)).Rot)[local359]
+			}))(obj)).Rot)[local356]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
@@ -31095,7 +32391,6 @@ func (obj *AOPos) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -31115,7 +32410,6 @@ func (obj *AOPos) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -31131,8 +32425,8 @@ func (obj *AOPos) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *AOSprite) serialize(w io.Writer) {
-	for local360 := range (*(*(struct {
+func (obj *AOSprite) Serialize(w io.Writer) {
+	for local357 := range (*(*(struct {
 		Frame0          [2]int16
 		Frames          uint16
 		FrameDuration   float32
@@ -31144,7 +32438,7 @@ func (obj *AOSprite) serialize(w io.Writer) {
 				Frames          uint16
 				FrameDuration   float32
 				ViewAngleFrames bool
-			}))(obj)).Frame0)[local360]
+			}))(obj)).Frame0)[local357]
 			write16(w, uint16(x))
 		}
 	}
@@ -31178,12 +32472,11 @@ func (obj *AOSprite) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *AOSprite) deserialize(r io.Reader) {
-	for local361 := range (*(*(struct {
+func (obj *AOSprite) Deserialize(r io.Reader) {
+	for local358 := range (*(*(struct {
 		Frame0          [2]int16
 		Frames          uint16
 		FrameDuration   float32
@@ -31195,7 +32488,7 @@ func (obj *AOSprite) deserialize(r io.Reader) {
 				Frames          uint16
 				FrameDuration   float32
 				ViewAngleFrames bool
-			}))(obj)).Frame0)[local361]
+			}))(obj)).Frame0)[local358]
 			*p = int16(read16(r))
 		}
 	}
@@ -31232,11 +32525,10 @@ func (obj *AOSprite) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *Group) serialize(w io.Writer) {
+func (obj *Group) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Name   string
 		Rating int16
@@ -31266,22 +32558,22 @@ func (obj *Group) serialize(w io.Writer) {
 	}
 }
 
-func (obj *Group) deserialize(r io.Reader) {
-	var local362 []uint8
-	var local363 uint16
+func (obj *Group) Deserialize(r io.Reader) {
+	var local359 []uint8
+	var local360 uint16
 	{
-		p := &local363
+		p := &local360
 		*p = read16(r)
 	}
-	(local362) = make([]uint8, local363)
+	(local359) = make([]uint8, local360)
 	{
-		_, err := io.ReadFull(r, (local362)[:])
+		_, err := io.ReadFull(r, (local359)[:])
 		chk(err)
 	}
 	((*(*(struct {
 		Name   string
 		Rating int16
-	}))(obj)).Name) = string(local362)
+	}))(obj)).Name) = string(local359)
 	{
 		p := &(*(*(struct {
 			Name   string
@@ -31291,8 +32583,8 @@ func (obj *Group) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *AOAnim) serialize(w io.Writer) {
-	for local364 := range (*(*(struct {
+func (obj *AOAnim) Serialize(w io.Writer) {
+	for local361 := range (*(*(struct {
 		Frames [2]int32
 		Speed  float32
 		Blend  float32
@@ -31304,7 +32596,7 @@ func (obj *AOAnim) serialize(w io.Writer) {
 				Speed  float32
 				Blend  float32
 				NoLoop bool
-			}))(obj)).Frames)[local364]
+			}))(obj)).Frames)[local361]
 			write32(w, uint32(x))
 		}
 	}
@@ -31338,12 +32630,11 @@ func (obj *AOAnim) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *AOAnim) deserialize(r io.Reader) {
-	for local365 := range (*(*(struct {
+func (obj *AOAnim) Deserialize(r io.Reader) {
+	for local362 := range (*(*(struct {
 		Frames [2]int32
 		Speed  float32
 		Blend  float32
@@ -31355,7 +32646,7 @@ func (obj *AOAnim) deserialize(r io.Reader) {
 				Speed  float32
 				Blend  float32
 				NoLoop bool
-			}))(obj)).Frames)[local365]
+			}))(obj)).Frames)[local362]
 			*p = int32(read32(r))
 		}
 	}
@@ -31392,23 +32683,22 @@ func (obj *AOAnim) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *AOBonePos) serialize(w io.Writer) {
+func (obj *AOBonePos) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos Vec
 			Rot [3]float32
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
-	for local366 := range (*(*(struct {
+	for local363 := range (*(*(struct {
 		Pos Vec
 		Rot [3]float32
 	}))(obj)).Rot {
@@ -31416,25 +32706,25 @@ func (obj *AOBonePos) serialize(w io.Writer) {
 			x := ((*(*(struct {
 				Pos Vec
 				Rot [3]float32
-			}))(obj)).Rot)[local366]
+			}))(obj)).Rot)[local363]
 			write32(w, math.Float32bits(x))
 		}
 	}
 }
 
-func (obj *AOBonePos) deserialize(r io.Reader) {
+func (obj *AOBonePos) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Pos Vec
 			Rot [3]float32
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
-	for local367 := range (*(*(struct {
+	for local364 := range (*(*(struct {
 		Pos Vec
 		Rot [3]float32
 	}))(obj)).Rot {
@@ -31442,13 +32732,13 @@ func (obj *AOBonePos) deserialize(r io.Reader) {
 			p := &((*(*(struct {
 				Pos Vec
 				Rot [3]float32
-			}))(obj)).Rot)[local367]
+			}))(obj)).Rot)[local364]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
 }
 
-func (obj *AOAttach) serialize(w io.Writer) {
+func (obj *AOAttach) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ParentID     AOID
@@ -31456,12 +32746,12 @@ func (obj *AOAttach) serialize(w io.Writer) {
 			Pos          Vec
 			Rot          [3]float32
 			ForceVisible bool
-		}))(obj)).ParentID).serialize(w)
+		}))(obj)).ParentID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	if len(([]byte((*(*(struct {
 		ParentID     AOID
@@ -31499,14 +32789,14 @@ func (obj *AOAttach) serialize(w io.Writer) {
 			Pos          Vec
 			Rot          [3]float32
 			ForceVisible bool
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
-	for local368 := range (*(*(struct {
+	for local365 := range (*(*(struct {
 		ParentID     AOID
 		Bone         string
 		Pos          Vec
@@ -31520,7 +32810,7 @@ func (obj *AOAttach) serialize(w io.Writer) {
 				Pos          Vec
 				Rot          [3]float32
 				ForceVisible bool
-			}))(obj)).Rot)[local368]
+			}))(obj)).Rot)[local365]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -31537,11 +32827,10 @@ func (obj *AOAttach) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *AOAttach) deserialize(r io.Reader) {
+func (obj *AOAttach) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			ParentID     AOID
@@ -31549,22 +32838,22 @@ func (obj *AOAttach) deserialize(r io.Reader) {
 			Pos          Vec
 			Rot          [3]float32
 			ForceVisible bool
-		}))(obj)).ParentID).deserialize(r)
+		}))(obj)).ParentID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
-	var local369 []uint8
-	var local370 uint16
+	var local366 []uint8
+	var local367 uint16
 	{
-		p := &local370
+		p := &local367
 		*p = read16(r)
 	}
-	(local369) = make([]uint8, local370)
+	(local366) = make([]uint8, local367)
 	{
-		_, err := io.ReadFull(r, (local369)[:])
+		_, err := io.ReadFull(r, (local366)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -31573,7 +32862,7 @@ func (obj *AOAttach) deserialize(r io.Reader) {
 		Pos          Vec
 		Rot          [3]float32
 		ForceVisible bool
-	}))(obj)).Bone) = string(local369)
+	}))(obj)).Bone) = string(local366)
 	if err := pcall(func() {
 		((*(*(struct {
 			ParentID     AOID
@@ -31581,14 +32870,14 @@ func (obj *AOAttach) deserialize(r io.Reader) {
 			Pos          Vec
 			Rot          [3]float32
 			ForceVisible bool
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 	}
-	for local371 := range (*(*(struct {
+	for local368 := range (*(*(struct {
 		ParentID     AOID
 		Bone         string
 		Pos          Vec
@@ -31602,7 +32891,7 @@ func (obj *AOAttach) deserialize(r io.Reader) {
 				Pos          Vec
 				Rot          [3]float32
 				ForceVisible bool
-			}))(obj)).Rot)[local371]
+			}))(obj)).Rot)[local368]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
@@ -31622,11 +32911,10 @@ func (obj *AOAttach) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *AOPhysOverride) serialize(w io.Writer) {
+func (obj *AOPhysOverride) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Walk, Jump, Gravity float32
@@ -31666,7 +32954,6 @@ func (obj *AOPhysOverride) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -31680,7 +32967,6 @@ func (obj *AOPhysOverride) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	{
 		x := (*(*(struct {
@@ -31694,11 +32980,10 @@ func (obj *AOPhysOverride) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *AOPhysOverride) deserialize(r io.Reader) {
+func (obj *AOPhysOverride) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Walk, Jump, Gravity float32
@@ -31741,7 +33026,6 @@ func (obj *AOPhysOverride) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -31758,7 +33042,6 @@ func (obj *AOPhysOverride) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	{
 		p := &(*(*(struct {
@@ -31775,35 +33058,34 @@ func (obj *AOPhysOverride) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *aoType) serialize(w io.Writer) {
+func (obj *aoType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *aoType) deserialize(r io.Reader) {
+func (obj *aoType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *NodeMetaField) serialize(w io.Writer) {
+func (obj *NodeMetaField) Serialize(w io.Writer) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Field
 			Private bool
-		}))(obj)).Field).serialize(w)
+		}))(obj)).Field).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Field", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Field", err))
 	}
 	{
 		x := (*(*(struct {
@@ -31815,21 +33097,20 @@ func (obj *NodeMetaField) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 }
 
-func (obj *NodeMetaField) deserialize(r io.Reader) {
+func (obj *NodeMetaField) Deserialize(r io.Reader) {
 	if err := pcall(func() {
 		((*(*(struct {
 			Field
 			Private bool
-		}))(obj)).Field).deserialize(r)
+		}))(obj)).Field).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Field", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Field", err))
 	}
 	{
 		p := &(*(*(struct {
@@ -31844,517 +33125,516 @@ func (obj *NodeMetaField) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 }
 
-func (obj *MinimapType) serialize(w io.Writer) {
+func (obj *MinimapType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *MinimapType) deserialize(r io.Reader) {
+func (obj *MinimapType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *Param1Type) serialize(w io.Writer) {
+func (obj *Param1Type) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *Param1Type) deserialize(r io.Reader) {
+func (obj *Param1Type) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *Param2Type) serialize(w io.Writer) {
+func (obj *Param2Type) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *Param2Type) deserialize(r io.Reader) {
+func (obj *Param2Type) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *DrawType) serialize(w io.Writer) {
+func (obj *DrawType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *DrawType) deserialize(r io.Reader) {
+func (obj *DrawType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *TileDef) serialize(w io.Writer) {
+func (obj *TileDef) Serialize(w io.Writer) {
+	{
+		local369 := uint8(6)
+		{
+			x := local369
+			write8(w, uint8(x))
+		}
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			Texture
+			Anim  TileAnim
+			Flags TileFlags
+
+			//mt:if %s.Flags&TileColor != 0
+			R, G, B uint8
+
+			//mt:if %s.Flags&TileScale != 0
+			Scale uint8
+
+			//mt:if %s.Flags&TileAlign != 0
+			Align AlignType
+		}))(obj)).Texture).Serialize(w)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			Texture
+			Anim  TileAnim
+			Flags TileFlags
+
+			//mt:if %s.Flags&TileColor != 0
+			R, G, B uint8
+
+			//mt:if %s.Flags&TileScale != 0
+			Scale uint8
+
+			//mt:if %s.Flags&TileAlign != 0
+			Align AlignType
+		}))(obj)).Anim).Serialize(w)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileAnim", err))
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			Texture
+			Anim  TileAnim
+			Flags TileFlags
+
+			//mt:if %s.Flags&TileColor != 0
+			R, G, B uint8
+
+			//mt:if %s.Flags&TileScale != 0
+			Scale uint8
+
+			//mt:if %s.Flags&TileAlign != 0
+			Align AlignType
+		}))(obj)).Flags).Serialize(w)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileFlags", err))
+	}
+	if (*(*(struct {
+		Texture
+		Anim  TileAnim
+		Flags TileFlags
+
+		//mt:if %s.Flags&TileColor != 0
+		R, G, B uint8
+
+		//mt:if %s.Flags&TileScale != 0
+		Scale uint8
+
+		//mt:if %s.Flags&TileAlign != 0
+		Align AlignType
+	}))(obj)).Flags&TileColor != 0 {
+		{
+			x := (*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).R
+			write8(w, uint8(x))
+		}
+		{
+			x := (*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).G
+			write8(w, uint8(x))
+		}
+		{
+			x := (*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).B
+			write8(w, uint8(x))
+		}
+	}
+	if (*(*(struct {
+		Texture
+		Anim  TileAnim
+		Flags TileFlags
+
+		//mt:if %s.Flags&TileColor != 0
+		R, G, B uint8
+
+		//mt:if %s.Flags&TileScale != 0
+		Scale uint8
+
+		//mt:if %s.Flags&TileAlign != 0
+		Align AlignType
+	}))(obj)).Flags&TileScale != 0 {
+		{
+			x := (*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).Scale
+			write8(w, uint8(x))
+		}
+	}
+	if (*(*(struct {
+		Texture
+		Anim  TileAnim
+		Flags TileFlags
+
+		//mt:if %s.Flags&TileColor != 0
+		R, G, B uint8
+
+		//mt:if %s.Flags&TileScale != 0
+		Scale uint8
+
+		//mt:if %s.Flags&TileAlign != 0
+		Align AlignType
+	}))(obj)).Flags&TileAlign != 0 {
+		if err := pcall(func() {
+			((*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).Align).Serialize(w)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AlignType", err))
+		}
+	}
+}
+
+func (obj *TileDef) Deserialize(r io.Reader) {
+	{
+		var local370 uint8
+		local371 := uint8(6)
+		{
+			p := &local370
+			*p = read8(r)
+		}
+		if local370 != local371 {
+			chk(fmt.Errorf("const %v: %v", "uint8(6)", local370))
+		}
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			Texture
+			Anim  TileAnim
+			Flags TileFlags
+
+			//mt:if %s.Flags&TileColor != 0
+			R, G, B uint8
+
+			//mt:if %s.Flags&TileScale != 0
+			Scale uint8
+
+			//mt:if %s.Flags&TileAlign != 0
+			Align AlignType
+		}))(obj)).Texture).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Texture", err))
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			Texture
+			Anim  TileAnim
+			Flags TileFlags
+
+			//mt:if %s.Flags&TileColor != 0
+			R, G, B uint8
+
+			//mt:if %s.Flags&TileScale != 0
+			Scale uint8
+
+			//mt:if %s.Flags&TileAlign != 0
+			Align AlignType
+		}))(obj)).Anim).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileAnim", err))
+	}
+	if err := pcall(func() {
+		((*(*(struct {
+			Texture
+			Anim  TileAnim
+			Flags TileFlags
+
+			//mt:if %s.Flags&TileColor != 0
+			R, G, B uint8
+
+			//mt:if %s.Flags&TileScale != 0
+			Scale uint8
+
+			//mt:if %s.Flags&TileAlign != 0
+			Align AlignType
+		}))(obj)).Flags).Deserialize(r)
+	}); err != nil {
+		if err == io.EOF {
+			chk(io.EOF)
+		}
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.TileFlags", err))
+	}
+	if (*(*(struct {
+		Texture
+		Anim  TileAnim
+		Flags TileFlags
+
+		//mt:if %s.Flags&TileColor != 0
+		R, G, B uint8
+
+		//mt:if %s.Flags&TileScale != 0
+		Scale uint8
+
+		//mt:if %s.Flags&TileAlign != 0
+		Align AlignType
+	}))(obj)).Flags&TileColor != 0 {
+		{
+			p := &(*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).R
+			*p = read8(r)
+		}
+		{
+			p := &(*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).G
+			*p = read8(r)
+		}
+		{
+			p := &(*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).B
+			*p = read8(r)
+		}
+	}
+	if (*(*(struct {
+		Texture
+		Anim  TileAnim
+		Flags TileFlags
+
+		//mt:if %s.Flags&TileColor != 0
+		R, G, B uint8
+
+		//mt:if %s.Flags&TileScale != 0
+		Scale uint8
+
+		//mt:if %s.Flags&TileAlign != 0
+		Align AlignType
+	}))(obj)).Flags&TileScale != 0 {
+		{
+			p := &(*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).Scale
+			*p = read8(r)
+		}
+	}
+	if (*(*(struct {
+		Texture
+		Anim  TileAnim
+		Flags TileFlags
+
+		//mt:if %s.Flags&TileColor != 0
+		R, G, B uint8
+
+		//mt:if %s.Flags&TileScale != 0
+		Scale uint8
+
+		//mt:if %s.Flags&TileAlign != 0
+		Align AlignType
+	}))(obj)).Flags&TileAlign != 0 {
+		if err := pcall(func() {
+			((*(*(struct {
+				Texture
+				Anim  TileAnim
+				Flags TileFlags
+
+				//mt:if %s.Flags&TileColor != 0
+				R, G, B uint8
+
+				//mt:if %s.Flags&TileScale != 0
+				Scale uint8
+
+				//mt:if %s.Flags&TileAlign != 0
+				Align AlignType
+			}))(obj)).Align).Deserialize(r)
+		}); err != nil {
+			if err == io.EOF {
+				chk(io.EOF)
+			}
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AlignType", err))
+		}
+	}
+}
+
+func (obj *WaveType) Serialize(w io.Writer) {
+	{
+		x := *(*(uint8))(obj)
+		write8(w, uint8(x))
+	}
+}
+
+func (obj *WaveType) Deserialize(r io.Reader) {
+	{
+		p := &*(*(uint8))(obj)
+		*p = read8(r)
+	}
+}
+
+func (obj *LiquidType) Serialize(w io.Writer) {
+	{
+		x := *(*(uint8))(obj)
+		write8(w, uint8(x))
+	}
+}
+
+func (obj *LiquidType) Deserialize(r io.Reader) {
+	{
+		p := &*(*(uint8))(obj)
+		*p = read8(r)
+	}
+}
+
+func (obj *NodeBox) Serialize(w io.Writer) {
 	{
 		local372 := uint8(6)
 		{
 			x := local372
-			write8(w, uint8(x))
-		}
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Texture
-			Anim  TileAnim
-			Flags TileFlags
-
-			//mt:if %s.Flags&TileColor != 0
-			R, G, B uint8
-
-			//mt:if %s.Flags&TileScale != 0
-			Scale uint8
-
-			//mt:if %s.Flags&TileAlign != 0
-			Align AlignType
-		}))(obj)).Texture).serialize(w)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Texture
-			Anim  TileAnim
-			Flags TileFlags
-
-			//mt:if %s.Flags&TileColor != 0
-			R, G, B uint8
-
-			//mt:if %s.Flags&TileScale != 0
-			Scale uint8
-
-			//mt:if %s.Flags&TileAlign != 0
-			Align AlignType
-		}))(obj)).Anim).serialize(w)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileAnim", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Texture
-			Anim  TileAnim
-			Flags TileFlags
-
-			//mt:if %s.Flags&TileColor != 0
-			R, G, B uint8
-
-			//mt:if %s.Flags&TileScale != 0
-			Scale uint8
-
-			//mt:if %s.Flags&TileAlign != 0
-			Align AlignType
-		}))(obj)).Flags).serialize(w)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileFlags", err))
-	}
-	if (*(*(struct {
-		Texture
-		Anim  TileAnim
-		Flags TileFlags
-
-		//mt:if %s.Flags&TileColor != 0
-		R, G, B uint8
-
-		//mt:if %s.Flags&TileScale != 0
-		Scale uint8
-
-		//mt:if %s.Flags&TileAlign != 0
-		Align AlignType
-	}))(obj)).Flags&TileColor != 0 {
-		{
-			x := (*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).R
-			write8(w, uint8(x))
-		}
-		{
-			x := (*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).G
-			write8(w, uint8(x))
-		}
-		{
-			x := (*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).B
-			write8(w, uint8(x))
-		}
-	}
-	if (*(*(struct {
-		Texture
-		Anim  TileAnim
-		Flags TileFlags
-
-		//mt:if %s.Flags&TileColor != 0
-		R, G, B uint8
-
-		//mt:if %s.Flags&TileScale != 0
-		Scale uint8
-
-		//mt:if %s.Flags&TileAlign != 0
-		Align AlignType
-	}))(obj)).Flags&TileScale != 0 {
-		{
-			x := (*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).Scale
-			write8(w, uint8(x))
-		}
-	}
-	if (*(*(struct {
-		Texture
-		Anim  TileAnim
-		Flags TileFlags
-
-		//mt:if %s.Flags&TileColor != 0
-		R, G, B uint8
-
-		//mt:if %s.Flags&TileScale != 0
-		Scale uint8
-
-		//mt:if %s.Flags&TileAlign != 0
-		Align AlignType
-	}))(obj)).Flags&TileAlign != 0 {
-		if err := pcall(func() {
-			((*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).Align).serialize(w)
-		}); err != nil {
-			if err == io.EOF {
-				chk(io.EOF)
-			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AlignType", err))
-		}
-	}
-}
-
-func (obj *TileDef) deserialize(r io.Reader) {
-	{
-		var local373 uint8
-		local374 := uint8(6)
-		{
-			p := &local373
-			*p = read8(r)
-		}
-		if local373 != local374 {
-			chk(fmt.Errorf("const %v: %v", "uint8(6)", local373))
-		}
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Texture
-			Anim  TileAnim
-			Flags TileFlags
-
-			//mt:if %s.Flags&TileColor != 0
-			R, G, B uint8
-
-			//mt:if %s.Flags&TileScale != 0
-			Scale uint8
-
-			//mt:if %s.Flags&TileAlign != 0
-			Align AlignType
-		}))(obj)).Texture).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Texture", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Texture
-			Anim  TileAnim
-			Flags TileFlags
-
-			//mt:if %s.Flags&TileColor != 0
-			R, G, B uint8
-
-			//mt:if %s.Flags&TileScale != 0
-			Scale uint8
-
-			//mt:if %s.Flags&TileAlign != 0
-			Align AlignType
-		}))(obj)).Anim).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileAnim", err))
-	}
-	if err := pcall(func() {
-		((*(*(struct {
-			Texture
-			Anim  TileAnim
-			Flags TileFlags
-
-			//mt:if %s.Flags&TileColor != 0
-			R, G, B uint8
-
-			//mt:if %s.Flags&TileScale != 0
-			Scale uint8
-
-			//mt:if %s.Flags&TileAlign != 0
-			Align AlignType
-		}))(obj)).Flags).deserialize(r)
-	}); err != nil {
-		if err == io.EOF {
-			chk(io.EOF)
-		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.TileFlags", err))
-	}
-	if (*(*(struct {
-		Texture
-		Anim  TileAnim
-		Flags TileFlags
-
-		//mt:if %s.Flags&TileColor != 0
-		R, G, B uint8
-
-		//mt:if %s.Flags&TileScale != 0
-		Scale uint8
-
-		//mt:if %s.Flags&TileAlign != 0
-		Align AlignType
-	}))(obj)).Flags&TileColor != 0 {
-		{
-			p := &(*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).R
-			*p = read8(r)
-		}
-		{
-			p := &(*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).G
-			*p = read8(r)
-		}
-		{
-			p := &(*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).B
-			*p = read8(r)
-		}
-	}
-	if (*(*(struct {
-		Texture
-		Anim  TileAnim
-		Flags TileFlags
-
-		//mt:if %s.Flags&TileColor != 0
-		R, G, B uint8
-
-		//mt:if %s.Flags&TileScale != 0
-		Scale uint8
-
-		//mt:if %s.Flags&TileAlign != 0
-		Align AlignType
-	}))(obj)).Flags&TileScale != 0 {
-		{
-			p := &(*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).Scale
-			*p = read8(r)
-		}
-	}
-	if (*(*(struct {
-		Texture
-		Anim  TileAnim
-		Flags TileFlags
-
-		//mt:if %s.Flags&TileColor != 0
-		R, G, B uint8
-
-		//mt:if %s.Flags&TileScale != 0
-		Scale uint8
-
-		//mt:if %s.Flags&TileAlign != 0
-		Align AlignType
-	}))(obj)).Flags&TileAlign != 0 {
-		if err := pcall(func() {
-			((*(*(struct {
-				Texture
-				Anim  TileAnim
-				Flags TileFlags
-
-				//mt:if %s.Flags&TileColor != 0
-				R, G, B uint8
-
-				//mt:if %s.Flags&TileScale != 0
-				Scale uint8
-
-				//mt:if %s.Flags&TileAlign != 0
-				Align AlignType
-			}))(obj)).Align).deserialize(r)
-		}); err != nil {
-			if err == io.EOF {
-				chk(io.EOF)
-			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AlignType", err))
-		}
-	}
-}
-
-func (obj *WaveType) serialize(w io.Writer) {
-	{
-		x := *(*(uint8))(obj)
-		write8(w, uint8(x))
-	}
-}
-
-func (obj *WaveType) deserialize(r io.Reader) {
-	{
-		p := &*(*(uint8))(obj)
-		*p = read8(r)
-	}
-}
-
-func (obj *LiquidType) serialize(w io.Writer) {
-	{
-		x := *(*(uint8))(obj)
-		write8(w, uint8(x))
-	}
-}
-
-func (obj *LiquidType) deserialize(r io.Reader) {
-	{
-		p := &*(*(uint8))(obj)
-		*p = read8(r)
-	}
-}
-
-func (obj *NodeBox) serialize(w io.Writer) {
-	{
-		local375 := uint8(6)
-		{
-			x := local375
 			write8(w, uint8(x))
 		}
 	}
@@ -32371,12 +33651,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 			//mt:if %s.Type == ConnectedBox
 			ConnDirs, DiscoDirs  DirBoxes
 			DiscoAll, DiscoSides []Box
-		}))(obj)).Type).serialize(w)
+		}))(obj)).Type).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBoxType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBoxType", err))
 	}
 	if !((*(*(struct {
 		Type NodeBoxType
@@ -32419,12 +33699,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).WallTop).serialize(w)
+			}))(obj)).WallTop).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -32439,12 +33719,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).WallBot).serialize(w)
+			}))(obj)).WallBot).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -32459,12 +33739,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).WallSides).serialize(w)
+			}))(obj)).WallSides).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if t := (*(*(struct {
@@ -32511,7 +33791,7 @@ func (obj *NodeBox) serialize(w io.Writer) {
 			}))(obj)).Fixed)))
 			write16(w, uint16(x))
 		}
-		for local376 := range (*(*(struct {
+		for local373 := range (*(*(struct {
 			Type NodeBoxType
 
 			//mt:if %s.Type == MountedBox
@@ -32537,12 +33817,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 					//mt:if %s.Type == ConnectedBox
 					ConnDirs, DiscoDirs  DirBoxes
 					DiscoAll, DiscoSides []Box
-				}))(obj)).Fixed)[local376]).serialize(w)
+				}))(obj)).Fixed)[local373]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 			}
 		}
 	}
@@ -32572,12 +33852,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).ConnDirs).serialize(w)
+			}))(obj)).ConnDirs).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DirBoxes", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DirBoxes", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -32592,12 +33872,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).DiscoDirs).serialize(w)
+			}))(obj)).DiscoDirs).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DirBoxes", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DirBoxes", err))
 		}
 		if len(((*(*(struct {
 			Type NodeBoxType
@@ -32630,7 +33910,7 @@ func (obj *NodeBox) serialize(w io.Writer) {
 			}))(obj)).DiscoAll)))
 			write16(w, uint16(x))
 		}
-		for local377 := range (*(*(struct {
+		for local374 := range (*(*(struct {
 			Type NodeBoxType
 
 			//mt:if %s.Type == MountedBox
@@ -32656,12 +33936,12 @@ func (obj *NodeBox) serialize(w io.Writer) {
 					//mt:if %s.Type == ConnectedBox
 					ConnDirs, DiscoDirs  DirBoxes
 					DiscoAll, DiscoSides []Box
-				}))(obj)).DiscoAll)[local377]).serialize(w)
+				}))(obj)).DiscoAll)[local374]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 			}
 		}
 		if len(((*(*(struct {
@@ -32695,7 +33975,7 @@ func (obj *NodeBox) serialize(w io.Writer) {
 			}))(obj)).DiscoSides)))
 			write16(w, uint16(x))
 		}
-		for local378 := range (*(*(struct {
+		for local375 := range (*(*(struct {
 			Type NodeBoxType
 
 			//mt:if %s.Type == MountedBox
@@ -32721,27 +34001,27 @@ func (obj *NodeBox) serialize(w io.Writer) {
 					//mt:if %s.Type == ConnectedBox
 					ConnDirs, DiscoDirs  DirBoxes
 					DiscoAll, DiscoSides []Box
-				}))(obj)).DiscoSides)[local378]).serialize(w)
+				}))(obj)).DiscoSides)[local375]).Serialize(w)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 			}
 		}
 	}
 }
 
-func (obj *NodeBox) deserialize(r io.Reader) {
+func (obj *NodeBox) Deserialize(r io.Reader) {
 	{
-		var local379 uint8
-		local380 := uint8(6)
+		var local376 uint8
+		local377 := uint8(6)
 		{
-			p := &local379
+			p := &local376
 			*p = read8(r)
 		}
-		if local379 != local380 {
-			chk(fmt.Errorf("const %v: %v", "uint8(6)", local379))
+		if local376 != local377 {
+			chk(fmt.Errorf("const %v: %v", "uint8(6)", local376))
 		}
 	}
 	if err := pcall(func() {
@@ -32757,12 +34037,12 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 			//mt:if %s.Type == ConnectedBox
 			ConnDirs, DiscoDirs  DirBoxes
 			DiscoAll, DiscoSides []Box
-		}))(obj)).Type).deserialize(r)
+		}))(obj)).Type).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.NodeBoxType", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.NodeBoxType", err))
 	}
 	if !((*(*(struct {
 		Type NodeBoxType
@@ -32805,12 +34085,12 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).WallTop).deserialize(r)
+			}))(obj)).WallTop).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -32825,12 +34105,12 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).WallBot).deserialize(r)
+			}))(obj)).WallBot).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -32845,12 +34125,12 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).WallSides).deserialize(r)
+			}))(obj)).WallSides).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if t := (*(*(struct {
@@ -32866,9 +34146,9 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 		ConnDirs, DiscoDirs  DirBoxes
 		DiscoAll, DiscoSides []Box
 	}))(obj)).Type; t == FixedBox || t == LeveledBox || t == ConnectedBox {
-		var local381 uint16
+		var local378 uint16
 		{
-			p := &local381
+			p := &local378
 			*p = read16(r)
 		}
 		((*(*(struct {
@@ -32883,8 +34163,8 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 			//mt:if %s.Type == ConnectedBox
 			ConnDirs, DiscoDirs  DirBoxes
 			DiscoAll, DiscoSides []Box
-		}))(obj)).Fixed) = make([]Box, local381)
-		for local382 := range (*(*(struct {
+		}))(obj)).Fixed) = make([]Box, local378)
+		for local379 := range (*(*(struct {
 			Type NodeBoxType
 
 			//mt:if %s.Type == MountedBox
@@ -32910,12 +34190,12 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 					//mt:if %s.Type == ConnectedBox
 					ConnDirs, DiscoDirs  DirBoxes
 					DiscoAll, DiscoSides []Box
-				}))(obj)).Fixed)[local382]).deserialize(r)
+				}))(obj)).Fixed)[local379]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 			}
 		}
 	}
@@ -32945,12 +34225,12 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).ConnDirs).deserialize(r)
+			}))(obj)).ConnDirs).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DirBoxes", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DirBoxes", err))
 		}
 		if err := pcall(func() {
 			((*(*(struct {
@@ -32965,16 +34245,16 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 				//mt:if %s.Type == ConnectedBox
 				ConnDirs, DiscoDirs  DirBoxes
 				DiscoAll, DiscoSides []Box
-			}))(obj)).DiscoDirs).deserialize(r)
+			}))(obj)).DiscoDirs).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DirBoxes", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DirBoxes", err))
 		}
-		var local383 uint16
+		var local380 uint16
 		{
-			p := &local383
+			p := &local380
 			*p = read16(r)
 		}
 		((*(*(struct {
@@ -32989,8 +34269,8 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 			//mt:if %s.Type == ConnectedBox
 			ConnDirs, DiscoDirs  DirBoxes
 			DiscoAll, DiscoSides []Box
-		}))(obj)).DiscoAll) = make([]Box, local383)
-		for local384 := range (*(*(struct {
+		}))(obj)).DiscoAll) = make([]Box, local380)
+		for local381 := range (*(*(struct {
 			Type NodeBoxType
 
 			//mt:if %s.Type == MountedBox
@@ -33016,17 +34296,17 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 					//mt:if %s.Type == ConnectedBox
 					ConnDirs, DiscoDirs  DirBoxes
 					DiscoAll, DiscoSides []Box
-				}))(obj)).DiscoAll)[local384]).deserialize(r)
+				}))(obj)).DiscoAll)[local381]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 			}
 		}
-		var local385 uint16
+		var local382 uint16
 		{
-			p := &local385
+			p := &local382
 			*p = read16(r)
 		}
 		((*(*(struct {
@@ -33041,8 +34321,8 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 			//mt:if %s.Type == ConnectedBox
 			ConnDirs, DiscoDirs  DirBoxes
 			DiscoAll, DiscoSides []Box
-		}))(obj)).DiscoSides) = make([]Box, local385)
-		for local386 := range (*(*(struct {
+		}))(obj)).DiscoSides) = make([]Box, local382)
+		for local383 := range (*(*(struct {
 			Type NodeBoxType
 
 			//mt:if %s.Type == MountedBox
@@ -33068,18 +34348,18 @@ func (obj *NodeBox) deserialize(r io.Reader) {
 					//mt:if %s.Type == ConnectedBox
 					ConnDirs, DiscoDirs  DirBoxes
 					DiscoAll, DiscoSides []Box
-				}))(obj)).DiscoSides)[local386]).deserialize(r)
+				}))(obj)).DiscoSides)[local383]).Deserialize(r)
 			}); err != nil {
 				if err == io.EOF {
 					chk(io.EOF)
 				}
-				chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+				chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 			}
 		}
 	}
 }
 
-func (obj *SoundDef) serialize(w io.Writer) {
+func (obj *SoundDef) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Name              string
 		Gain, Pitch, Fade float32
@@ -33123,22 +34403,22 @@ func (obj *SoundDef) serialize(w io.Writer) {
 	}
 }
 
-func (obj *SoundDef) deserialize(r io.Reader) {
-	var local387 []uint8
-	var local388 uint16
+func (obj *SoundDef) Deserialize(r io.Reader) {
+	var local384 []uint8
+	var local385 uint16
 	{
-		p := &local388
+		p := &local385
 		*p = read16(r)
 	}
-	(local387) = make([]uint8, local388)
+	(local384) = make([]uint8, local385)
 	{
-		_, err := io.ReadFull(r, (local387)[:])
+		_, err := io.ReadFull(r, (local384)[:])
 		chk(err)
 	}
 	((*(*(struct {
 		Name              string
 		Gain, Pitch, Fade float32
-	}))(obj)).Name) = string(local387)
+	}))(obj)).Name) = string(local384)
 	{
 		p := &(*(*(struct {
 			Name              string
@@ -33162,67 +34442,67 @@ func (obj *SoundDef) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *AlphaUse) serialize(w io.Writer) {
+func (obj *AlphaUse) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *AlphaUse) deserialize(r io.Reader) {
+func (obj *AlphaUse) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *Keys) serialize(w io.Writer) {
+func (obj *Keys) Serialize(w io.Writer) {
 	{
 		x := *(*(uint32))(obj)
 		write32(w, uint32(x))
 	}
 }
 
-func (obj *Keys) deserialize(r io.Reader) {
+func (obj *Keys) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint32))(obj)
 		*p = read32(r)
 	}
 }
 
-func (obj *MapBlkFlags) serialize(w io.Writer) {
+func (obj *MapBlkFlags) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *MapBlkFlags) deserialize(r io.Reader) {
+func (obj *MapBlkFlags) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *LitFromBlks) serialize(w io.Writer) {
+func (obj *LitFromBlks) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *LitFromBlks) deserialize(r io.Reader) {
+func (obj *LitFromBlks) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *AOInitData) serialize(w io.Writer) {
+func (obj *AOInitData) Serialize(w io.Writer) {
 	{
-		local389 := uint8(1)
+		local386 := uint8(1)
 		{
-			x := local389
+			x := local386
 			write8(w, uint8(x))
 		}
 	}
@@ -33304,7 +34584,6 @@ func (obj *AOInitData) serialize(w io.Writer) {
 		} else {
 			write8(w, 0)
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -33322,12 +34601,12 @@ func (obj *AOInitData) serialize(w io.Writer) {
 
 			// See (de)serialize.fmt.
 			Msgs []AOMsg
-		}))(obj)).ID).serialize(w)
+		}))(obj)).ID).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -33345,14 +34624,14 @@ func (obj *AOInitData) serialize(w io.Writer) {
 
 			// See (de)serialize.fmt.
 			Msgs []AOMsg
-		}))(obj)).Pos).serialize(w)
+		}))(obj)).Pos).Serialize(w)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
-	for local390 := range (*(*(struct {
+	for local387 := range (*(*(struct {
 
 		// For players.
 		Name     string
@@ -33384,7 +34663,7 @@ func (obj *AOInitData) serialize(w io.Writer) {
 
 				// See (de)serialize.fmt.
 				Msgs []AOMsg
-			}))(obj)).Rot)[local390]
+			}))(obj)).Rot)[local387]
 			write32(w, math.Float32bits(x))
 		}
 	}
@@ -33440,31 +34719,30 @@ func (obj *AOInitData) serialize(w io.Writer) {
 				chk(err)
 			}
 		}
-
 	}
 }
 
-func (obj *AOInitData) deserialize(r io.Reader) {
+func (obj *AOInitData) Deserialize(r io.Reader) {
 	{
-		var local391 uint8
-		local392 := uint8(1)
+		var local388 uint8
+		local389 := uint8(1)
 		{
-			p := &local391
+			p := &local388
 			*p = read8(r)
 		}
-		if local391 != local392 {
-			chk(fmt.Errorf("const %v: %v", "uint8(1)", local391))
+		if local388 != local389 {
+			chk(fmt.Errorf("const %v: %v", "uint8(1)", local388))
 		}
 	}
-	var local393 []uint8
-	var local394 uint16
+	var local390 []uint8
+	var local391 uint16
 	{
-		p := &local394
+		p := &local391
 		*p = read16(r)
 	}
-	(local393) = make([]uint8, local394)
+	(local390) = make([]uint8, local391)
 	{
-		_, err := io.ReadFull(r, (local393)[:])
+		_, err := io.ReadFull(r, (local390)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -33482,7 +34760,7 @@ func (obj *AOInitData) deserialize(r io.Reader) {
 
 		// See (de)serialize.fmt.
 		Msgs []AOMsg
-	}))(obj)).Name) = string(local393)
+	}))(obj)).Name) = string(local390)
 	{
 		p := &(*(*(struct {
 
@@ -33508,7 +34786,6 @@ func (obj *AOInitData) deserialize(r io.Reader) {
 		default:
 			chk(fmt.Errorf("invalid bool: %d", n))
 		}
-
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -33526,12 +34803,12 @@ func (obj *AOInitData) deserialize(r io.Reader) {
 
 			// See (de)serialize.fmt.
 			Msgs []AOMsg
-		}))(obj)).ID).deserialize(r)
+		}))(obj)).ID).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.AOID", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.AOID", err))
 	}
 	if err := pcall(func() {
 		((*(*(struct {
@@ -33549,14 +34826,14 @@ func (obj *AOInitData) deserialize(r io.Reader) {
 
 			// See (de)serialize.fmt.
 			Msgs []AOMsg
-		}))(obj)).Pos).deserialize(r)
+		}))(obj)).Pos).Deserialize(r)
 	}); err != nil {
 		if err == io.EOF {
 			chk(io.EOF)
 		}
-		chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Pos", err))
+		chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Pos", err))
 	}
-	for local395 := range (*(*(struct {
+	for local392 := range (*(*(struct {
 
 		// For players.
 		Name     string
@@ -33588,7 +34865,7 @@ func (obj *AOInitData) deserialize(r io.Reader) {
 
 				// See (de)serialize.fmt.
 				Msgs []AOMsg
-			}))(obj)).Rot)[local395]
+			}))(obj)).Rot)[local392]
 			*p = math.Float32frombits(read32(r))
 		}
 	}
@@ -33640,25 +34917,24 @@ func (obj *AOInitData) deserialize(r io.Reader) {
 				}
 			}
 		}
-
 	}
 }
 
-func (obj *ItemType) serialize(w io.Writer) {
+func (obj *ItemType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *ItemType) deserialize(r io.Reader) {
+func (obj *ItemType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *ToolCaps) serialize(w io.Writer) {
+func (obj *ToolCaps) Serialize(w io.Writer) {
 	if _ = (*(*(struct {
 		//mt:if _ = %s; false
 		NonNil bool
@@ -33697,7 +34973,6 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 			} else {
 				write8(w, 0)
 			}
-
 		}
 	}
 	{
@@ -33737,9 +35012,9 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 				PunchUses int32
 			}))(obj)).NonNil {
 				{
-					local396 := uint8(5)
+					local393 := uint8(5)
 					{
-						x := local396
+						x := local393
 						write8(w, uint8(x))
 					}
 				}
@@ -33818,7 +35093,7 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 					}))(obj)).GroupCaps)))
 					write32(w, uint32(x))
 				}
-				for local397 := range (*(*(struct {
+				for local394 := range (*(*(struct {
 					//mt:if _ = %s; false
 					NonNil bool
 
@@ -33850,12 +35125,12 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 
 							//mt:32tou16
 							PunchUses int32
-						}))(obj)).GroupCaps)[local397]).serialize(w)
+						}))(obj)).GroupCaps)[local394]).Serialize(w)
 					}); err != nil {
 						if err == io.EOF {
 							chk(io.EOF)
 						}
-						chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ToolGroupCap", err))
+						chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ToolGroupCap", err))
 					}
 				}
 				if len(((*(*(struct {
@@ -33895,7 +35170,7 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 					}))(obj)).DmgGroups)))
 					write32(w, uint32(x))
 				}
-				for local398 := range (*(*(struct {
+				for local395 := range (*(*(struct {
 					//mt:if _ = %s; false
 					NonNil bool
 
@@ -33927,12 +35202,12 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 
 							//mt:32tou16
 							PunchUses int32
-						}))(obj)).DmgGroups)[local398]).serialize(w)
+						}))(obj)).DmgGroups)[local395]).Serialize(w)
 					}); err != nil {
 						if err == io.EOF {
 							chk(io.EOF)
 						}
-						chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+						chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 					}
 				}
 				{
@@ -33974,7 +35249,7 @@ func (obj *ToolCaps) serialize(w io.Writer) {
 	}
 }
 
-func (obj *ToolCaps) deserialize(r io.Reader) {
+func (obj *ToolCaps) Deserialize(r io.Reader) {
 	if _ = (*(*(struct {
 		//mt:if _ = %s; false
 		NonNil bool
@@ -34016,7 +35291,6 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 			default:
 				chk(fmt.Errorf("invalid bool: %d", n))
 			}
-
 		}
 	}
 	{
@@ -34062,14 +35336,14 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 				PunchUses int32
 			}))(obj)).NonNil {
 				{
-					var local399 uint8
-					local400 := uint8(5)
+					var local396 uint8
+					local397 := uint8(5)
 					{
-						p := &local399
+						p := &local396
 						*p = read8(r)
 					}
-					if local399 != local400 {
-						chk(fmt.Errorf("const %v: %v", "uint8(5)", local399))
+					if local396 != local397 {
+						chk(fmt.Errorf("const %v: %v", "uint8(5)", local396))
 					}
 				}
 				{
@@ -34110,9 +35384,9 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 					}))(obj)).MaxDropLvl
 					*p = int16(read16(r))
 				}
-				var local401 uint32
+				var local398 uint32
 				{
-					p := &local401
+					p := &local398
 					*p = read32(r)
 				}
 				((*(*(struct {
@@ -34130,8 +35404,8 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 
 					//mt:32tou16
 					PunchUses int32
-				}))(obj)).GroupCaps) = make([]ToolGroupCap, local401)
-				for local402 := range (*(*(struct {
+				}))(obj)).GroupCaps) = make([]ToolGroupCap, local398)
+				for local399 := range (*(*(struct {
 					//mt:if _ = %s; false
 					NonNil bool
 
@@ -34163,17 +35437,17 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 
 							//mt:32tou16
 							PunchUses int32
-						}))(obj)).GroupCaps)[local402]).deserialize(r)
+						}))(obj)).GroupCaps)[local399]).Deserialize(r)
 					}); err != nil {
 						if err == io.EOF {
 							chk(io.EOF)
 						}
-						chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.ToolGroupCap", err))
+						chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.ToolGroupCap", err))
 					}
 				}
-				var local403 uint32
+				var local400 uint32
 				{
-					p := &local403
+					p := &local400
 					*p = read32(r)
 				}
 				((*(*(struct {
@@ -34191,8 +35465,8 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 
 					//mt:32tou16
 					PunchUses int32
-				}))(obj)).DmgGroups) = make([]Group, local403)
-				for local404 := range (*(*(struct {
+				}))(obj)).DmgGroups) = make([]Group, local400)
+				for local401 := range (*(*(struct {
 					//mt:if _ = %s; false
 					NonNil bool
 
@@ -34224,17 +35498,17 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 
 							//mt:32tou16
 							PunchUses int32
-						}))(obj)).DmgGroups)[local404]).deserialize(r)
+						}))(obj)).DmgGroups)[local401]).Deserialize(r)
 					}); err != nil {
 						if err == io.EOF {
 							chk(io.EOF)
 						}
-						chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Group", err))
+						chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Group", err))
 					}
 				}
-				var local405 uint16
+				var local402 uint16
 				{
-					p := &local405
+					p := &local402
 					*p = read16(r)
 				}
 				(*(*(struct {
@@ -34252,7 +35526,7 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 
 					//mt:32tou16
 					PunchUses int32
-				}))(obj)).PunchUses = int32(local405)
+				}))(obj)).PunchUses = int32(local402)
 			}
 		}
 		if r.N > 0 {
@@ -34261,103 +35535,103 @@ func (obj *ToolCaps) deserialize(r io.Reader) {
 	}
 }
 
-func (obj *AnimType) serialize(w io.Writer) {
+func (obj *AnimType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *AnimType) deserialize(r io.Reader) {
+func (obj *AnimType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *HUDType) serialize(w io.Writer) {
+func (obj *HUDType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *HUDType) deserialize(r io.Reader) {
+func (obj *HUDType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *Box) serialize(w io.Writer) {
-	for local406 := range *(*([2]Vec))(obj) {
+func (obj *Box) Serialize(w io.Writer) {
+	for local403 := range *(*([2]Vec))(obj) {
 		if err := pcall(func() {
-			((*(*([2]Vec))(obj))[local406]).serialize(w)
+			((*(*([2]Vec))(obj))[local403]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 		}
 	}
 }
 
-func (obj *Box) deserialize(r io.Reader) {
-	for local407 := range *(*([2]Vec))(obj) {
+func (obj *Box) Deserialize(r io.Reader) {
+	for local404 := range *(*([2]Vec))(obj) {
 		if err := pcall(func() {
-			((*(*([2]Vec))(obj))[local407]).deserialize(r)
+			((*(*([2]Vec))(obj))[local404]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Vec", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Vec", err))
 		}
 	}
 }
 
-func (obj *TileFlags) serialize(w io.Writer) {
+func (obj *TileFlags) Serialize(w io.Writer) {
 	{
 		x := *(*(uint16))(obj)
 		write16(w, uint16(x))
 	}
 }
 
-func (obj *TileFlags) deserialize(r io.Reader) {
+func (obj *TileFlags) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint16))(obj)
 		*p = read16(r)
 	}
 }
 
-func (obj *AlignType) serialize(w io.Writer) {
+func (obj *AlignType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *AlignType) deserialize(r io.Reader) {
+func (obj *AlignType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *NodeBoxType) serialize(w io.Writer) {
+func (obj *NodeBoxType) Serialize(w io.Writer) {
 	{
 		x := *(*(uint8))(obj)
 		write8(w, uint8(x))
 	}
 }
 
-func (obj *NodeBoxType) deserialize(r io.Reader) {
+func (obj *NodeBoxType) Deserialize(r io.Reader) {
 	{
 		p := &*(*(uint8))(obj)
 		*p = read8(r)
 	}
 }
 
-func (obj *DirBoxes) serialize(w io.Writer) {
+func (obj *DirBoxes) Serialize(w io.Writer) {
 	if len(((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
@@ -34371,7 +35645,7 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 		}))(obj)).Top)))
 		write16(w, uint16(x))
 	}
-	for local408 := range (*(*(struct {
+	for local405 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Top {
@@ -34379,12 +35653,12 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Top)[local408]).serialize(w)
+			}))(obj)).Top)[local405]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if len(((*(*(struct {
@@ -34400,7 +35674,7 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 		}))(obj)).Bot)))
 		write16(w, uint16(x))
 	}
-	for local409 := range (*(*(struct {
+	for local406 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Bot {
@@ -34408,12 +35682,12 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Bot)[local409]).serialize(w)
+			}))(obj)).Bot)[local406]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if len(((*(*(struct {
@@ -34429,7 +35703,7 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 		}))(obj)).Front)))
 		write16(w, uint16(x))
 	}
-	for local410 := range (*(*(struct {
+	for local407 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Front {
@@ -34437,12 +35711,12 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Front)[local410]).serialize(w)
+			}))(obj)).Front)[local407]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if len(((*(*(struct {
@@ -34458,7 +35732,7 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 		}))(obj)).Left)))
 		write16(w, uint16(x))
 	}
-	for local411 := range (*(*(struct {
+	for local408 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Left {
@@ -34466,12 +35740,12 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Left)[local411]).serialize(w)
+			}))(obj)).Left)[local408]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if len(((*(*(struct {
@@ -34487,7 +35761,7 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 		}))(obj)).Back)))
 		write16(w, uint16(x))
 	}
-	for local412 := range (*(*(struct {
+	for local409 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Back {
@@ -34495,12 +35769,12 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Back)[local412]).serialize(w)
+			}))(obj)).Back)[local409]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 	if len(((*(*(struct {
@@ -34516,7 +35790,7 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 		}))(obj)).Right)))
 		write16(w, uint16(x))
 	}
-	for local413 := range (*(*(struct {
+	for local410 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Right {
@@ -34524,27 +35798,27 @@ func (obj *DirBoxes) serialize(w io.Writer) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Right)[local413]).serialize(w)
+			}))(obj)).Right)[local410]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 }
 
-func (obj *DirBoxes) deserialize(r io.Reader) {
-	var local414 uint16
+func (obj *DirBoxes) Deserialize(r io.Reader) {
+	var local411 uint16
 	{
-		p := &local414
+		p := &local411
 		*p = read16(r)
 	}
 	((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
-	}))(obj)).Top) = make([]Box, local414)
-	for local415 := range (*(*(struct {
+	}))(obj)).Top) = make([]Box, local411)
+	for local412 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Top {
@@ -34552,24 +35826,24 @@ func (obj *DirBoxes) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Top)[local415]).deserialize(r)
+			}))(obj)).Top)[local412]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
-	var local416 uint16
+	var local413 uint16
 	{
-		p := &local416
+		p := &local413
 		*p = read16(r)
 	}
 	((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
-	}))(obj)).Bot) = make([]Box, local416)
-	for local417 := range (*(*(struct {
+	}))(obj)).Bot) = make([]Box, local413)
+	for local414 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Bot {
@@ -34577,24 +35851,24 @@ func (obj *DirBoxes) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Bot)[local417]).deserialize(r)
+			}))(obj)).Bot)[local414]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
-	var local418 uint16
+	var local415 uint16
 	{
-		p := &local418
+		p := &local415
 		*p = read16(r)
 	}
 	((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
-	}))(obj)).Front) = make([]Box, local418)
-	for local419 := range (*(*(struct {
+	}))(obj)).Front) = make([]Box, local415)
+	for local416 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Front {
@@ -34602,24 +35876,24 @@ func (obj *DirBoxes) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Front)[local419]).deserialize(r)
+			}))(obj)).Front)[local416]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
-	var local420 uint16
+	var local417 uint16
 	{
-		p := &local420
+		p := &local417
 		*p = read16(r)
 	}
 	((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
-	}))(obj)).Left) = make([]Box, local420)
-	for local421 := range (*(*(struct {
+	}))(obj)).Left) = make([]Box, local417)
+	for local418 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Left {
@@ -34627,24 +35901,24 @@ func (obj *DirBoxes) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Left)[local421]).deserialize(r)
+			}))(obj)).Left)[local418]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
-	var local422 uint16
+	var local419 uint16
 	{
-		p := &local422
+		p := &local419
 		*p = read16(r)
 	}
 	((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
-	}))(obj)).Back) = make([]Box, local422)
-	for local423 := range (*(*(struct {
+	}))(obj)).Back) = make([]Box, local419)
+	for local420 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Back {
@@ -34652,24 +35926,24 @@ func (obj *DirBoxes) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Back)[local423]).deserialize(r)
+			}))(obj)).Back)[local420]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
-	var local424 uint16
+	var local421 uint16
 	{
-		p := &local424
+		p := &local421
 		*p = read16(r)
 	}
 	((*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
-	}))(obj)).Right) = make([]Box, local424)
-	for local425 := range (*(*(struct {
+	}))(obj)).Right) = make([]Box, local421)
+	for local422 := range (*(*(struct {
 		Top, Bot                 []Box
 		Front, Left, Back, Right []Box
 	}))(obj)).Right {
@@ -34677,17 +35951,17 @@ func (obj *DirBoxes) deserialize(r io.Reader) {
 			(((*(*(struct {
 				Top, Bot                 []Box
 				Front, Left, Back, Right []Box
-			}))(obj)).Right)[local425]).deserialize(r)
+			}))(obj)).Right)[local422]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.Box", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.Box", err))
 		}
 	}
 }
 
-func (obj *ToolGroupCap) serialize(w io.Writer) {
+func (obj *ToolGroupCap) Serialize(w io.Writer) {
 	if len(([]byte((*(*(struct {
 		Name string
 
@@ -34784,7 +36058,7 @@ func (obj *ToolGroupCap) serialize(w io.Writer) {
 		}))(obj)).Times)))
 		write32(w, uint32(x))
 	}
-	for local426 := range (*(*(struct {
+	for local423 := range (*(*(struct {
 		Name string
 
 		//mt:32to16
@@ -34806,26 +36080,26 @@ func (obj *ToolGroupCap) serialize(w io.Writer) {
 
 				//mt:len32
 				Times []DigTime
-			}))(obj)).Times)[local426]).serialize(w)
+			}))(obj)).Times)[local423]).Serialize(w)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DigTime", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DigTime", err))
 		}
 	}
 }
 
-func (obj *ToolGroupCap) deserialize(r io.Reader) {
-	var local427 []uint8
-	var local428 uint16
+func (obj *ToolGroupCap) Deserialize(r io.Reader) {
+	var local424 []uint8
+	var local425 uint16
 	{
-		p := &local428
+		p := &local425
 		*p = read16(r)
 	}
-	(local427) = make([]uint8, local428)
+	(local424) = make([]uint8, local425)
 	{
-		_, err := io.ReadFull(r, (local427)[:])
+		_, err := io.ReadFull(r, (local424)[:])
 		chk(err)
 	}
 	((*(*(struct {
@@ -34838,10 +36112,10 @@ func (obj *ToolGroupCap) deserialize(r io.Reader) {
 
 		//mt:len32
 		Times []DigTime
-	}))(obj)).Name) = string(local427)
-	var local429 int16
+	}))(obj)).Name) = string(local424)
+	var local426 int16
 	{
-		p := &local429
+		p := &local426
 		*p = int16(read16(r))
 	}
 	(*(*(struct {
@@ -34854,7 +36128,7 @@ func (obj *ToolGroupCap) deserialize(r io.Reader) {
 
 		//mt:len32
 		Times []DigTime
-	}))(obj)).Uses = int32(local429)
+	}))(obj)).Uses = int32(local426)
 	{
 		p := &(*(*(struct {
 			Name string
@@ -34869,9 +36143,9 @@ func (obj *ToolGroupCap) deserialize(r io.Reader) {
 		}))(obj)).MaxLvl
 		*p = int16(read16(r))
 	}
-	var local430 uint32
+	var local427 uint32
 	{
-		p := &local430
+		p := &local427
 		*p = read32(r)
 	}
 	((*(*(struct {
@@ -34884,8 +36158,8 @@ func (obj *ToolGroupCap) deserialize(r io.Reader) {
 
 		//mt:len32
 		Times []DigTime
-	}))(obj)).Times) = make([]DigTime, local430)
-	for local431 := range (*(*(struct {
+	}))(obj)).Times) = make([]DigTime, local427)
+	for local428 := range (*(*(struct {
 		Name string
 
 		//mt:32to16
@@ -34907,17 +36181,17 @@ func (obj *ToolGroupCap) deserialize(r io.Reader) {
 
 				//mt:len32
 				Times []DigTime
-			}))(obj)).Times)[local431]).deserialize(r)
+			}))(obj)).Times)[local428]).Deserialize(r)
 		}); err != nil {
 			if err == io.EOF {
 				chk(io.EOF)
 			}
-			chk(fmt.Errorf("%s: %w", "github.com/anon55555/mt.DigTime", err))
+			chk(fmt.Errorf("%s: %w", "github.com/dragonfireclient/mt.DigTime", err))
 		}
 	}
 }
 
-func (obj *DigTime) serialize(w io.Writer) {
+func (obj *DigTime) Serialize(w io.Writer) {
 	{
 		x := (*(*(struct {
 			Rating int16
@@ -34934,7 +36208,7 @@ func (obj *DigTime) serialize(w io.Writer) {
 	}
 }
 
-func (obj *DigTime) deserialize(r io.Reader) {
+func (obj *DigTime) Deserialize(r io.Reader) {
 	{
 		p := &(*(*(struct {
 			Rating int16

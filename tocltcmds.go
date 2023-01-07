@@ -6,7 +6,7 @@ import (
 	"io"
 	"math"
 
-	"github.com/anon55555/mt/rudp"
+	"github.com/dragonfireclient/mt/rudp"
 )
 
 type ToCltCmd interface {
@@ -122,7 +122,9 @@ func (cmd ToCltKick) String() (msg string) {
 // ToCltBlkData tells the client the contents of a nearby MapBlk.
 type ToCltBlkData struct {
 	Blkpos [3]int16
-	Blk    MapBlk
+	//mt:zstd
+	Blk MapBlk
+	//mt:end
 }
 
 // ToCltAddNode tells the client that a nearby node changed
@@ -429,6 +431,7 @@ type HUD struct {
 	Size     [2]int32
 	ZIndex   int16
 	Text2    string
+	Style    HUDStyleFlags
 }
 
 type HUDID uint32
@@ -516,6 +519,10 @@ type ToCltChangeHUD struct {
 	//mt:if %s.Field == HUDText2
 	Text2 string
 	//mt:end
+
+	//mt:if %s.Field == HUDStyle
+	Style HUDStyleFlags
+	//mt:end
 }
 
 type HUDField uint8
@@ -534,10 +541,21 @@ const (
 	HUDSize
 	HUDZIndex
 	HUDText2
+	HUDStyle
 	hudMax
 )
 
 //go:generate stringer -trimprefix HUD -type HUDField
+
+type HUDStyleFlags uint32
+
+const (
+	StyleBold HUDStyleFlags = 1 << iota
+	StyleItalic
+	StyleMono
+)
+
+//go:generate stringer -trimprefix Style -type HUDStyleFlags
 
 // ToCltHUDFlags tells the client to update its HUD flags.
 type ToCltHUDFlags struct {
